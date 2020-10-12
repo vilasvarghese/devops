@@ -1,0 +1,658 @@
+#This should be done with reference to GitOneDay_Notes.txt
+1. Install git
+	sudo su
+	yum update
+	yum upgrade
+	
+	yum install git
+	
+	or
+	apt-get install git
+	
+
+2.	Configuring Git
+	git config --global user.name "vilasvarghese"
+	git config --global user.email "vilas@vilas.com"
+
+3.	Using Git help	
+	
+	To get help there are three equivalent ways:
+
+		$ git help <verb>
+		$ git <verb> --help
+		$ man git-<verb>
+		
+4.	For example, you can get the manpage help for the git config command by running this:
+		$ git help config
+	
+	
+5.	These commands works offline. 
+	For  summary/concise “help” use -h option, as in:
+		git add -h
+
+
+
+6. 	•	Initializing a repository
+	mkdir demo
+	cd demo
+	ls -a
+	git status
+
+	#Convert the folder to a git repo.
+	git init
+	ls
+	ls -a
+		- .git folder would be present.
+		
+	cd .git
+		More on this folder latter.
+		
+		cd objects (.git/objects)
+		ls
+			objects
+			pack
+		
+				However these are empty.
+		
+	Create 
+		Abc.txt
+		Xyz.txt
+	ls -a
+			Go back and check .git/objects folder
+				No new folder
+			
+			
+	git status
+		Adding a file to staging area
+	git add Abc.txt
+			Go back and check .git/objects folder
+				New folder created with hash.
+				
+
+	
+	git status
+		Notice add files and untracked files.
+
+	Commit
+		git commit -m "Learn git commit"
+
+			Go back and check .git/objects folder
+			New folders created with hash.
+
+	Till now we are working on local repo. We don't need internet acccess for commands till here.
+	
+	Viewing only staged changes
+	---------------------------
+	add a new file to the repo.
+	git diff --cached
+		No impact
+	git diff
+		More on this latter
+	git add *
+	git diff --cached
+	
+	
+7. 	Configuring the repository
+
+		git config –global user.name “Your UserName”
+		git config –global user.email “Your UserName”
+		
+		List all config
+		git config --list
+		
+		core.repositoryformatversion
+			https://stackoverflow.com/questions/5175208/what-are-the-different-repository-format-versions-for-the-core-repositoryformat
+			https://dev.to/captainsafia/whats-in-a-git-config-3pni
+		
+		View a particular config
+		git config --global
+		git config user.name
+		git config <key>
+		
+8. 	git add README test.txt LICENSE
+	git commit -m 'Initial commit'
+
+9. 	git branch testing
+
+10. git log --oneline --decorate
+
+11. git checkout testing
+		$ vi test.txt
+		$ git add test.txt
+		$ git commit -a -m "made a change"
+
+12. git checkout master
+		git checkout -b newissue
+			Similar to 
+				$ git branch newissue
+				$ git checkout newissue
+
+13. vi index.html
+	git add *
+	git commit -a -m 'Fix issue'
+
+14. git checkout master
+	
+15. git checkout -b hotfix
+	
+16. vi index.html
+	git add *
+	git commit -a -m 'Fix broken email address'
+	
+17. git checkout master
+	git merge hotfix
+	
+18. git branch -d hotfix
+
+19. git checkout newissue
+
+20. vi index.html
+	git add *
+	git commit -a -m 'Fix the issue'
+	
+21. git checkout master
+
+22. git merge newissue
+
+23. Create merge conflict.
+	When does merge conflict happen?
+	vi mergeConflict.txt
+	Enter
+		1
+		2
+		3
+		4
+		5
+		6
+		7
+		8
+		9
+		10
+	Save the file.	
+	vi m1.txt
+		Enter some data and save.
+		
+	vi m2.txt
+		Enter some data and save.
+	git add *
+	git commit -m "crete 3 files for testing"
+	
+24. Create two different branches.
+	git branch b1
+	git branch b2
+	
+25. Modify two different files in master and b1
+	
+	vi m1.txt
+		Update the data and save.
+	git add *
+	git commit -m "updated m1"
+	
+	git checkout b1
+	vi m2.txt
+		Update the data in m2 and save
+	git add *
+	git commit -m "updated m2"
+	
+26. Merge b1 to master
+	git checkout master
+	git merge b1
+		Any impact?
+		
+27. Modify m1 in b1 and add few lines
+	git checkout b1
+	vi m1
+		add some lines and save
+	git add *
+	git commit -m "updated m1 - added some lines"
+	
+28. Update m1 in master without adding lines
+	git checkout master
+	vi m1
+		Update the first line and save
+	
+29. Merge b1 to master
+	git merge b1
+		Any impact
+		
+30. 
+----------------------------------------------------	
+git diff
+	Displays all changes made to the tracked files.
+
+Modify a COMMITTED file (tracked file)
+	to add a line 
+	modify a line
+	delete a line
+	
+	git diff
+	
+	
+	Comparing files from two branches
+	---------------------------------
+	git diff master new_branch ./diff_test.txt
+
+31. 
+	#Delete the file from the staging and working area.
+	git status
+	git rm Efg.txt
+	git status
+
+32. 
+	#Alternatively to delete the file from staging but retain in working area.
+	#If you want to continue to work on the file.
+	git rm --cached <file>
+
+	Add a file called cache.txt
+	git add cache.txt
+	git commit -m "add cache"
+	git rm --cached cache.txt
+	git status
+	git commit -m "removed cache"
+	git status
+	git add *
+	git status
+	
+33. 	
+	git status
+	add .gitignore
+---------------------------
+#ignore .class
+*.class
+---------------------------
+
+
+34. Update the last commit comments
+git log
+	See 
+		author
+		date
+		comment
+
+
+ git commit --amend
+ or
+ git commit --amend --allow-empty
+  
+ opens your editor
+	Make changes, save and close
+ git log
+
+
+35. Update the comments for an old commit
+
+#Find the commit id using 
+git log
+git tag -a @author <<commit id>> -m Vilas
+
+git log # Verify @author tag appears in the log now.
+git tag # also displays @author
+git show @author
+
+
+36. Delete merged branch
+	git branch -d feature1
+	
+	Delete unmerged branch
+	git branch -D feature1
+	
+37. Move or rename
+
+		ls
+		git mv cache.txt cache1.txt
+		git status
+		git add *
+		git commit -m "modified name"
+
+
+38. List branches or see current branch
+	git branch
+
+  
+ 
+39. Set a default merge tool 
+	Create a merge conflict.
+	
+	git config --global merge.tool kdiff3
+	
+	Merge tool automtically detects conflict
+		git mergetool
+
+
+    git config merge.tool vimdiff
+    git config merge.conflictstyle diff3
+		git clean -fn #clean all extra files created by git.
+
+
+----------------------------------------------------------------------------------		
+confirm if the following is working
+sudo apt-get update
+sudo apt-get install kdiff3
+or
+yum install kdiff3
+
+
+
+git config --global --add merge.tool colordiff
+
+git config --global --add merge.tool kdiff3
+git config --global --add mergetool.kdiff3.path "/usr/bin/kdiff3"
+git config --global --add mergetool.kdiff3.trustExitCode false
+git config --global --add mergetool.prompt false
+
+git config --global --add diff.guitool kdiff3
+git config --global --add difftool.kdiff3.path "/usr/bin/kdiff3"
+git config --global --add difftool.kdiff3.trustExitCode false
+git config --global --add difftool.prompt false	
+----------------------------------------------------------------------------------
+
+39.
+integrate two branches
+	git merge
+	git rebase
+
+
+master 	m1	m2	m3
+			f1	f2
+
+		
+From f1 
+	git rebase master
+		
+	 
+
+	master
+		m1
+		m2
+			f1 - feature1 started.
+			f2
+		m3
+		
+		rebase
+			m1
+			m2
+			m3
+			?
+		
+		merge
+			m1
+			m2
+			m3
+			?
+			
+-------------------------------------------------------------------------------------
+	git checkout master
+	vi master
+		m1
+	git add .
+	git commit -m "m1"
+	
+	git checkout -b f1
+	vi feature
+		f1
+	git add .
+	git commit -m "f1"
+	git log
+		m1 and f1 seen in log
+	
+	git checkout master
+	git log
+		only m1
+		no feature file
+
+	vi master
+		m1
+		m2
+	git add .
+	git commit -m "m2"
+	git log
+		m1 and m2 seen. but not f1
+	
+	git checkout f1
+	git rebase master
+	git log
+		m1 m2 f1
+		what happened?
+		so picks master and applies delta of master and feature on it.
+		
+	git checkout master
+	vi master
+		m1
+		m2
+		m3
+	
+	git add .
+	git commit -m "m3"
+	git log
+		no f1, only m1, m2, m3
+	
+	git merge f1
+	git log
+		m1, m2, m3, f1.
+		so starts from master and applies delta on it.
+	
+
+40.
+-------------------------------------------------------------------
+  216  rm -rf Ac_*
+  217  ls
+  218  git status
+  219  git rm Ac*
+  220  git status
+  221  git add .
+  222  git commit -m "remove Ac_ files
+  223  git branch
+  224  git checkout f1
+  225  git status
+  226  ls
+  227  git log
+  228  git rebase master
+  229  git log
+  230  clear
+  231  git checkout master
+  232  git branch
+  233  vi master
+  234  git add .
+  235  git commit -m "m2"
+  236  git log
+  237  git checkout f1
+  238  vi feature
+  239  git log
+  240  git add .
+  241  git commit -m "f3"
+  242  git log
+  243  git status
+  244  git checkout master
+  245  git merge f1
+
+-------------------------------------------------------------------------------------			
+
+41. 
+Git Stashing
+############
+
+  135  vi file1.txt
+  136  vi file2.txt
+  137  git add file1.txt 
+  138  git status
+  139  git stash "first stash"
+  140  git stash save "first stash"
+  141  git status
+  142  git add .
+  143  git status
+  144  git stash save 'first stash'
+  145  git stash list
+  146  git checkout -b branch1
+  147  git ls
+  148  ls
+  149  git checkout master
+  150  ls
+  151  ls fi*
+  152  git branch
+  153  git branch f1
+  154  git checkout f1
+  155  ls
+  156  clear
+  157  git stash list
+  158  git stash apply stash@{0}
+  159  ls
+  160  vi file1.txt
+  
+  Get back and retain a stash
+  161  git stash apply stash@{1}
+  162  ls
+  163  history
+  164  git stash list
+  
+  Get back and delete a  stash
+  165  git stash pop
+  166  git stash list
+  167  git stash pop
+  168  git stash save 'test'
+  169  git stash list
+  
+  To delete a particular stash
+  170  git stash drop stash@{0}
+  
+  To delete all stash
+  171  git stash clear
+  172  git stash list
+  173  ls
+  174  git status
+  175  git revert HEAD
+  176  git log
+  177  history
+
+42. 
+Git Revert
+############
+	Undo the last change
+	But creates a new commit for reverting.
+	
+	git revert HEAD
+	
+	
+Git Reset
+############
+	git log
+	- get a commit id
+	git reset <commit id>>
+		Retain files added but not the commits.
+	
+	git reset --hard <<commit id>>
+		Delete all files added in between.
+		
+	
+
+
+Commits
+	1
+	2
+	3
+	4
+	5
+	6
+	7
+	8
+	
+	what to revert back to 4
+	
+	git reset <commit id of 4>
+
+
+	
+---------------------------------
+Create a pull request
+---------------------
+
+Find a project you want to contribute to.
+Fork it.
+Clone it to your local system.
+Make a new branch.
+Make your changes.
+Push it back to your repo.
+Click the Compare & pull request button.
+Click Create pull request to open a new pull request.
+-------------------------------------------	
+
+References to Commands
+--------------------------------------------------------------------------------------
+	Changed files in working directory
+		git status
+
+	Diff in tracked files
+		git diff
+	
+	Stage all current change 
+		git add .
+	
+	Stage a particular file
+		git add -p <file>
+	
+	Commit all changes from staging
+		git commit (preferably add -m)
+		
+	Change the last commit
+		git commit -amend
+		
+		
+Commit History
+	git log
+	
+	See changes to a particular file
+		git log -p <file>
+	
+	Who changed what and when in a file
+		git blame <file>
+		
+
+
+Branches and Tags
+	List all existing branches
+		git branch -av
+		
+	Switch head branch
+		git checkout <branch>
+		
+	Create a new branch 
+		based on my current HEAD
+		
+		git branch <new branch>
+		
+	Create a new tracking branch based on a remote branch.
+		git checkout --track <remote/branch>
+	
+	Delete a local branch
+		git branch -d <branch>
+		
+	Mark the current commit with a tag
+		git tag <tag-name>
+		
+
+Update and Publish
+	List all currently configured remotes
+		git remote -v
+		
+	Show information about a remote
+		git remote show <remote>
+--------------------------------------------------------------------------------------
+ Push into a particular remote repo.
+	git push origin feature1
+
+Git basic commands
+-------------------
+	https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html
+	
+	
+Un-staging files
+----------------
+
+From Git version 2.25.0 onwards, Git will use git restore instead of git reset
+
+git restore --staged CONTRIBUTING.md
+
+git restore CONTRIBUTING.md
+
+
+
+git checkout -- <file>
