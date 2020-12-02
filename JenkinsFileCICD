@@ -26,7 +26,7 @@ pipeline{
         stage('Docker Deploy Dev'){
             steps{
 				sh(returnStdout: true, script: '''#!/bin/bash
-				if ( docker ps -a | grep 'mywebapp' )t
+				if ( docker ps -a | grep 'mywebapp' )
 				then
 					docker stop mywebapp
 					docker rm -f mywebapp
