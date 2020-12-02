@@ -25,6 +25,11 @@ pipeline{
         }
         stage('Docker Deploy Dev'){
             steps{
+				sh(returnStdout: true, script: '''#!/bin/bash
+				if [ docker ps -a | grep 'mywebapp' ];then
+					docker stop mywebapp
+					docker rm -f mywebapp
+				fi'''.stripIndent())
 				sh "docker rmi vilasvarghese/mywebapp:${dockerTag()}"
 				sh "docker run -d -p 8181:8080 --name mywebapp vilasvarghese/mywebapp:${dockerTag()}"
             }
