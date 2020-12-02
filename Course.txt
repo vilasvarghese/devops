@@ -33,18 +33,6 @@ Jenkins
 	
 	Git is already done.
 	
-	
-Microservices
-	
-	
-	
-	
-	NO.25 2 BETTADASANAPURA VILLAGE BEGUR HOBLI. KAR, IND
-
-
-
-Jenkins Integration with Maven, Git and SonarCube
-
 - Review of the CentOS instance that all engineers have.
 
 Jenkins basics

@@ -1,0 +1,238 @@
+What is a Jenkins pipeline?
+Collection of jobs 
+Used to incorporate continuous delivery in our software development workflow.
+
+Over the years, there have been multiple Jenkins pipeline releases including, Jenkins Build flow, Jenkins Build Pipeline plugin, Jenkins Workflow, etc.
+
+What are the key features of plugins?
+They represent multiple Jenkins jobs as one whole workflow in the form of a pipeline.
+What do these pipelines do? These 
+
+Pipelines are a collection of tasks[Jenkins jobs] 
+	trigger in the specified sequence.
+
+Use (hands on)
+	Build Pipeline Plugin output – Jenkins Pipeline 
+	Define 3 jobs such that they get executed in a sequence.
+	Define the job as a part of Build Pipeline view.
+
+Maintenance cost for such a complex pipeline is huge 
+Increases with the number of processes. 
+Tedious to build and manage such a vast number of jobs. 
+To overcome this issue, a new feature called Jenkins Pipeline Project was introduced.
+
+What is pipeline as code in Jenkins
+-----------------------------------
+	Define the entire deployment flow through code. 
+	All standard jobs defined by Jenkins are manually coded as a single script 
+	They can be stored in a version control system. 
+	Follows the ‘pipeline as code’ discipline. 
+	No need to build several jobs for each phase
+	Code the entire workflow 
+	put it in a Jenkinsfile. 
+	
+Jenkins Pipeline Advantages
+It models simple to complex pipelines as code by using Groovy DSL (Domain Specific Language)
+The code is stored in a text file called the Jenkinsfile which can be checked into a SCM (Source Code Management)
+Improves user interface by incorporating user input within the pipeline
+It is durable in terms of unplanned restart of the Jenkins master
+It can restart from saved checkpoints
+It supports complex pipelines by incorporating conditional loops, fork or join operations and allowing tasks to be performed in parallel
+It can integrate with several other plugins
+What is a Jenkinsfile?
+A Jenkinsfile is a text file that stores the entire workflow as code and it can be checked into a SCM on your local system. How is this advantageous? This enables the developers to access, edit and check the code at all times.
+
+The Jenkinsfile is written using the Groovy DSL and it can be created through a text/groovy editor or through the configuration page on the Jenkins instance.
+
+What are the different types of Jenkins pipeline?
+The Jenkins pipeline is written based on two syntaxes, namely:
+
+Declarative pipeline syntax
+Scripted pipeline syntax
+Declarative pipeline is a relatively new feature that supports the pipeline as code concept. It makes the pipeline code easier to read and write. This code is written in a Jenkinsfile which can be checked into a source control management system such as Git.
+
+scripted pipeline
+	traditional way of writing the code. 
+	written on the Jenkins UI instance. 
+	first pipeline to be built on the groovy foundation. 
+
+
+The declarative pipeline is defined within a block labelled ‘pipeline’ 
+whereas the scripted pipeline is defined within a ‘node’.
+
+Pipeline concepts
+Pipeline
+This is a user defined block which contains all the processes such as build, test, deploy, etc. It is a collection of all the stages in a Jenkinsfile. All the stages and steps are defined within this block. It is the key block for a declarative pipeline syntax.
+
+Pipeline Syntax - Jenkins Pipeline Tutorial
+
+Node
+A node is a machine that executes an entire workflow. It is a key part of the scripted pipeline syntax.
+
+Node Syntax - Jenkins Pipeline Tutorial
+
+ 
+
+Creating your first Jenkins pipeline.
+Step 1: 
+	Log into Jenkins 
+	select ‘New item’ from the dashboard.
+	Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1
+
+Step 2: 
+	Next, enter a name for your pipeline 
+	select ‘pipeline’ project. 
+	Click on ‘ok’ to proceed.
+
+3. 
+	Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1Enter the project name – Jenkins Pipeline Tutorial
+
+DevOps Training
+Step 3: Scroll down to the pipeline and choose if you want a declarative pipeline or a scripted one.
+
+Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1
+
+Declarative or scripted pipeline – Jenkins Pipeline Tutorial
+
+Step 4a: If you want a scripted pipeline then choose ‘pipeline script’ and start typing your code.
+
+Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1
+
+Scripted Pipeline – Jenkins Pipeline Tutorial
+
+Step 4b: If you want a declarative pipeline then select ‘pipeline script from SCM’ and choose your SCM. In my case I’m going to use Git throughout this demo. Enter your repository URL.
+
+Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1Declarative pipeline – Jenkins Pipeline Tutorial
+
+Step 5: Within the script path is the name of the Jenkinsfile that is going to be accessed from your SCM to run. Finally click on ‘apply’ and ‘save’. You have successfully created your first Jenkins pipeline.
+
+Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1Script path – Jenkins Pipeline Tutorial
+
+Now that you know how to create a pipeline, lets get started with the demo.
+
+Declarative Pipeline Demo
+The first part of the demo shows the working of a declarative pipeline. Refer the above ‘Creating your first Jenkins pipeline’ to start. Let me start the demo by explaining the code I’ve written in my Jenkinsfile.
+
+Since this is a declarative pipeline, I’m writing the code locally in a file named ‘Jenkinsfile’ and then pushing this file into my global git repository. While executing the ‘Declarative pipeline’ demo, this file will be accessed from my git repository. The following is a simple demonstration of building a pipeline to run multiple stages, each performing a specific task.
+
+The declarative pipeline is defined by writing the code within a pipeline block. Within the block I’ve defined an agent with the tag ‘any’. This means that the pipeline is run on any available executor.
+Next, I’ve created four stages, each performing a simple task.
+Stage one executes a simple echo command which is specified within the ‘steps’ block.
+Stage two executes an input directive. This directive allows to prompt a user input in a stage. It displays a message and waits for the user input. If the input is approved, then the stage will trigger further deployments.
+In this demo a simple input message ‘Do you want to proceed?’ is displayed. On receiving the user input the pipeline either proceeds with the execution or aborts.
+Declarative Pipeline Demo - Jenkins Pipeline Tutorial - Pipeline1
+
+Stage three runs a ‘when’ directive with a ‘not’ tag. This directive allows you to execute a step depending on the conditions defined within the ‘when’ loop. If the conditions are met, the corresponding stage will be executed. It must be defined at a stage level.
+In this demo, I’m using a ‘not’ tag. This tag executes a stage when the nested condition is false. Hence when the ‘branch is master’ holds false, the echo command in the following step is executed.
+Declarative Pipeline Demo - Jenkins Pipeline Tutorial - Pipeline1
+
+pipeline {
+         agent any
+         stages {
+                 stage('One') {
+                 steps {
+                     echo 'Hi, this is Vilas from Pipeline1'
+                 }
+                 }
+                 stage('Two') {
+                 steps {
+                    input('Do you want to proceed?')
+                 }
+                 }
+                 stage('Three') {
+                 when {
+                       not {
+                            branch "master"
+                       }
+                 }
+                 steps {
+                       echo "Hello"
+                 }
+                 }
+                 stage('Four') {
+                 parallel { 
+                            stage('Unit Test') {
+                           steps {
+                                echo "Running the unit test..."
+                           }
+                           }
+                            stage('Integration test') {
+                              agent {
+                                    docker {
+                                            reuseNode true
+                                            image 'ubuntu'
+                                           }
+                                    }
+                              steps {
+                                echo "Running the integration test..."
+                              }
+                           }
+                           }
+                           }
+              }
+}
+Stage four runs a parallel directive. This directive allows you to run nested stages in parallel. Here, I’m running two nested stages in parallel, namely, ‘Unit test’ and ‘Integration test’. Within the integration test stage, I’m defining a stage specific docker agent. This docker agent will execute the ‘Integration test’ stage.
+Within the stage are two commands. The reuseNode is a Boolean and on returning true, the docker container would run on the agent specified at the top-level of the pipeline, in this case the agent specified at the top-level is ‘any’ which means that the container would be executed on any available node. By default this Boolean returns false.
+There are some restrictions while using the parallel directive:
+A stage can either have a parallel or steps block, but not both
+Within a parallel directive you cannot nest another parallel directive
+If a stage has a parallel directive then you cannot define ‘agent’ or ‘tool’ directives
+Now that I’ve explained the code, lets run the pipeline. The following screenshot is the result of the pipeline. In the below image, the pipeline waits for the user input and on clicking ‘proceed’, the execution resumes.
+
+Declarative Pipeline Demo - Jenkins Pipeline Tutorial - Pipeline1
+Waiting for user input – Jenkins Pipeline Tutorial
+ 
+
+Declarative Pipeline Demo - Jenkins Pipeline Tutorial - Pipeline1
+                                                             Final output – Jenkins Pipeline Tutorial
+Scripted Pipeline Demo
+To give you a basic understanding of the scripted pipeline, lets execute a simple code. Refer to Creating your first Jenkins pipeline to create the scripted pipeline. I will run the following script.
+
+Scripted Pipeline Demo - Jenkins Pipeline Tutorial - Pipeline1
+
+Pipeline script – Jenkins Pipeline Tutorial
+
+node {
+      for (i=0; i<2; i++) { 
+           stage "Stage #"+i
+           print 'Hello, world !'
+           if (i==0)
+           {
+               git "<a href="https://github.com/Zulaikha12/gitnew.git">https://github.com/Zulaikha12/gitnew.git</a>"
+               echo 'Running on Stage #0'
+           }
+           else {
+               build 'Declarative pipeline'
+               echo 'Running on Stage #1'
+           }
+      }
+}
+In the above code I have defined a ‘node’ block within which I’m running the following:
+
+The conditional ‘for’ loop. This for loop is for creating 2 stages namely, Stage #0 and Stage #1. Once the stages are created they print the ‘hello world!’ message
+Next, I’m defining a simple ‘if else’ statement. If the value of ‘i’ equals to zero, then stage #0 will execute the following commands (git and echo). A ‘git’ command is used to clone the specified git directory and the echo command simply displays the specified message
+The else statement is executed when ‘i’ is not equal to zero. Therefore, stage #1 will run the commands within the else block. The ‘build’ command simply runs the job specified, in this case it runs the ‘Declarative pipeline’ that we created earlier in the demo. Once it completes the execution of the job, it runs the echo command
+Now that I’ve explained the code, lets run the pipeline. The following screenshot is the result of the Scripted pipeline.
+
+Shows the results of Stage #0
+Scripted Pipeline Demo - Jenkins Pipeline Tutorial - Pipeline1
+                                                                         Stage #0 – Jenkins Pipeline Tutorial
+2. Shows the logs of Stage #1 and starts building the ‘Declarative pipeline’
+
+
+Stage #1 running the declarative pipeline – Jenkins Pipeline Tutorial
+
+3. Execution of the ‘Declarative pipeline’ job.
+
+Scripted Pipeline Demo - Jenkins Pipeline Tutorial - Pipeline1
+                                                             Execution of declarative pipeline-Jenkins Pipeline Tutorial
+4. Results.
+
+ 
+
+Scripted Pipeline Demo - Jenkins Pipeline Tutorial - Pipeline1
+Final output-Jenkins Pipeline Tutorial
+I hope this blog helped you understand the basics of scripted and declarative pipeline. In my next blog on Jenkins Pipeline, I will explain the pipeline and the syntax in more depth. Stay tuned.
+
+Now that you’ve understood the features and working of a Jenkins pipeline, check out DevOps Course and an exclusive Jenkins Course by Pipeline1 to learn more.
+

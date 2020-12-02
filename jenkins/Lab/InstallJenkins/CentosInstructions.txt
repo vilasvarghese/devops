@@ -1,0 +1,50 @@
+Java Installation
+sudo yum install -y java-1.8.0-openjdk-devel
+
+
+Jenkins installation
+
+------------------------------------------------------------------------------
+
+Old steps to install jenkins
+
+#The next step is to enable the Jenkins repository. To do that, import the GPG key using the following curl command:
+curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
+
+#And add the repository to your system with:
+sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+#install the latest stable version of Jenkins by typing:
+sudo yum install jenkins
+------------------------------------------------------------------------------
+
+
+curl --silent --location http://pkg.jenkins-ci.org/redhat/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
+
+sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+
+sudo yum install jenkins --nogpgcheck
+
+
+
+systemctl start jenkins
+systemctl status jenkins
+sudo systemctl enable jenkins
+
+sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
+sudo firewall-cmd --reload
+
+
+go to the url	
+http://<ip>:8080
+
+
+Copy the url from the location mentioned in the initial page
+/var/lib/jenkins/secrets/initialAdminPassword
+
+Install all default plugin
+
+
+#if maven is required - install maven
+sudo yum install -y maven
+mvn -version

@@ -1,0 +1,124 @@
+How to create new users?
+How to configure users?
+How to create new roles?
+How to assign users to roles?
+How to control user access on projects?
+
+How to create (and manage) new users?
+1. Create new users
+	
+		Manage Jenkins-> Manage Users
+		Give Username, Password, and Full Name. Enter those details and click Create User button.
+		
+		
+		
+		Create Users
+		Modify - what can you modify?
+		Delete Users
+		
+		This is coming from Jenkins own user database.
+		
+		Login with those users
+		What option do they get?
+		
+		A normal user by default get all the privileges of an Admin user.
+		
+		
+2. How to configure users?
+	Login as a user
+	On the right top corner, there is the Username. Besides that, there is a dropdown. 
+	Go to the “Configure” option. Now here you will come to the configure window of Jenkins for the particular User. Here you can,
+		Change the Username
+		Add any Description
+		Get the API token for the specific User
+		Change your Password
+		Can set any public-key authentication
+
+
+3. How to create new roles?
+	In general, we can define roles to every user. 
+	Admin User has all the roles such as 
+		defining roles, 
+		create Users, 
+		configure the system, 
+		give access to the projects, 
+		etc. 
+
+	Following is indicative.
+	-----------------------
+	Manager may only can view the projects. 
+	Developers may need tomake changes to the specific project and 
+	Testers may need to access only to the Testing projects. So how can we manage that?
+	1. One of the plugin to use is called 
+		"Roles Strategy plugin"
+		To get this plugin there are 2 ways,
+			Manually download plugin
+			Download and install via Jenkins
+		
+	To download and install manually use this link to download the plugin.
+		Google the plugin link - download it 
+			In windows 
+				add it to C:\Program Files (x86)\Jenkins\plugins folder. 
+			In Linux
+				Copy .hpi file into the JENKINS_HOME/plugins directory on Jenkins controller 
+				(for e.g, on Debian default JENKINS_HOME is /var/lib/jenkins)
+		Restart the Jenkins server.
+
+	Alternatively
+		Manage Jenkins -> Maganage Plugins
+		
+		Go to available section 
+		search Roles Strategy plugin (Role-based Authorization Strategy)
+		Download now and install after RESTART. 
+		N.B: If a plugin is already installed 
+			you will not find it in Available section.
+			Instead you can find it in Installed section. 
+			
+	2. Manage Jenkins -> Configure Global Security 
+	
+		In the Authorization section, you will now find a Role-based Strategy (This option only comes after that the plugin is installed and Jenkins is restarted). You have to select that. Click Apply and Save.
+	
+		Okay Cool!. Now let’s login as a User1 and see what happens.
+		Now, User1 cannot access to the Jenkins because we are now using Role-based Strategy. We need to define a role to this User.
+
+4. How to assign users to roles?
+		log in as an Admin and define Roles and assign them to Users.
+		Now go to,
+		Manage Jenkins -> Manage and Assign Roles -> Manage Roles 
+
+		Here you can see 2 roles to define.
+			Global Roles — 
+				Here you define global roles.
+				Provide authorization and access to the Global Level. 
+				I can add Role such as 
+					"admin": all access
+					“employee” : no access
+					"manager" : view all access.
+				and control access.
+				
+			
+			Item Roles — 
+				Provide roles specific to a project. 
+				Let's add a role called developer and add a pattern like Dev.* in this section. 
+					a person with developer role 
+						will be able to access projects with name starting like Dev. 
+				Now he is not able to view or make changes to any other projects. 
+				Let's also add a qa Role and with pattern like Test.* . 
+				
+		Go to,
+		Manage Jenkins -> Manage and Assign Roles -> Assign Roles
+		Like the Manage Roles section, there are 2 sections.
+		
+			Global Roles — 
+				Please add User1 and User2 to the Global Roles. 
+					And select the employee role to both users.
+
+5. How to control user access on projects?
+			Item Roles — 
+				Please add User3 and User4 to the Item Roles and assign User3 as a Developer and User4 as a Tester.	
+
+		Logout. Login as respective users and verify what you see.
+		
+		
+
+

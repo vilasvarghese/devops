@@ -585,19 +585,19 @@ $ git commit -m 'Initial commit'
 	If you make some changes and commit again, 
 		the next commit stores a pointer to the commit that came immediately before it.
 
-	A branch in Git is simply a lightweight movable pointer to one of these commits. 
-	The default branch name in Git is master. 
-	As you start making commits, 
-		you’re given a master branch that points to the last commit you made. 
-	Every time you commit, the master branch pointer moves forward automatically.
+A branch in Git is simply a lightweight movable pointer to one of these commits. 
+The default branch name in Git is master. 
+As you start making commits, 
+	you’re given a master branch that points to the last commit you made. 
+Every time you commit, the master branch pointer moves forward automatically.
 
 	
 	Creating a New Branch
 	---------------------
-	What happens when you create a new branch? 
-	Well, doing so creates a new pointer for you to move around. 
-	Let’s say you want to create a new branch called testing. 
-	You do this with the git branch command:
+What happens when you create a new branch? 
+Well, doing so creates a new pointer for you to move around. 
+Let’s say you want to create a new branch called testing. 
+You do this with the git branch command:
 	
 		$ git branch testing																																																																																																																																																																																																	
 		This creates a new pointer to the same commit you’re currently on.
@@ -1014,7 +1014,8 @@ Remotes
 		
 		
 		
-
+git push <remote-name> <branch-name> 
+git push -u origin your_branch
 
 ##############################################################################
 •	Adding a remote repository
@@ -1239,7 +1240,8 @@ https://www.atlassian.com/git/tutorials/using-branches/git-merge
 	The git push command takes two arguments:
 		A remote name - origin
 		A branch name, for example, featureBranch1
-		
+	
+	git pull origin <branch>	
 	git push origin master
 	git push origin featureBranch1
 	git push also may work for a tracking branch.
@@ -1251,6 +1253,7 @@ https://www.atlassian.com/git/tutorials/using-branches/git-merge
 		git push  <REMOTENAME> <LOCALBRANCHNAME>:<REMOTEBRANCHNAME> 
 
 		git push origin mylocalname:myremotename
+		git push origin test:test # test is branch name.
 		
 	Dealing with "non-fast-forward" errors
 	--------------------------------------
@@ -1263,14 +1266,31 @@ https://www.atlassian.com/git/tutorials/using-branches/git-merge
 	
 	or 
 	
-	git merge origin [branch]
 	git fetch origin [branch]
-
+	git merge origin [branch]
+	
+	
 ##############################################################################
 •	Deleting a remote branch
 ##############################################################################
 	git branch -d origin/[branch]
 	
+	
+---------------------
+git diff --cached 
+	difference between what is in the index and local repo. 
+	It shows you that changes that will be in the next commit.
+
+git diff 
+	difference in between the index and the working tree. 
+	These are the changes that you have made to files since you last added them to the index. 
+
+git diff HEAD 
+	difference between the files in the working tree and the local repo.
+	gotcha here: 
+		if you've made changes, added them to the index, 
+		and then backed out these changes in the working tree, you’ll get no results for git diff HEAD (because there is no difference) but you will get output for git diff --cached 
+		because there are still changes in the index.	
 	
 	
 What next on Git

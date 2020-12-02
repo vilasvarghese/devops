@@ -1,0 +1,16 @@
+Java and Jenkins (master or slave setup) are pre-requiste to this
+Install Docker
+	$ curl -fsSL https://get.docker.com -o get-docker.sh
+	$ sudo sh get-docker.sh
+	
+	sudo usermod -aG docker centos
+	sudo usermod -aG docker jenkins
+
+1. In the Jenkins homepage
+	Click the New Item menu 
+2. Provide a name for your new item (e.g. My Pipeline) and select Multibranch Pipeline
+
+3. Click the Add Source button, choose the type as GitHub 
+	fill the repository: .
+
+Click the Save button and watch your first Pipeline run!

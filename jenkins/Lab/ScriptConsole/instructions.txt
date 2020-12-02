@@ -1,0 +1,164 @@
+Groovy is (https://www.eficode.com/blog/jenkins-groovy-tutorial)
+	An agile and dynamic language. 
+	Seamless integration with all existing Java objects and libraries.
+
+1. Simple println
+------------------------------------------------
+	import jenkins.model.Jenkins
+	println "Hello World!!!"
+------------------------------------------------
+	
+2. 
+	Groovy is Java without types
+	It doesn't have int, float, String, etc. 
+	Groovy will judge the type based on the value of the object.
+
+------------------------------------------------	
+	import jenkins.model.Jenkins
+	def str = "Hello world"
+	def num =0
+	println str
+	println num
+------------------------------------------------	
+
+3.  In Groovy ‘for’ loop is more concise and easier to read. 
+	Groovy loop statements support: 
+		while, 
+		for, 
+		for-in, 
+		break, 
+		continue
+	All of them are consistent with Java.
+
+	For example:
+		0..5 indicates that the integers 0,1,2,3,4,5 are included
+		0..<5 means 0,1,2,3,4 and 'a'..<'e' means a,b,c,d:	
+------------------------------------------------
+	import jenkins.model.Jenkins
+	for (x in 0..5){
+		println x
+	}
+	for (y in 'a'..<'e'){
+		println y
+	}	
+	for (x in 6..<10){
+		println x
+	}	
+------------------------------------------------
+	
+4. We can define methods. Parameters can take default values too.
+------------------------------------------------
+	import jenkins.model.Jenkins
+	def repeat(val, x=10){
+	  for(i in 0..<x){
+		println val
+	  }
+	}
+	repeat("Vilas")
+	repeat("Ullas", 5)
+------------------------------------------------
+	
+5. Groovy support arrays/collections
+------------------------------------------------	
+	import jenkins.model.Jenkins
+    def arg = ["Groovy","Java","Python","nodeJS"]
+    println arg.class
+	println arg[1]
+------------------------------------------------
+	
+6. There are various ways to add/remove elements in arrays/collections
+	Elements can be added/removed using "+"/"-"
+------------------------------------------------	
+	import jenkins.model.Jenkins
+    def no = [1,2,3,4]
+	def no2 = no +5 
+	println no2 //=[1,2,3,4,5]
+	def no3 = no - [2,3] 
+	println no3 //=[1,4]
+------------------------------------------------	
+	
+	There are various ways to add/remove elements apart from above. Following are the different ways
+		.add
+		<<
+		[count] = "value"
+		
+	
+	import jenkins.model.Jenkins
+	def arg = ["Groovy","Java","Python","nodeJS"]
+	println arg
+	arg.add("Ruby")
+	println arg
+	arg << "Smalltalk"
+	println arg
+	arg[5] = "C++"
+	println arg
+	
+7. Following Groovy arithmetic operators are all consistent with languages like nodeJS.
+	logical operators, 
+	relational operators 
+	bitwise operators Groovy’s == is equivalent to the equals methods in Java .
+		
+	import jenkins.model.Jenkins
+	String str1 = "123";
+
+	String str2 = new String("123");
+	if(str1 == str2){
+		println "equal" 
+	}else{
+	  println "Not equal"
+	}
+	
+8. List methods available in Groovy are another benefit.
+
+Add( ) 
+	Append the new value to the end of this list.
+Get( ) 
+	Returns the element at the specified position in this list.
+Contains( ) 
+	Returns true if this list contains the specified value.
+Minus( ) 
+	Create a new list of original elements that removes the specified element
+Plus ( ) 
+	Create a new list of the original list elements and the specified elements.
+Pop( ) 
+	Remove the last item from this list
+Remove( ) 
+	Remove elements from the specified position in the list
+Reverse() 
+	Create a new list that is the opposite of the original list's elements
+Size( ) 
+	Get the number of elements in this list.
+Sort( ) 
+	Returns a sorted copy of the original list.
+	
+------------------------------------------------		
+	import jenkins.model.Jenkins
+	def list = [];
+	list = [1, 2, 3, 4];
+	list.add(5); //add
+	println list
+	println list.pop(); //pop
+	def arg = ["Python","Groovy","Java","nodeJS"]
+	println arg.sort()
+------------------------------------------------	
+	
+9. Clean up all instances
+	
+
+import jenkins.model.Jenkins
+
+println "Cleaning up offline slaves..."
+Jenkins.instance.slaves.each {
+    if(it.getComputer().isOffline()) {
+        println "Deleting ${it.name}"
+        it.getComputer().doDoDelete()
+    }
+}
+println "Done."
+------------------------------------------------
+
+More scripts
+
+https://github.com/samrocketman/jenkins-script-console-scripts
+
+
