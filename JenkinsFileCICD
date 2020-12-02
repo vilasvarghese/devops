@@ -25,16 +25,8 @@ pipeline{
         }
         stage('Docker Deploy Dev'){
             steps{
-                /*sshagent(['docker-host-dev']) {
-                    script{
-                        def dkrRun = "docker run -d -p 8080:8080 --name mywebapp vilasvarghese/mywebapp:${dockerTag()}"
-                        sh script: "ssh -o StrictHostKeyChecking=no centos@172.31.33.103 docker rm -f mywebapp",
-			   returnStatus: true
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.103 ${dkrRun}"
-                    }
-                }*/
 				sh "docker rmi vilasvarghese/mywebapp:${dockerTag()}"
-				sh "docker run -d -p 8080:8080 --name mywebapp vilasvarghese/mywebapp:${dockerTag()}"
+				sh "docker run -d -p 8181:8080 --name mywebapp vilasvarghese/mywebapp:${dockerTag()}"
             }
         }
     }
