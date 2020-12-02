@@ -14,3 +14,5 @@ Install Docker
 	fill the repository: .
 
 Click the Save button and watch your first Pipeline run!
+
+Jenkinsfile reference: D:\PraiseTheLord\HSBGInfotech\Others\vilas\devops\MultibranchPipelineJenkinsfile1

@@ -1,0 +1,28 @@
+docker should be installed on the machine.
+	install docker plugins
+		"Docker" and 
+		"Docker Pipeline"
+		
+	Either add jenkins user to docker group and Ensure docker is running
+				or
+	https://www.digitalocean.com/community/tutorials/how-to-set-up-continuous-integration-pipelines-in-jenkins-on-ubuntu-16-04
+
+
+
+
+----------------------------------------
+pipeline {
+    agent {
+        docker {
+            image 'ubuntu'
+        }
+    }
+        stages {
+            stage('One') {
+            steps {
+            echo 'hello'
+				}
+            }
+        }
+	}
+----------------------------------------	

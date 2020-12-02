@@ -1,0 +1,22 @@
+
+N.B: Proceed by coming to the job page. Don't proceed from the console logs.
+
+----------------------------------------
+pipeline {
+    agent any
+
+    stages {
+        stage('Input') {
+            steps {
+                input('Do you want to proceed?')
+            }
+        }
+
+        stage('If Proceed is clicked') {
+            steps {
+                print('hello')
+            }
+        }
+    }
+}
+----------------------------------------

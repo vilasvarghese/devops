@@ -1,0 +1,20 @@
+pipeline {
+
+    agent {
+            docker {
+                image 'ubuntu'
+            }
+    }
+    stages {
+        stage('Compile') {
+            steps {
+                sh 'cd /home/'
+                sh 'ls'
+                sh 'pwd'
+                sh 'df'
+                sh 'echo $PATH'
+
+            }
+        }
+    }
+}

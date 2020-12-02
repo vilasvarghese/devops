@@ -1,0 +1,26 @@
+Boolean buildFailed = false
+
+pipeline {
+    
+    agent any
+
+    parameters {
+        booleanParam(name: 'FAIL', defaultValue: false, description: 'Check to make it fail')
+    }
+
+    stages {
+        stage('Test') {
+            steps {
+                script {
+                    if(params.FAIL == true) {
+                        echo "This build will fail"
+                        error("Build has failed")
+                    }
+                    else {
+                        echo "This build is a success"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,64 @@
+Following is the pipeline to use
+
+To use it
+	docker should be installed on the machine.
+	install docker plugins
+		"Docker" and 
+		"Docker Pipeline"
+		
+	Either add jenkins user to docker group and Ensure docker is running
+				or
+	https://www.digitalocean.com/community/tutorials/how-to-set-up-continuous-integration-pipelines-in-jenkins-on-ubuntu-16-04
+	
+	For proceed - come back to the job screen and from there you should be able to proceed.
+	From the logs/console - proceed doesn't work. 
+
+---------------------------------------------------------
+pipeline {
+    agent any
+    stages {
+        stage('One') {
+                steps {
+                        echo 'Hello World'
+			
+                }
+        }
+	    stage('Two'){
+		    
+			steps {
+				input('Should we proceed?')
+			}
+	    }
+        stage('Three') {
+                when {
+                        not {
+                                branch "master"
+                        }
+                }
+                steps {
+			echo "Hello"
+                        }
+        }
+        stage('Four') {
+                parallel {
+                        stage('Unit Test') {
+                                steps{
+                                        echo "Running the unit test..."
+                                }
+                        }
+                        stage('Integration test') {
+                        agent {
+                                docker {
+                                        reuseNode false
+					image 'ubuntu'
+                }
+			}
+				steps {
+					echo 'Running the integration test..'
+				}
+                               
+			}  }
+        }
+    }
+}
+---------------------------------------------------------

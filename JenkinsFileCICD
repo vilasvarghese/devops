@@ -1,0 +1,44 @@
+pipeline{
+    agent any
+    tools {
+        maven 'M3'
+    }
+    stages{
+        stage('Maven Build'){
+            steps{
+                sh "mvn clean package"
+            }
+        }
+        stage('Docker Build'){
+            steps{
+                sh "docker build . -t vilasvarghese/mywebapp:${dockerTag()}"
+            }
+        }
+        stage('DockerHub Push Image'){
+            steps{
+                withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerPwd')]) {
+                    sh "docker login -u vilasvarghese -p ${dockerPwd}"
+                }
+                
+                sh "docker push vilasvarghese/mywebapp:${dockerTag()}"
+            }
+        }
+        stage('Docker Deploy Dev'){
+            steps{
+                sshagent(['docker-host-dev']) {
+                    script{
+                        def dkrRun = "docker run -d -p 8080:8080 --name mywebapp vilasvarghese/mywebapp:${dockerTag()}"
+                        sh script: "ssh -o StrictHostKeyChecking=no centos@172.31.33.103 docker rm -f mywebapp",
+			   returnStatus: true
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.33.103 ${dkrRun}"
+                    }
+                }
+            }
+        }
+    }
+}
+
+def dockerTag(){
+    def commitId = sh returnStdout: true, script: 'git rev-parse --short HEAD'
+	return commitId
+}
