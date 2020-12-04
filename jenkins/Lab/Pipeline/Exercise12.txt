@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+
+	environment{
+		JAVA_HOME = '/home/centos'
+	}
+
+    stages {
+        stage('Hello') {
+            steps {//steps will get executed only when above condition matches.
+                echo 'Hello World'
+                echo "${JAVA_HOME}"
+            }
+        }
+    }
+}

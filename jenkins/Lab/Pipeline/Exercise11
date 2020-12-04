@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+
+
+    stages {
+        stage('Hello') {
+            when{
+                expression{
+                    "$env.BRANCH_NAME" == 'master'//env. Refer jenkinsurl/env-vars.html/
+                }
+            }
+            steps {//steps will get executed only when above condition matches.
+                echo 'Hello World'
+                
+            }
+        }
+    }
+}
