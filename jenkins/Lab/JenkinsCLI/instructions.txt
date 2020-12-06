@@ -1,0 +1,13 @@
+Refer: listjobs.bat
+
+Create the above file in the same directory as jenkins.war (filename: listjobs.bat)
+Go to the directory, execute it in 
+	windows
+		listjobs.bat
+	linux
+		sh listjobs.sh
+		
+	N.B: CLI would work from any folder where jenkins-cli.jar is present. 
+	jenkins.war need not be present there.
+		
+		

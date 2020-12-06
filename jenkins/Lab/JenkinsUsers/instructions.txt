@@ -19,7 +19,7 @@ How to create (and manage) new users?
 		This is coming from Jenkins own user database.
 		
 		Login with those users
-		What option do they get?
+		What option do you get?
 		
 		A normal user by default get all the privileges of an Admin user.
 		
@@ -46,9 +46,10 @@ How to create (and manage) new users?
 
 	Following is indicative.
 	-----------------------
-	Manager may only can view the projects. 
-	Developers may need tomake changes to the specific project and 
-	Testers may need to access only to the Testing projects. So how can we manage that?
+	Manager may only view the projects. 
+	Developers may need to make changes to the specific project and 
+	Testers may need to access only to the Testing projects. 
+	So how can we manage that?
 	1. One of the plugin to use is called 
 		"Roles Strategy plugin"
 		To get this plugin there are 2 ways,
@@ -76,10 +77,14 @@ How to create (and manage) new users?
 			
 	2. Manage Jenkins -> Configure Global Security 
 	
-		In the Authorization section, you will now find a Role-based Strategy (This option only comes after that the plugin is installed and Jenkins is restarted). You have to select that. Click Apply and Save.
+		In the Authorization section, you will now find a Role-based Strategy 
+		(This option only comes after that the plugin is installed and Jenkins is restarted). 
+		Select that. 
+		Click Apply and Save.
 	
-		Okay Cool!. Now let’s login as a User1 and see what happens.
-		Now, User1 cannot access to the Jenkins because we are now using Role-based Strategy. We need to define a role to this User.
+		Login as a User1 and see what happens.
+		Now, User1 cannot access to the Jenkins because we are now using Role-based Strategy. 
+		We need to define a role to this User.
 
 4. How to assign users to roles?
 		log in as an Admin and define Roles and assign them to Users.
