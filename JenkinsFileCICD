@@ -11,16 +11,16 @@ pipeline{
         }
         stage('Docker Build'){
             steps{
-                sh "docker build . -t vilasvarghese/mywebapp:${dockerTag()}"
+                sh "docker build . -t dzndrx/mywebapp:${dockerTag()}"
             }
         }
         stage('DockerHub Push Image'){
             steps{
                 withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerPwd')]) {
-                    sh "docker login -u vilasvarghese -p ${dockerPwd}"
+                    sh "docker login -u dzndrx -p ${dockerPwd}"
                 }
                 
-                sh "docker push vilasvarghese/mywebapp:${dockerTag()}"
+                sh "docker push dzndrx/mywebapp:${dockerTag()}"
             }
         }
         stage('Docker Deploy Dev'){
@@ -31,8 +31,8 @@ pipeline{
 					docker stop mywebapp
 					docker rm -f mywebapp
 				fi'''.stripIndent())
-				sh "docker rmi vilasvarghese/mywebapp:${dockerTag()}"
-				sh "docker run -d -p 8181:8080 --name mywebapp vilasvarghese/mywebapp:${dockerTag()}"
+				sh "docker rmi dzndrx/mywebapp:${dockerTag()}"
+				sh "docker run -d -p 8181:8080 --name mywebapp dzndrx/mywebapp:${dockerTag()}"
             }
         }
     }
