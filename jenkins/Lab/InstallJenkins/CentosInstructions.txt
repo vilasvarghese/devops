@@ -4,6 +4,15 @@ sudo yum install -y java-1.8.0-openjdk-devel
 
 Jenkins installation
 
+
+Install jenkins
+
+curl --silent --location http://pkg.jenkins-ci.org/redhat/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
+
+sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+
+sudo yum install jenkins --nogpgcheck
+
 ------------------------------------------------------------------------------
 
 Old steps to install jenkins
@@ -17,14 +26,6 @@ sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 #install the latest stable version of Jenkins by typing:
 sudo yum install jenkins
 ------------------------------------------------------------------------------
-
-
-curl --silent --location http://pkg.jenkins-ci.org/redhat/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
-
-sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
-
-sudo yum install jenkins --nogpgcheck
-
 
 
 systemctl start jenkins

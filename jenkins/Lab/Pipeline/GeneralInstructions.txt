@@ -1,0 +1,19 @@
+Creating your first Jenkins pipeline.
+Step 1: 
+	Log into Jenkins 
+	select ‘New item’ from the dashboard.
+	
+Step 2: 
+	Next, enter a name for your pipeline 
+	select ‘pipeline’ project. 
+	Click on ‘ok’ to proceed.
+
+
+Step 3: Scroll down to the pipeline and choose if you want to run 
+	with (Pipeline script)
+		Pipeline code in Jenkins UI
+OR	
+	without SCM (Pipeline script from SCM)
+		Pipeline code in SCM like git
+
+Finally click on ‘apply’ and ‘save’. You have successfully created your first Jenkins pipeline.

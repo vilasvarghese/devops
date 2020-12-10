@@ -1,0 +1,60 @@
+On the slave node
+-----------------
+Configuration on the slave
+yum -y install java-1.8.0-openjdk
+
+# Create user 
+useradd jenkins-slave-01
+sudo su - jenkins-slave-01
+
+# Create SSH Keys
+ssh-keygen -t rsa -N "" -f /home/jenkins-slave-01/.ssh/id_rsa
+
+# The private and public keys will be created at these locations 
+`/home/jenkins-slave-01/.ssh/id_rsa` and `/home/jenkins-slave-01/.ssh/id_rsa.pub`
+cd .ssh
+cat id_rsa.pub > authorized_keys
+chmod 700 authorized_keys
+
+
+Configuration on Master
+-----------------------
+
+Copy the slave node's public key[id_rsa.pub] to Master Node's known_hosts file
+mkdir -p /var/lib/jenkins/.ssh
+
+cd /var/lib/jenkins/.ssh 	
+
+ssh-keyscan -H SLAVE-NODE-PRIVATE-IP >>/var/lib/jenkins/.ssh/known_hosts
+# ssh-keyscan -H <ip> >>/var/lib/jenkins/.ssh/known_hosts
+
+chown jenkins:jenkins known_hosts
+chmod 700 known_hosts
+
+
+Configure the Slave using Manage Jenkins
+Configure the node as shown here Manage Jenkins > Manage Nodes > New Node
+
+
+--------------------------------
+On the webUI
+------------
+Name: CentosSlave1
+# of executors: 1
+Remote home directory: /home/jenkins-slave-01
+Label: centos1
+Launch method: Launch agents via SSH
+Host: Private IP address of slave node
+
+Configure credentials
+Click Add -> jenkins
+Global credentials (unrestricted)
+kind: SSH Username and private key
+ID: 1
+Username: jenkins-slave-01
+
+Private Key: On terminal - On the slave in .ssh directory –
+vi id_rsa on slave 
+copy paste the private key from beginning to end save it
+select the credential created and click save
+

@@ -1,0 +1,48 @@
+pipeline {
+         agent any
+         stages {
+                 stage('One') {
+                 steps {
+                     echo 'Hi, this is Vilas from Pipeline1'
+                 }
+                 }
+                 stage('Two') {
+                 steps {
+					//go to the job page (not console logs) to proceed
+                    input('Do you want to proceed?')
+                 }
+                 }
+                 stage('Three') {
+                 when {
+                       not {
+                            branch "master"
+                       }
+                 }
+                 steps {
+                       echo "Hello"
+                 }
+                 }
+                 stage('Four') {
+					 parallel {//parallel execution 
+						stage('Unit Test') {
+							steps {
+								echo "Running the unit test..."
+							}
+						}
+						stage('Integration test') {
+							/*agent {//define docker agent (agent here is optional but indicative)
+								docker {
+									//If reuseNode:true, use the node mentioned in the beginning of pipeline.
+									//If reuseNode:false, pick any random agent for this execution.
+									reuseNode true
+									image 'ubuntu'
+								}
+							}*/
+							steps {
+								echo "Running the integration test..."
+							}
+						}
+					}
+			}
+        }
+}

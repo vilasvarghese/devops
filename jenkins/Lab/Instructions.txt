@@ -23,13 +23,13 @@ To overcome this issue, a new feature called Jenkins Pipeline Project was introd
 
 What is pipeline as code in Jenkins
 -----------------------------------
-	Define the entire deployment flow through code. 
-	All standard jobs defined by Jenkins are manually coded as a single script 
-	They can be stored in a version control system. 
-	Follows the ‘pipeline as code’ discipline. 
-	No need to build several jobs for each phase
-	Code the entire workflow 
-	put it in a Jenkinsfile. 
+Define the entire deployment flow through code. 
+All standard jobs defined by Jenkins are manually coded as a single script 
+They can be stored in a version control system. 
+Follows the ‘pipeline as code’ discipline. 
+No need to build several jobs for each phase
+Code the entire workflow 
+put it in a Jenkinsfile. 
 	
 Jenkins Pipeline Advantages
 It models simple to complex pipelines as code by using Groovy DSL (Domain Specific Language)
@@ -43,6 +43,8 @@ What is a Jenkinsfile?
 A Jenkinsfile is a text file that stores the entire workflow as code and it can be checked into a SCM on your local system. How is this advantageous? This enables the developers to access, edit and check the code at all times.
 
 The Jenkinsfile is written using the Groovy DSL and it can be created through a text/groovy editor or through the configuration page on the Jenkins instance.
+
+
 
 What are the different types of Jenkins pipeline?
 The Jenkins pipeline is written based on two syntaxes, namely:
@@ -73,45 +75,6 @@ Node Syntax - Jenkins Pipeline Tutorial
 
  
 
-Creating your first Jenkins pipeline.
-Step 1: 
-	Log into Jenkins 
-	select ‘New item’ from the dashboard.
-	Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1
-
-Step 2: 
-	Next, enter a name for your pipeline 
-	select ‘pipeline’ project. 
-	Click on ‘ok’ to proceed.
-
-3. 
-	Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1Enter the project name – Jenkins Pipeline Tutorial
-
-DevOps Training
-Step 3: Scroll down to the pipeline and choose if you want a declarative pipeline or a scripted one.
-
-Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1
-
-Declarative or scripted pipeline – Jenkins Pipeline Tutorial
-
-Step 4a: If you want a scripted pipeline then choose ‘pipeline script’ and start typing your code.
-
-Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1
-
-Scripted Pipeline – Jenkins Pipeline Tutorial
-
-Step 4b: If you want a declarative pipeline then select ‘pipeline script from SCM’ and choose your SCM. In my case I’m going to use Git throughout this demo. Enter your repository URL.
-
-Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1Declarative pipeline – Jenkins Pipeline Tutorial
-
-Step 5: Within the script path is the name of the Jenkinsfile that is going to be accessed from your SCM to run. Finally click on ‘apply’ and ‘save’. You have successfully created your first Jenkins pipeline.
-
-Create Pipeline - Jenkins Pipeline Tutorial - Pipeline1Script path – Jenkins Pipeline Tutorial
-
-Now that you know how to create a pipeline, lets get started with the demo.
-
-Declarative Pipeline Demo
-The first part of the demo shows the working of a declarative pipeline. Refer the above ‘Creating your first Jenkins pipeline’ to start. Let me start the demo by explaining the code I’ve written in my Jenkinsfile.
 
 Since this is a declarative pipeline, I’m writing the code locally in a file named ‘Jenkinsfile’ and then pushing this file into my global git repository. While executing the ‘Declarative pipeline’ demo, this file will be accessed from my git repository. The following is a simple demonstration of building a pipeline to run multiple stages, each performing a specific task.
 
@@ -151,25 +114,25 @@ pipeline {
                  }
                  stage('Four') {
                  parallel { 
-                            stage('Unit Test') {
-                           steps {
-                                echo "Running the unit test..."
-                           }
-                           }
-                            stage('Integration test') {
-                              agent {
-                                    docker {
-                                            reuseNode true
-                                            image 'ubuntu'
-                                           }
-                                    }
-                              steps {
-                                echo "Running the integration test..."
-                              }
-                           }
-                           }
-                           }
-              }
+                    stage('Unit Test') {
+						steps {
+							echo "Running the unit test..."
+                        }
+                    }
+                    stage('Integration test') {
+						/*agent {
+							docker {
+								reuseNode true
+                                image 'ubuntu'
+                            }
+                        }*/
+                        steps {
+							echo "Running the integration test..."
+                        }
+                    }
+                }
+			}
+        }
 }
 Stage four runs a parallel directive. This directive allows you to run nested stages in parallel. Here, I’m running two nested stages in parallel, namely, ‘Unit test’ and ‘Integration test’. Within the integration test stage, I’m defining a stage specific docker agent. This docker agent will execute the ‘Integration test’ stage.
 Within the stage are two commands. The reuseNode is a Boolean and on returning true, the docker container would run on the agent specified at the top-level of the pipeline, in this case the agent specified at the top-level is ‘any’ which means that the container would be executed on any available node. By default this Boolean returns false.

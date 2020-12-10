@@ -51,7 +51,7 @@ How to create (and manage) new users?
 	Testers may need to access only to the Testing projects. 
 	So how can we manage that?
 	1. One of the plugin to use is called 
-		"Roles Strategy plugin"
+		"Role-based Authorization Strategy"
 		To get this plugin there are 2 ways,
 			Manually download plugin
 			Download and install via Jenkins
