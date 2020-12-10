@@ -14,6 +14,9 @@ Ideally the 2nd repo. should either do
 	Alternative Jenkins suggestion: 
 		https://www.jenkins.io/doc/developer/testing/
 
+
+Steps to setup SonarQube
+	D:\PraiseTheLord\HSBGInfotech\SonarQube\InstallSonarQubeUsingDocker.txt
 ----------------------------------------------------------------------------------------- 
 pipeline{
     agent any
@@ -54,6 +57,24 @@ pipeline{
 				sh "docker run -d -p 8181:8080 --name mywebapp vilasvarghese/mywebapp:${dockerTag()}"
             }
         }
+		stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('sonar') {
+                    withMaven(maven:'M3') {
+                        sh 'mvn sonar:sonar'
+                    }
+                }
+            }
+        }
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
         stage('Integration Test'){
             steps{
                 git url: 'https://github.com/jenkinsci/archetypes'
@@ -63,7 +84,6 @@ pipeline{
                         docker system prune --all --force
                         DOCKER_BUILDKIT=1 docker build --progress plain --no-cache .
                     '''
-            
                 }         
             }
         }

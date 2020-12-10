@@ -1,5 +1,10 @@
 Create couple of credentials
 	
+	In Manage Jenkins - Manage Credentials - 
+		click "down arrow" besides global
+			"Add credentials"
+			
+	
 	Kind: secret text
 	Scope: Global
 	Secret: <your docker hub pwd>
