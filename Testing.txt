@@ -1,1 +1,8 @@
 Jenkins: https://www.jenkins.io/doc/
+
+Docker CentOS installation
+https://docs.docker.com/engine/install/centos/
+
+$ sudo su
+$ curl -fsSL https://get.docker.com -o get-docker.sh
+$ sudo sh get-docker.sh
