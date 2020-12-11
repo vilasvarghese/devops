@@ -6,4 +6,7 @@ https://docs.docker.com/engine/install/centos/
 $ sudo su
 $ curl -fsSL https://get.docker.com -o get-docker.sh
 $ sudo sh get-docker.sh
+$ systemctl start docker
+$ systemctl enable docker
+$ systemctl status docker
 $ sudo usermod -aG docker jenkins
