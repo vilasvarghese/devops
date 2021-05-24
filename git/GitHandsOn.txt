@@ -85,7 +85,7 @@
 	---------------------------
 	add a new file to the repo.
 	git diff --cached
-		difference between working (local repo) directory and staged(index)
+		difference between local repo directory and staged(index)
 		It shows you that changes that will be in the next commit.
 	git diff
 		Displays all changes made to the tracked files.
