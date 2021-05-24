@@ -1,5 +1,12 @@
-Testing 123
-Testing 456
-asd
-a;sdjf;lasdf
-asdf
+Jenkins: https://www.jenkins.io/doc/
+
+Docker CentOS installation
+https://docs.docker.com/engine/install/centos/
+
+$ sudo su
+$ curl -fsSL https://get.docker.com -o get-docker.sh
+$ sudo sh get-docker.sh
+$ systemctl start docker
+$ systemctl enable docker
+$ systemctl status docker
+$ sudo usermod -aG docker jenkins

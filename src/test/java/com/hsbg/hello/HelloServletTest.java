@@ -37,5 +37,11 @@ public class HelloServletTest {
 		int result = 7;
 		assertEquals(7, result);
 	}
+	
+	@Test
+	public void testHelloServlet1() {
+		int result = 5;
+		assertEquals(5, result);
+	}
 }
 
