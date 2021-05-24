@@ -1,0 +1,52 @@
+Very important to consolidate the result
+	Summarizes the output. 
+Jenkins can record and aggregate test results 
+	if test runner can output test result files. 
+Jenkins typically comes bundled with the junit step
+If your test runner cannot output JUnit-style XML reports
+	additional plugins which process practically any widely-used test report format.
+
+To collect our test results and artifacts, we will use the post section.
+
+Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    stages {
+        stage("build") {
+            steps {
+                git 'https://github.com/vilasvarghese/devops.git'
+                sh 'mvn clean install -Dmaven.test.failure.ignore=true'
+            }
+        }
+    }
+    post {
+        always {
+            //archive "target/**/*" - build/libs/**/*.jar
+            archiveArtifacts artifacts: 'target/**/*', fingerprint: true
+            junit 'target/surefire-reports/*.xml'
+        }
+    }
+}
+
+
+This will 
+	always grab the test results 
+	let Jenkins track them
+	calculate trends and report on them. 
+	A Pipeline that has failing tests will be marked as "UNSTABLE"
+	denoted by yellow in the web UI. 
+	That is distinct from the "FAILED" state, denoted by red.
+
+Pipeline execution will by default proceed even when the build is unstable. 
+	-Dmaven.test.failure.ignore=true is the maven's option to ignore and continue 
+To skip deployment after test failures in Declarative syntax
+	use the skipStagesAfterUnstable option. 
+		In Scripted syntax, you may check currentBuild.currentResult == 'SUCCESS'.
+	When there are test failures, it is often useful to grab built artifacts from Jenkins for local analysis and investigation. This is made practical by Jenkins’s built-in support for storing "artifacts", files generated during the execution of the Pipeline.
+
+This is easily done with the archiveArtifacts step and a file-globbing expression, as is demonstrated in the example below:
+
+If more than one parameter is specified in the archiveArtifacts step, then each parameter’s name must explicitly be specified in the step code - i.e. artifacts for the artifact’s path and file name and fingerprint to choose this option. If you only need to specify the artifacts' path and file name/s, then you can omit the parameter name artifacts - e.g.
+archiveArtifacts 'build/libs/**/*.jar'
+
+Recording tests and artifacts in Jenkins is useful for quickly and easily surfacing information to various members of the team. In the next section we’ll talk about how to tell those members of the team what’s been happening in our Pipeline.

@@ -22,7 +22,7 @@
 		$ git <verb> --help
 		$ man git-<verb>
 		
-4.	For example, you can get the manpage help for the git config command by running this:
+4.	For example, you can get the man page help for the git config command by running this:
 		$ git help config
 	
 	
@@ -85,10 +85,11 @@
 	---------------------------
 	add a new file to the repo.
 	git diff --cached
-		No impact
+		difference between working (local repo) directory and staged(index)
+		It shows you that changes that will be in the next commit.
 	git diff
-		More on this latter
-	git add *
+		Displays all changes made to the tracked files.
+	git add .
 	git diff --cached
 	
 	
@@ -109,17 +110,17 @@
 		git config user.name
 		git config <key>
 		
-8. 	git add README test.txt LICENSE
+8. 	git add README.md test.txt LICENSE
 	git commit -m 'Initial commit'
 
 9. 	git branch testing
 
-10. git log --oneline --decorate
+10. git log --oneline
 
 11. git checkout testing
 		$ vi test.txt
 		$ git add test.txt
-		$ git commit -a -m "made a change"
+		$ git commit -m "made a change"
 
 12. git checkout master
 		git checkout -b newissue
@@ -128,8 +129,8 @@
 				$ git checkout newissue
 
 13. vi index.html
-	git add *
-	git commit -a -m 'Fix issue'
+	git add .
+	git commit -m 'Fix issue'
 
 14. git checkout master
 	
@@ -137,10 +138,16 @@
 	
 16. vi index.html
 	git add *
-	git commit -a -m 'Fix broken email address'
+	git commit -a -m 'Any comment'
 	
 17. git checkout master
 	git merge hotfix
+	
+	cd .git/logs
+	cat HEAD
+	
+	cd .git\logs\refs\heads
+	cat <branch name>
 	
 18. git branch -d hotfix
 
@@ -148,7 +155,7 @@
 
 20. vi index.html
 	git add *
-	git commit -a -m 'Fix the issue'
+	git commit -m 'Fix the issue'
 	
 21. git checkout master
 
@@ -235,7 +242,7 @@ Modify a COMMITTED file (tracked file)
 31. 
 	#Delete the file from the staging and working area.
 	git status
-	git rm Efg.txt
+	git rm Efg.txt #People confuse git rm as the command to stage a removed file.
 	git status
 
 32. 
@@ -393,12 +400,15 @@ From f1
 	git add .
 	git commit -m "f1"
 	git log
-		m1 and f1 seen in log
+		History of f1 includes the history before branching of master.
+		So m1 and f1 seen in log
+		
 	
 	git checkout master
 	git log
 		only m1
 		no feature file
+		History after branching in features are not available here.
 
 	vi master
 		m1
@@ -656,3 +666,9 @@ git restore CONTRIBUTING.md
 
 
 git checkout -- <file>
+
+
+Other good references:
+	1. https://shiivangii.medium.com/all-about-git-and-github-c4b987df1b16
+	2. https://docs.gitlab.com/ee/topics/git/numerous_undo_possibilities_in_git/
+	3. https://www.javatpoint.com/git-ignore

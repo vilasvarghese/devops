@@ -5,7 +5,7 @@ docker should be installed on the machine.
 		
 	Either add jenkins user to docker group and Ensure docker is running
 				or
-	https://www.digitalocean.com/community/tutorials/how-to-set-up-continuous-integration-pipelines-in-jenkins-on-ubuntu-16-04
+	
 
 
 

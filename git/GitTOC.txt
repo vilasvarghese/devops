@@ -1,0 +1,1025 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+o Introduction to Git
+	 What is Git?
+	 What is version control?
+	 About distributed version control
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\PraiseTheLord\HSBGInfotech\Others\vilas\devops\git\GitOneDay_Notes.txt
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+
+o Installing Git
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+D:\PraiseTheLord\HSBGInfotech\Others\vilas\devops\git\GitHandsOn.txt
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 Installing Git on a Mac
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Installing Git on Windows
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Installing Git on Linux
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Configuring Git
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+-------------------------------------------
+Reference: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+
+
+Log into GitHub
+Click on your name / Avatar in the upper right corner and select Settings
+On the left, click Developer settings
+Select Personal access tokens and click Generate new token
+Give the token a description/name and select the scope of the token
+I selected repo only to facilitate pull, push, clone, and commit actions
+Click the link Red more about OAuth scopes for details about the permission sets
+Click Generate token
+Copy the token – this is your new password!
+
+
+git config --global user.name "vilasvarghese"
+git config --global user.email "vilas.varghese@gmail.com"
+git config -l
+
+git clone 
+	provide tocken instead of pwd
+	
+To not remember you git token
+	git config --global credential.helper cache
+	git config --global credential.helper cache
+	git pull	
+		enter user and pwd (last time)
+		
+To undo cache (if token is no more valid)
+	git config --global --unset credentail.helper 
+	git config --global --unset credential.helper
+	git pull
+	
+	
+Further details: https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
+	
+Code base for git: https://github.com/git/git	
+	
+-------------------------------------------
+o Getting started with Git
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://www.javatpoint.com/git
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 Initializing a repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://kbroman.org/github_tutorial/pages/init.html
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Create a new repository on GitHub.
+	Open Git Bash.
+	Change the current working directory to your local project.
+	Initialize the local directory as a Git repository.
+		$ git init
+	Add the files in your new local repository. This stages them for the first commit.
+		$ git add .
+	Commit the files that you've staged in your local repository.
+		$ git commit -m "First commit"
+	At the top of your GitHub repository's Quick Setup page, click to copy the remote repository URL.
+
+	In the Command prompt, add the URL for the remote repository where your local repository will be pushed.
+
+	 $ git remote add origin <remote repository URL>
+	 # Sets the new remote
+	 $ git remote -v
+	 # Verifies the new remote URL
+	Push the changes in your local repository to GitHub if there is a remote branch called master (or main if that's what you're using)
+
+	 $ git push origin master
+	Otherwise you will have to name local branch first by
+
+	 $ git branch -m <new_name>
+	and then push it to add a new branch called <new_name>
+
+	 $ git push origin -u <new_name>
+	If you still end up with errors like "Updates were rejected because the remote contains work that you do not have locally", this is normally because that the remote repo is recently created manually. Make sure you are not overwriting anything on the remote end before you force push local git folder to it using
+
+	$ git push origin -u -f <new_name>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Understanding where and how Git files are stored
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Preferably we can do this a little latter.
+D:\PraiseTheLord\HSBGInfotech\Others\vilas\devops\git\GitOneDay_Notes
+	 Section: "Internals of Git"
+https://www.linkedin.com/pulse/git-internals-how-works-kaushik-rangadurai/
+https://www.daolf.com/posts/git-series-part-1/
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 git add
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	N.B: git will not show files within directories that are untracked.
+	
+	Create 
+		2 folders
+			2 files with in each folder (say folder1 and folder2)
+		2 files in root directory
+		a .gitignore file
+
+	git status
+		This will not show files inside untracked sub directory (folder1 and folder2)
+
+	https://git-scm.com/docs/git-add
+		git add .
+		git status
+		git reset
+		git status
+		git add -A or git add --all
+			stage all changes in the working tree.
+			If this command is executed from a subdirectory. Still it will add files outside the directory (including parent directory and other sub directories)
+			
+		Stage files in any directory including subdirectory
+			.gitignore file
+			delete files
+			modified files
+			add files 
+	N.B. "-A" is the default and is automatically appeneded unless specified otherwise.
+		[using "." or any directory].
+			
+			
+
+		git reset
+			unstage all changes
+		git status 
+			display status
+
+		add and commit all files.
+		Create a new file in sub folders and root folder
+		Remove one file from all the folders
+		Update one file in all three folders
+
+		
+		git add -A <directory>/ 	
+			#add/remove/update only the content with in the directory mentioned.
+		git add -A is the default.
+		So git add -A mydir/ is similar to git add mydir/
+		
+		git add --no-all .
+			will not stage deleted files
+		git status
+		git reset
+		git status
+		git add -u or git add --update
+			will stage all modified and updated files. 
+			But will not stage (add) untracked files
+		git status
+		git reset
+		git status
+		git add -u dir/
+		git status
+		git reset
+		git status
+		
+		git add . #. - current directory
+			diff. with git add -A.
+			Same only if git add . is executed from the root directory.
+			
+			So if you execute from a subdirectory it is not the same.
+		
+		git add * 
+			N.B: Now this stages everything.
+			But in the past it could have give unexpected results.
+			ls * will not display 
+				delete files 
+				.gitignore file
+			So accordingly
+			git add *
+				will not stage 
+					deleted files in root directory
+					.gitignore file
+				will stage
+					untracked files in root directory and subdirectory
+					deleted files in subdirectory
+						surprisingly deleted files in subdirectory works.
+			Preferably don't use git add *
+					
+					
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 git commit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		ls -la
+		git commit -m "message"
+		
+		git commit --help
+		git commit --dry-run .
+		git commit --reuse-message=<commit id>
+		git commit --dry-run --short .
+		
+		#If you want to selectively commit only tracked files (ignore new files added)
+		git commit -a	
+
+		#Modify existing commit message
+		git commit -amend 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Writing commit messages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		git commit -m "message"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Viewing the commit log
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		git log
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+a)
+	git log 
+		utility tool to review and read a history of everything that happens to a repository. 
+		Multiple options can be used with a git log to make history more specific.
+
+
+	Generally, the git log is a record of commits. 
+	A git log contains the following data:
+		A commit hash, which is a 40 character checksum data generated by SHA (Secure Hash Algorithm) algorithm. It is a unique number.
+		Commit Author metadata: The information of authors such as author name and email.
+		Commit Date metadata: It's a date timestamp for the time of the commit.
+		Commit title/message: It is the overview of the commit given in the commit message.
+
+
+b)
+	git log --oneline  
+	So, usually we can say that the --oneline flag causes git log to display:
+	Multiple commits are listed.	
+		one commit per line
+		the first seven characters of the SHA
+		the commit message
+	
+--------------------------------------------------	
+D:\temp\test>git log --oneline
+040578c (HEAD -> master) testing
+a636d90 teeeest
+7894783 test
+--------------------------------------------------
+	Every commit has a single line
+	
+	
+c)
+Git Log Stat
+	The log command displays 
+		files that have been modified. 
+		number of lines and 
+		summary line of the total records that have been updated.
+
+	Generally, we can say that the stat option is used to display
+		the modified files,
+		The number of lines that have been added or removed
+		A summary line of the total number of records changed
+		The lines that have been added or removed.
+		It will be used as follows:
+
+$ git log --stat  	
+	Uaw :q to quit.
+	
+d)
+Git log P or Patch
+	The git log patch command displays 
+		the files that have been modified. 
+		location of the 
+			added, 
+			removed, and 
+			updated lines.
+
+	It will be used as:
+
+	$ git log --patch  
+	Or
+
+	$ git log -p  
+	Generally, we can say that the --patch flag is used to display:
+
+	Modified files
+		The location of the lines that you added or removed
+		Specific changes that have been made.
+
+	See changes to a particular file
+		git log -p <file>
+
+
+e)
+Git log command allows viewing your git log as a graph. 
+To list the commits in the form of a graph, 
+run the git log command with --graph option. It will run as follows:
+
+	$ git log --graph  
+	
+	To make the output more specific, you can combine this command with --oneline option. It will operate as follows:
+
+	$ git log --graph --oneline  
+	
+	
+f)	Filtering the Commit History
+	We can filter the output according to our needs. It's a unique feature of Git. We can apply many filters like amount, date, author, and more on output. Each filter has its specifications. They can be used for implementing some navigation operations on output.
+
+	Let's understand each of these filters in detail.
+
+By Amount (number of last commit):
+
+	We can limit the number of output commit by using git log command. 
+	$ git log --graph --oneline -2
+	
+	
+By Date and Time:
+
+	We can filter the output by date and time. 
+	--after or 
+	--before argument to specify the date. These both argument accept a variety of date formats. It will run as follows:
+
+	$ git log --after="yy-mm-dd"  
+	The above command will display all the commits made after the given date. Consider the below output:
+
+	git log --after="21 days ago"  
+	The above command will display the commits which have been made 21 days ago. Consider the 
+	
+	
+	$ git log --after="2021-04-01" --before="2021-05-08"  
+
+	Alternatively we can use 
+		--since and --until instead of --after and --before. 
+		Because they are synonyms, respectively.
+	
+	
+By Author:
+
+	$ git log --author="Author name"	
+	
+		git log --author="vilas"
+		git log --author="@gmail.com"  
+	
+	
+By Commit message:
+
+	To filter the commits by the commit message. We can use the grep option, and it will work as the author option.
+
+	It will run as follows:
+
+	$ git log --grep=" Commit message."	
+
+
+
+
+
+-------------------------------------------------------------------
+The following example pushes changes even if it does not end in a non-fast-forward merge. Beginners should not use this option:
+
+Pushes even the file mentioned in ignorefile
+	git push --force
+
+This example adds all local branches to the indicated remote repository:
+	git push --all
+
+The following example pushes all local tags to the remote:
+	git push --tags
+-------------------------------------------------------------------
+
+
+o Git Concepts and Architecture
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 Exploring the three-trees architecture
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.designveloper.com/blog/git-concepts-architecture/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 The Git workflow
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://medium.com/free-code-camp/learn-the-basics-of-git-in-under-10-minutes-da548267cc91
+https://www.atlassian.com/git/tutorials/comparing-workflows
+	Try it before you go.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Working with the HEAD pointer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+
+o The basic flows
+	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.javatpoint.com/git-terminology
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 Adding files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Already covered.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Editing files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Viewing changes with diff
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Compare the different versions of data sources. 
+	The version control system stands for working with a modified version of files. 
+	So, the diff command is a useful tool for working with Git.
+	
+Scenerio1: Track the changes that have not been staged.
+
+	git diff command 
+		track the changes that have not been staged.
+	Edit the newfile1.txt file. 
+	Track what changes are not staged yet (with tracked files). 
+		git diff 
+		
+	Changes made on newfile1.txt are displayed by git diff command. 
+	
+Scenerio2: Track the changes that have staged but not committed:
+
+	git diff command 
+		allows us to track the changes that are staged but not committed. 
+		
+	To check the already staged changes, use the 
+		git diff --staged .
+
+	To check the untracked file
+		git status 
+		
+		
+	If file is 
+		added to the staging area (git add)
+		but it is not committed yet. 
+		can track the changes in the staging area also. 
+		
+		$ git diff --staged  
+
+Scenerio3: Track the changes after committing a file:
+	Track the changes after committing a file (git commit -m). 
+		git diff HEAD
+		
+Scenario4: Track the changes between two commits:
+
+	Track the changes between last two commits. 
+		$ git log  
+
+	Track the changes made to a file (need not be last two commits)
+		$ git log -p --follow -- filename  	
+	
+	
+	Track difference between two commits in the history
+		git diff <commit1-sha> <commit2-sha>  
+	
+
+Git Diff Branches
+	$ git diff <branch 1> < branch 2>  
+
+	The above command will display the differences between branch 1 and branch 2. 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Viewing only staged changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Already covered
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Deleting files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Delete untracked files
+		rm -rf 
+	
+	To remove the file from the Git repository and the filesystem (working dir), use:
+		git rm file1.txt
+		git commit -m "remove file1.txt"
+		
+	But if you want to remove the file only from the Git repository and not remove it from the filesystem, use:
+		git rm --cached file1.txt
+		git commit -m "remove file1.txt"	
+
+	To remove directory and content 
+		git rm -r directory 
+		- r can be used with all above commands to do it recursively on directories.
+
+	To remove sensitive data - Avoid as much as possible(from all commit's in history too)
+		https://help.github.com/articles/remove-sensitive-data/
+	
+	To revert the previous stage
+		git reset
+	or v2.24.0+ use
+		git restore --staged .
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Moving and renaming files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Move the hello.html file to the lib directory
+		mkdir lib
+		git mv hello.html lib
+		git status
+
+	By moving files with git, we notify git about two things
+		hello.html file was deleted.
+		lib/hello.html file was created.
+	Both facts are staged immediately and ready for a commit. 
+	Git status command reports the file has been moved.
+
+	So it is equivalent to 
+		mkdir lib
+		mv hello.html lib
+		git add lib/hello.html
+		git rm hello.html
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+
+o Undoing Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 Undoing working directory changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Unstage all files you might have staged with git add:
+		git reset
+
+	Revert all local uncommitted changes (should be executed in repo root):
+		git checkout .	
+
+	Revert uncommitted changes only to particular file or directory:
+		git checkout [some_dir|file.txt]
+
+	Revert all uncommitted changes (longer to type, but works from any subdirectory):
+		git reset --hard HEAD
+
+	Remove all local untracked files, so only git tracked files remain:
+		git clean -fdx
+
+	WARNING: -x will also remove all ignored files, including ones specified by .gitignore! You may want to use -n for preview of files to be deleted.
+
+
+	Nothing in Git is deleted, so when you work in Git, you can undo your work.
+	
+	When you can undo changes
+	In the standard Git workflow:
+		Untracked files: New file created
+		Unstaged files: Edit a staged file. 
+			Untracked is also a unstaged file.
+		Index files/Staged files:  
+			git add, git mv etc.
+		Committed file 
+			(git commit).
+		File pushed to remote repo.
+			(git push).
+
+
+You can undo changes at any point in this workflow:
+(Expectation with undo)
+Undo 
+	changes locally done and haven’t yet pushed to a remote repository.
+	changes already pushed to a remote repository and you want to:
+		Keep the history intact (preferred).
+		Change the history (requires coordination with team and force pushes)
+
+
+#Undo unstaged local changes
+----------------------------
+	Confirm that the file is unstaged 
+	(that you did not use git add <file>) 
+		
+		$ git status
+
+	To overwrite local changes:
+		git checkout -- <file>
+
+	To save local changes so you can re-use them later:
+		git stash
+
+	To discard local changes to all files, permanently:
+		git reset --hard
+
+
+#Undo staged local changes
+--------------------------
+Confirm that the file is staged 
+	(that you used git add <file>) 
+
+	$ git status
+
+	To unstage the file but keep your changes:
+		git restore --staged <file>
+
+	To unstage everything but keep your changes:
+		git reset
+
+	To unstage the file to current commit (HEAD):
+		git reset HEAD <file>
+
+	To discard all local changes, but save them for later:
+		git stash
+
+	To discard everything permanently:
+		git reset --hard
+
+
+#Quickly save local changes
+---------------------------
+If you want to change to another branch
+	git stash.
+
+From the branch where you want to save your work, 
+	git stash.
+
+	Swap to another branch (git checkout <branchname>).
+		Commit, push, and test.
+	Return to the branch where you want to resume your changes.
+	Use git stash list to list all previously stashed commits.
+	Run a version of git stash:
+		Use git stash pop 
+			to redo previously stashed changes and remove them from stashed list.
+		Use git stash apply 
+			to redo previously stashed changes, but keep them on stashed list.
+
+Further details : https://docs.gitlab.com/ee/topics/git/numerous_undo_possibilities_in_git/
+
+For more undoing changes: 
+	https://www.javatpoint.com/git-rm
+	https://www.javatpoint.com/git-cherry-pick
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Unstaging files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Already covered
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Amending commits
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Reference: https://docs.github.com/en/github/committing-changes-to-your-project/changing-a-commit-message
+
+	Except for the commit message not much can be changed
+
+	You can change the most recent commit message using the 
+		git commit --amend command.
+	
+	
+	Commit has not been pushed online
+If the commit only exists in your local repository and has not been pushed to GitHub, you can amend the commit message with the 
+	git commit --amend command.
+
+On the command line, navigate to the repository that contains the commit you want to amend.
+
+Type git commit --amend and press Enter.
+
+In your text editor, edit the commit message, and save the commit.
+
+You can add a co-author by adding a trailer to the commit. For more information, see "Creating a commit with multiple authors."
+
+You can create commits on behalf of your organization by adding a trailer to the commit. For more information, see "Creating a commit on behalf of an organization"
+	
+	
+	
+	Amending older or multiple commit messages
+If you have already pushed the commit to GitHub, you will have to force push a commit with an amended message.
+
+We strongly discourage force pushing, since this changes the history of your repository. If you force push, people who have already cloned your repository will have to manually fix their local history. For more information, see "Recovering from upstream rebase" in the Git manual.
+
+Changing the message of the most recently pushed commit
+
+Follow the steps above to amend the commit message.
+Use the push --force command to force push over the old commit.
+$ git push --force example-branch
+Changing the message of older or multiple commit messages
+
+If you need to amend the message for multiple commits or an older commit, you can use interactive rebase, then force push to change the commit history.
+
+On the command line, navigate to the repository that contains the commit you want to amend.
+
+Use the git rebase -i HEAD~n command to display a list of the last n commits in your default text editor.
+
+# Displays a list of the last 3 commits on the current branch
+$ git rebase -i HEAD~3
+The list will look similar to the following:
+
+pick e499d89 Delete CNAME
+pick 0c39034 Better README
+pick f7fde4a Change the commit message but push the same commit.
+
+# Rebase 9fdb3bd..f7fde4a onto 9fdb3bd
+#
+# Commands:
+# p, pick = use commit
+# r, reword = use commit, but edit the commit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, but meld into previous commit
+# f, fixup = like "squash", but discard this commit's log message
+# x, exec = run command (the rest of the line) using shell
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+Replace pick with reword before each commit message you want to change.
+
+pick e499d89 Delete CNAME
+reword 0c39034 Better README
+reword f7fde4a Change the commit message but push the same commit.
+Save and close the commit list file.
+
+In each resulting commit file, type the new commit message, save the file, and close it.
+
+When you're ready to push your changes to GitHub, use the push --force command to force push over the old commit.
+
+$ git push --force example-branch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Retrieving old versions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Restore working dir to the latest in remote repo.
+		$ git checkout HEAD fil
+		ename
+
+	$ git log --oneline
+		79a4e5f bad take
+		f449007 The second commit
+		55df4c2 My great project, first commit.
+
+	$ git checkout 55df4c2 filename
+
+	
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Reverting a commit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://opensource.com/article/18/6/git-reset-revert-rebase-commands
+
+#Reset
+------
+	like a "rollback"—
+	it points your local environment back to a previous commit. 
+	"local environment," 
+		local repository
+		staging area
+		working directory.
+
+	$ git log --oneline
+		b764644 File with three lines
+		7c709f0 File with two lines
+
+
+	If we want to roll back to a previous commit. 
+	Git can just move the branch pointer. 
+
+	Restting to an absolute checkin
+	$ git reset b764644 (using an absolute commit SHA1 value b764644)
+	or
+	Restting to a relative checkin
+	$ git reset current~2 (using a relative value -2 before the "current" tag)
+
+
+	Refer more details on git reset below.
+	
+#Revert
+-------
+The net effect of the git revert command 
+	similar to reset
+	but its approach is different. 
+	
+	Reset command: moves the branch pointer back in the chain (typically) to "undo" changes
+		git reset HEAD~1
+	Revert command: adds a new commit at the end of the chain to "cancel" changes. 
+	
+	
+$ git revert HEAD #Revert the commit pointed by HEAD.
+	This adds a new commit
+	Git will prompt for the commit message:
+
+	Revert "File with three lines"
+-----------------------------------------------------------------------
+This reverts commit b764644bad524b804577684bf74e7bca3117f554.
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#       modified:   file1.txt
+#
+-----------------------------------------------------------------------
+
+
+$ git log --oneline
+11b7712 Revert "File with three lines"
+b764644 File with three lines
+7c709f0 File with two lines
+9ef9173 File with one line
+Here are the current contents of the file in the working directory:
+
+#Added a new line in the commit history /logs
+-----------------------------------------------------------------------
+
+Revert or reset?
+	Revert is a nicer way to cancel out changes 
+		Git workflow works well for 
+			picking up additional commits at the end of a branch
+			challenging if a set of commits is no longer seen (git reset)
+
+Fundamental rule in git
+	avoid making changes that rewrite history 
+		if the commits have already been pushed to the remote repository 
+		others may be working with them.
+
+Other people depending on your remote repo. is going have a trouble if you do reset.
+
+Original chain of commits was still present in your drive after we did the reset. 
+We moved the pointer and reset the code back to a previous commit
+	but it did not delete any commits. 
+	So we can "restore" back to the previous point by simply resetting back to the original head of the branch:
+
+git reset <sha1 of commit>
+	A similar thing happens in most other operations we do in Git when commits are replaced. New commits are created, and the appropriate pointer is moved to the new chain. But the old chain of commits still exists.
+
+
+
+Rebase
+------
+	Now let's look at a branch rebase. 
+	Refer to image in rebase section in 
+	https://opensource.com/article/18/6/git-reset-revert-rebase-commands
+	
+	git checkout a
+	git rebase b
+	
+	go to b's latest commit
+	Apply all the commit's of a one by one.
+	(Refer above image to understand this).
+	
+fyi: checkout will download the files in local repo.
+		It will not make any change to the history.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Using reset to undo commits
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Already covered
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 soft reset
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://davidzych.com/difference-between-git-reset-soft-mixed-and-hard/
+	Reset the Local repo. 
+	Leaving the changes in HEAD in working copy staged.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 mixed reset
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://davidzych.com/difference-between-git-reset-soft-mixed-and-hard/
+	Reset Local repo. and stage (index). Changes in HEAD available in the working copy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 hard reset
+	Reset everything.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://davidzych.com/difference-between-git-reset-soft-mixed-and-hard/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Untracked files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Untracked files 
+		files in your working directory 
+			that were not in your last snapshot (new files added)
+		or
+			are not in your staging area (modified since last git add)
+			
+
+	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Removing untracked files
+	If you have autogenerated files and you don't want git to track them
+		define them in .gitignore
+	
+	If you have added new files 
+		Before running the actual command and removing untracked files and directories use the -n option that will perform a “dry run” and show you what files and directories will be deleted:
+
+			git clean -d -n 
+			
+		To delete the file
+			git clean -d -f
+	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+
+o Branching
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 Branching overview
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Viewing and creating branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	git branch <branch>
+	https://www.javatpoint.com/git-branch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Switching branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	git checkout <branch>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Creating and switching branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	git checkout -b <branch>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Switching branches with uncommitted changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		always, add, commit or stash your changes before switching
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Comparing branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	git diff <branch1> <branch2>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Renaming branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://linuxize.com/post/how-to-rename-local-and-remote-git-branch/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Deleting branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Delete local branches
+		delete merged branch
+			git branch -d <branch>
+			
+		delete unmerged branch
+			git branch -D <branch>
+	
+	Delete remote branch
+		git push <remote> --delete <branch>
+		git push origin --delete fix/authentication
+		
+	Reference: https://www.freecodecamp.org/news/how-to-delete-a-git-branch-both-locally-and-remotely/	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Configuring the command prompt to show the branch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+		https://docs.gitlab.com/ee/gitlab-basics/start-using-git.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Merging Branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		https://www.javatpoint.com/git-merge-and-merge-conflict
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Merging code
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Already covered in the above topic.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Fast-forward merge vs. true merge
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		https://medium.com/@koteswar.meesala/git-fast-forward-merge-vs-three-way-merge-8591434dd350
+		https://www.atlassian.com/git/tutorials/using-branches/git-merge
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Merging conflicts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Already covered 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Resolving merge conflicts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Already covered 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Exploring strategies to reduce merge conflicts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		https://www.openbankproject.com/how-to-avoid-merge-conflicts-on-git/
+		http://nvie.com/posts/a-successful-git-branching-model/
+			master
+			hotfixes
+			release branches
+			develop
+			feature branches
+		Merge asap (at least once a day)
+			
+
+	Other common learnings
+Prevention rules:
+	Whenever it is possible, use a new file in preference to an existing one
+	(the only ambiguity could happen is the same name and path of the file)
+	Do not always put your changes at the end of a file
+	(decreases the probability of editing the same line of code)
+	Do not organise imports
+	(decreases the probability of editing the same line of code)
+	Do not beautify a code outside of your changes
+	(decreases the probability of editing the same line of code)
+	Push and pull changes as often as you can
+	(Mitigates distributed nature of Git)
+	
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Fast Forward Merge
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Already covered
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Three way Merge
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Already covered
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Rebasing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Already covered
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Webhooks 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 What is a webhook 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Use cases of Webhook 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Introduction and Webhook in 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+		 Bitbucket 
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+		 Github 
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		 Gitlab 
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		 ADO
+	https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+	

@@ -55,7 +55,7 @@ What is Git?
 
 	Local Version Control Systems
 	-----------------------------
-	Priliminary method.
+	Preliminary method.
 		Copy files into another directory 
 			perhaps a time-stamped directory. 
 		Simple
@@ -131,8 +131,39 @@ What is Git?
 
 ##############################################################################
 •	About distributed version control
+# Internals of Git
 
-		Clients don’t just check out the latest snapshot of the files;
+
+Git is a decentralized VCS
+
+In centralized VCS
+	the database resides on a central server
+	you checkout a copy from the server. 
+	Most of the commands require you to contact the central database 
+		hence require network access. 
+
+In a decentralized or distributed VCS (like git)
+	each and every node has a copy of the database 
+	hence you clone a copy from a remote server. 
+	Remote server has 
+		no special permissions 
+		except all the nodes have access to the remote server. 
+	So all commands in git (except git push or git pull) 
+		can be performed without network access.
+
+
+
+When you 
+	clone a git repository(git clone)
+or
+	git init
+		creates a .git folder at the root of the repository. 
+		This is where git stores all the data. 
+
+
+
+
+	Clients don’t just check out the latest snapshot of the files;
 	Client fully mirror the repository, including its full history. 
 	If any server dies
 		clients were collaborating via that server
@@ -147,13 +178,13 @@ What is Git?
 
 	What is Git
 	-----------
-	Git is 1.6 times after than it's nearest rival.
+	Git is 1.6 times faster than it's nearest rival.
 	
 	Snapshots, Not Differences
 	--------------------------
 	The major difference between Git and any other VCS (e.g. Subversion) 
 		the way Git thinks about its data. 
-	While most other systems store information as a list of file-based changes. 
+	Most other systems store information as a list of file-based changes. 
 	These other systems (CVS, Subversion, Perforce, Bazaar, and so on) 
 		consider information they store as a set of files 
 		changes made to each file over time
@@ -161,9 +192,8 @@ What is Git?
 
 	Git doesn’t think of or store its data this way. 
 	Git thinks of its data more like a series of snapshots of a miniature filesystem. 
-	With Git, every time you commit, or save the state of your project
-	Git basically takes a picture of what all your files look like at that moment 
-		stores a reference to that snapshot. 
+	Snapshots are like taking a photo of the repo. at the given point in time.
+		Stores a reference to that snapshot.
 	To be efficient, 
 		Git store only the changed files
 		Others it links to the previous identical file it has already stored. 
@@ -175,6 +205,7 @@ What is Git?
 	So what?
 		
 		1. Almost all Operation are Local
+			(except push and pull - among the most used)
 			Most operations in Git need only local files and resources to operate
 			Generally no information is needed from another computer on your network. 
 			Every operation is very fast.
@@ -200,7 +231,7 @@ What is Git?
 				Built into Git at the lowest levels 
 				Integral to its philosophy. 
 				Can’t lose information in transit 
-				Get file corrupted without Git being able to detect it.
+					Get file corrupted without Git being able to detect it.
 
 			checksum
 			Git uses SHA-1 hashing for this. 
@@ -209,7 +240,7 @@ What is Git?
 			A SHA-1 hash looks something like this:
 				24b9da6552252987aa493b52f8696cd6d3b00373
 			
-			Git stores everything in its database 
+			Git stores everything in its filesystem 
 				not by file name 
 				but by the hash value of its contents.
 			So this hash is represented everywhere in git.
@@ -275,8 +306,249 @@ What is Git?
 		If it has been modified and was added to the staging area, it is staged. 
 		Updated since it was checked out but has not been staged
 			it is modified. 
-		
+		-------------------------------------------------
 	
+Reference: https://www.daolf.com/posts/git-series-part-1/
+	
+Here is what’s your .git will look like before your first commit:	
+	├── HEAD
+    ├── branches
+    ├── config
+    ├── description
+    ├── hooks
+    │ ├── pre-commit.sample
+    │ ├── pre-push.sample
+    │ └── ...
+    ├── info
+    │ └── exclude
+    ├── objects
+    │ ├── info
+    │ └── pack
+    └── refs
+     ├── heads
+     └── tags
+	
+	 branches directory isn’t used by newer Git versions.
+	HEAD
+		stores where the HEAD points to.. More on this latter.
+
+	config
+		Contains the settings for your repository
+		e.g. 
+			url of the remote 
+			your mail, 
+			username
+		Every-time you use ‘git config …’ in the console it ends here.
+
+	description
+		Used by gitweb (an ancestor of github) to display the description of the repo.
+
+	hooks
+		Git comes with a set of script 
+		Script can automatically run at every meaningful git phase. 
+			called hooks
+		Can be run before/after a commit/rebase/pull… 
+		Name of the script: explain when to execute it. 
+		E.g. useful pre-push hook 
+			test that all the styling rules are respected to keep consistency in the remote.
+
+	index
+		file is where Git stores your staging area information.
+
+	info — 
+		exclude
+			Can put the files you don’t want git to deal with in your .gitignore file. 
+			Exclude file is the same 
+			Except that it won’t be shared. 
+			If you don’t want to track your custom IDE related config files 
+				Not through .gitignore 
+			
+(do two commit's to the same file .. watch objects folder step by step)
+Add a file called file_1.txt - 
+	git add *
+		A new folder is created.
+		cd /root/.git/<number>
+	git commit -m "comments"
+		That creates another two folders
+		
+What’s inside a commit ?
+	Every-time you create a file, and track it, 
+		git 
+			compresses it 
+			stores it into its own data structure. 
+	Compressed object will have 
+		a unique name
+		a hash
+		will be stored under the object directory.
+
+
+
+
+And once that snapshot is created, it will also be compressed and be name with an hash, and where all those compressed objects end up ? In the object folder.
+
+Contents of the objects directory after creating an empty file and committing.
+	── 4c
+	│ └── f44f1e3fe4fb7f8aa42138c324f63f5ac85828 // hash
+	├── 86
+	│ └── 550c31847e518e1927f95991c949fc14efc711 // hash
+	├── dd
+	│ └── e4f5e818d517ba8ea51e18d255f57062035a7c // hash
+	├── info // let's ignore that
+	└── pack // let's ignore that too
+
+
+Commit 
+	(snapshot of your working directory)++.
+
+you commit 
+	git does two things - to create the snapshot of your working directory: 
+	1. If the file didn’t change
+		git just adds the name of the compressed file (the hash) into the snapshot. 
+	2. If the file has changed, 
+		git compresses it
+		stores the compressed file in the object folder. 
+		Adds the name (the hash) of this compressed file into the snapshot.
+
+
+
+Above tree
+	If the hash of your file = “4cf44f1e…”
+	git will store this file under a “4c” subdirectory 
+	name the file “f44f1…”. 
+	A small trick 
+		size of the /objects directory/reduces by 255 the .
+
+	Notice 3 hash. 
+	One hash: for my file_1.txt
+	Second hash: for the snapshot created when I commited. 
+	Third hash: 
+		Commit is an object in itself
+		It is also compressed and stored in the object folder.
+
+Commit is made of 4 things :
+	The name (a hash) of the working directory’s snapshot
+	A comment
+	Commiter/Author information
+	Hash of the parent commit
+
+And that’s it, look by yourself what happen if we uncompressed the commit file :
+
+	// by looking at the history you can easily find your commit hash
+	// you also don't have to paste the whole hash, only enough 
+	// characters to make the hash unique
+
+git cat-file -p 4cf44f1e3fe4fb7f8aa42138c324f63f5ac85828 #foldername + filename
+
+-------------------------------------------------------
+Actual o/p copied from my machine.
+	tree dde4f5e818d517ba8ea51e18d255f57062035a7c
+	author vilasvarghese <vilas.varghese@gmail.com> 1621305337 +0530
+	committer vilasvarghese <vilas.varghese@gmail.com> 1621305337 +0530
+
+	test
+
+	D:\temp\test\.git\objects\4c>cd ../dd
+
+	D:\temp\test\.git\objects\dd>git cat-file -p dde4f5e818d517ba8ea51e18d255f57062035a7c
+	100644 blob 27206866b5792a330d1df923916c5a49e7927e3c    test1.txt
+
+-------------------------------------------------------
+Output includes, 
+	the snapshot hash, 
+	the author, 
+	and my commit message. 
+
+Two things are important here :
+
+	1. As expected, the snapshot hash “dde4f5…” is also an object and can be found in the object folder.
+	2. Because it was my first commit, there is no parent.
+
+What’s in my snapshot for real ?
+
+git cat-file -p dde4f5e818d517ba8ea51e18d255f57062035a7c
+	100644 blob 27206866b5792a330d1df923916c5a49e7927e3c    test1.txt
+	
+And here we find the last object that was previously in our object store
+
+#branch, tags, HEAD all the same
+--------------------------------
+So everything in git can be reached with the correct hash. 
+Let’s take understand HEAD now.
+
+cat HEAD
+ref: refs/heads/master
+	not an hash
+	HEAD can be considered as a pointer to the tip of the branch you’re working on. 
+	And now if we look at what is in refs/heads/master here what we’ll see :
+
+cat refs/heads/master
+4cf44f1e3fe4fb7f8aa42138c324f63f5ac85828
+	This is the exact same hash of our first commit. 
+	So branches and tags are 
+		Pointer to a commit. 
+		Nothing more than that
+	Delete 
+		all the branches 
+		all the tags 
+		the commit they were pointing to are still going to be here. 
+	Further details: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
+
+Summary
+	All that git does when you commit is 
+		“zipping” your current working directory 
+		storing it into the objects folder 
+			with a bunch of other information. 
+	
+	But git commit can be committing specific files.
+		So commit isn’t really a snapshot of your working directory
+		it is a snapshot of the files you want to commit. 
+		
+	Git stores files into the index file. 
+	Launches the actual commit from there.
+	
+	
+
+#Git Refs
+---------
+
+Ref's directory includes
+	heads
+	remotes
+	tags
+	
+Git Head
+	containing the SHA-1 hash of the latest commit in that repository.
+	where your current tip is pointing.
+	The HEAD file is a symbolic reference to the branch you’re currently on. 
+	By symbolic reference
+		it doesn’t generally contain a SHA-1 hash
+		instead pointer to another reference. 
+		
+	vi .git/HEAD	
+
+Remote
+	Add a remote 
+	push to it
+		Git stores the SHA-1 value you last pushed to that remote for each branch in the refs/remotes directory.
+
+Tags
+	tag folder 
+	has references to a tag object. 
+	A tag object is very much like a commit object
+		it contains a tagger, 
+		a date, 
+		a message, 
+		and a pointer. 
+	The main difference 
+		tag object generally points to a commit rather than a tree. 
+		It’s like a branch reference, but it never moves
+		it always points to the same commit but gives it a friendlier name.
+
+
+Other references
+	http://git-scm.com/book/en/v2/
+	http://slidetocode.com/2013/08/25/how-git-works/
+
 ##############################################################################
 •	Who should use Git?	
 		
@@ -290,7 +562,6 @@ Installing Git
 
 ##############################################################################
 •	Installing Git on Linux
-
 ##############################################################################
 •	Installing Git on a Mac
 https://www.atlassian.com/git/tutorials/install-git#mac-os-x
@@ -599,7 +870,7 @@ Well, doing so creates a new pointer for you to move around.
 Let’s say you want to create a new branch called testing. 
 You do this with the git branch command:
 	
-		$ git branch testing																																																																																																																																																																																																	
+		$ git branch testing																																																																																																													
 		This creates a new pointer to the same commit you’re currently on.
 	
 	How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch.
@@ -705,7 +976,7 @@ This is shortform for:
 		Switched to a new branch 'hotfix'
 
 		$ vi index.html
-		$ git commit -a -m 'Fix broken email address'
+		$ git commit -m 'Fix broken email address'
 
 		$ git checkout master
 		$ git merge hotfix
@@ -938,17 +1209,20 @@ git merge
 
 When to use:
 ------------
-git merge 
-	default behavior when you use git pull (i.e. remote repo). 
-	Use it as default if you are not bothering about commit history and want to avoid problems
-use git rebase to make your commit history more clear and consistent (use it only before pushing to remote servers to keep your name and karma clean)
-use git rebase for temporary local branches — they are not necessary for public commit history and won’t make problems
-use git rebase -i (interactive) for rewriting your local commit history into pretty one before pushing it on the remote server.
-137
-
-2
-
-git rebase
+git merge Vs git rebase
+	git merge: 
+		default behavior when you use git pull (i.e. remote repo). 
+		Use it 
+			if commit history is not important 
+			want to avoid problems
+git	 rebase 
+	make your commit history clearer and consistent 
+		(use it only before pushing to remote servers to keep your name and work clean)
+	use it for temporary local branches 
+		they are not necessary for public commit history and won’t make problems
+	git rebase -i (interactive) 
+		rewrite local commit history into pretty one 
+			before pushing it on the remote server.
 	
 
 

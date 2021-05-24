@@ -1,0 +1,21 @@
+pipeline{
+    agent any
+    tools {
+        maven 'M3'
+    }
+    stages{
+        
+        stage('Maven Build'){
+            steps{
+                git url: 'https://github.com/vilasvarghese/devops'
+                sh "mvn clean package"
+            }
+        }
+	}
+	post{
+        always{
+            junit '**/target/surefire-reports/TEST-*.xml'
+            archiveArtifacts 'target/*.jar'
+        }
+    }
+}

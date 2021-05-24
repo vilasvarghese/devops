@@ -89,51 +89,7 @@ Stage three runs a ‘when’ directive with a ‘not’ tag. This directive all
 In this demo, I’m using a ‘not’ tag. This tag executes a stage when the nested condition is false. Hence when the ‘branch is master’ holds false, the echo command in the following step is executed.
 Declarative Pipeline Demo - Jenkins Pipeline Tutorial - Pipeline1
 
-pipeline {
-         agent any
-         stages {
-                 stage('One') {
-                 steps {
-                     echo 'Hi, this is Vilas from Pipeline1'
-                 }
-                 }
-                 stage('Two') {
-                 steps {
-                    input('Do you want to proceed?')
-                 }
-                 }
-                 stage('Three') {
-                 when {
-                       not {
-                            branch "master"
-                       }
-                 }
-                 steps {
-                       echo "Hello"
-                 }
-                 }
-                 stage('Four') {
-                 parallel { 
-                    stage('Unit Test') {
-						steps {
-							echo "Running the unit test..."
-                        }
-                    }
-                    stage('Integration test') {
-						/*agent {
-							docker {
-								reuseNode true
-                                image 'ubuntu'
-                            }
-                        }*/
-                        steps {
-							echo "Running the integration test..."
-                        }
-                    }
-                }
-			}
-        }
-}
+
 Stage four runs a parallel directive. This directive allows you to run nested stages in parallel. Here, I’m running two nested stages in parallel, namely, ‘Unit test’ and ‘Integration test’. Within the integration test stage, I’m defining a stage specific docker agent. This docker agent will execute the ‘Integration test’ stage.
 Within the stage are two commands. The reuseNode is a Boolean and on returning true, the docker container would run on the agent specified at the top-level of the pipeline, in this case the agent specified at the top-level is ‘any’ which means that the container would be executed on any available node. By default this Boolean returns false.
 There are some restrictions while using the parallel directive:
