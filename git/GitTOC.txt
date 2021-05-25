@@ -470,6 +470,7 @@ Git Diff Branches
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Viewing only staged changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	git diff --staged .
 	Already covered
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Deleting files
@@ -634,6 +635,7 @@ For more undoing changes:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Unstaging files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	git reset
 		Already covered
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Amending commits
@@ -721,8 +723,7 @@ $ git push --force example-branch
 	 Retrieving old versions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	Restore working dir to the latest in remote repo.
-		$ git checkout HEAD fil
-		ename
+		$ git checkout HEAD filename
 
 	$ git log --oneline
 		79a4e5f bad take
@@ -936,8 +937,7 @@ o Branching
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Configuring the command prompt to show the branch
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	
-		https://docs.gitlab.com/ee/gitlab-basics/start-using-git.html
+	https://www.nu42.com/2016/05/display-git-branch-windows-command-prompt.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Merging Branches
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1021,5 +1021,10 @@ Prevention rules:
 		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		 ADO
-	https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+	https://www.ranorex.com/help/latest/interfaces-connectivity/azure-devops-integration/create-ado-project-and-git-repo/
 	
+	
+Interview quesitons:
+	https://career.guru99.com/top-40-interview-questions-on-git/
+	https://www.simplilearn.com/tutorials/git-tutorial/git-interview-questions
+	https://www.edureka.co/blog/interview-questions/git-interview-questions/
