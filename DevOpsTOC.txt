@@ -1007,6 +1007,8 @@ Maven – 1 Day
 References: 
 	https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#
 	https://www.javatpoint.com/maven-tutorial
+	
+	https://www.youtube.com/watch?v=0CFWeVgzsqY&t=1s
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	o What is Maven?
