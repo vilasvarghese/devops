@@ -1020,7 +1020,7 @@ Prevention rules:
 		 Gitlab 
 		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		 ADO
+		 ADO (Azure Devops)
 	https://www.ranorex.com/help/latest/interfaces-connectivity/azure-devops-integration/create-ado-project-and-git-repo/
 	
 	

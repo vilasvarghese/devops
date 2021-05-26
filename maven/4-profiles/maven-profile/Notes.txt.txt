@@ -1,0 +1,5 @@
+Reference for this implementation
+	https://mkyong.com/maven/maven-profiles-example/
+	
+Other references:
+	https://www.baeldung.com/maven-profiles
