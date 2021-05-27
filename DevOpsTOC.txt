@@ -1856,12 +1856,15 @@ Add below in pom.xml
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	o Create a Maven Spring Boot project in Eclipse
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Already covered.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Run my unit tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	mvn test
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Jenkins integration with git 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	To be done with Jenkins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Difference between ant, maven and Gradle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1875,7 +1878,8 @@ Shell Scripting course Overview – 3.5 days
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 https://www.youtube.com/watch?v=9ckXibjManw
 https://www.youtube.com/watch?v=YHFzr-akOas&list=PLS1QulWo1RIb9WVQGJ_vh-RQusbZgO_As
-
+https://www.youtube.com/watch?v=RNkHjk01BOQ&list=PLxzKY3wu0_FKMVokhGVNJAJwMAqMcGfr_
+https://www.youtube.com/watch?v=g_r6zjaTbQc&list=PLie35GAskAJkWshMAW9G0CNW28JQKZFVB
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	o Linux Basics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2091,6 +2095,7 @@ What is Linux Shell?
 	Shell is not a part of Kernel, but uses Kernel to execute programs.
 
 Different Shells:
+	SH (Bourne Shell) : It is the most basic shell. It is OpenSource.
 	BASH (Bourne Again Shell) : It is the most common shell. It is OpenSource.
 	CSH (C Shell) : It's syntax and usage is similar to C.
 	KSH (K Shell) : It is the base for POSIX shell apps.
@@ -2099,7 +2104,7 @@ Different Shells:
 CLI shortcuts
 -------------
 	Ctrl + L : Clear the Screen
-	Ctrl + W : Deete word starting at cursor
+	Ctrl + W : Delete word starting at cursor
 	Ctrl + U : Clear the line
 	Ctrl + R : Search through previous run command
 	Ctrl + C : Cancel current running command
@@ -2121,7 +2126,7 @@ Unix Philosophy
 Philosophical approach to software development based on experience 
 -----------------------------------------------------------------
 	Do one thing + Do it well.
-	Everything is a file.
+	Everything is in a file.
 	Small is beautiful.
 	Store data + configuration in flat text file.
 	Use Shell Script to increase portablity.
@@ -2201,7 +2206,8 @@ Shell and Terminal are sometimes interchangeably used to mean the same thing -
 Shell 
 	command line interpreter
 	sets the syntax rules for invoking commands, etc
-	Terminal text input/output environment
+Terminal 
+	text input/output environment
 	responsible for visual details like font size, color, etc
 
 
@@ -2237,7 +2243,10 @@ for Linux commands
 	e.g.
 		man man will give details about the man command itself
 		man bash will give you the manual page for bash
+---------------------------------------------------------------------		
 		man find | gvim - to open the manual page in your favorite text editor
+what was this?
+---------------------------------------------------------------------
 		man -k printf will search the short descriptions in all the manual pages for the string printf
 		-k here is a command option
 		man -k is equivalent for apropos command
@@ -2358,34 +2367,60 @@ du -sh * | sort -h
 	calculate size of files/folders, 
 	display size in human-readable format which is then sorted
 	to a file (instead of displaying on terminal)
-grep 'pass' *.log > pass_list.txt writes to file (if file already exists, it is overwritten)
-grep 'error' *.log >> errors.txt appends to file (creates new file if necessary)
-to a variable
+
+grep 'pass' *.log > pass_list.txt writes to file 
+	check for the presence of 'pass' in all log files.
+	(if file already exists, it is overwritten)
+	
+grep 'error' *.log >> errors.txt 
+	(creates new file if necessary)
+	appends to file  
+
 p=$(pwd) saves the output of pwd command in variable p, there should be no spaces around =
 Redirecting input
 
-wc -l < file.txt useful to get just the number of lines, without displaying file name
-tr 'a-z' 'A-Z' < ip.txt some commands like tr only work on stdin
-Redirecting error
+wc -l < file.txt 
+	wc -l: line count.
+	useful to get just the number of lines, without displaying file name
+	tr 'a-z' 'A-Z' < ip.txt some commands like tr only work on stdin
+	Redirecting error
 
-xyz 2> cmderror.log assuming a non-existent command xyz, it would give an error and gets redirected to specified file
+-------------------------------------------------------------------
+
+
+xyz 2> cmderror.log 
+	assuming a non-existent command xyz
+	it would give an error and gets redirected to specified file
 Redirecting output of command as input file
 
 comm -23 <(sort file1.txt) <(sort file2.txt) process substitution, avoids need to create temporary files
 Combining output of several commands
 
-(head -n5 ~/.vimrc ; tail -n5 ~/.vimrc) > vimrc_snippet.txt multiple commands (separated by ;) can be grouped inside a list
-Command substitution
+(head -n5 ~/.vimrc ; tail -n5 ~/.vimrc) > vimrc_snippet.txt 
+	multiple commands (separated by ;) can be grouped inside a list
+	Command substitution
 
 sed -i "s|^|$(basename $PWD)/|" dir_list.txt add current directory path and forward-slash character at the start of every line
 Note the use of double quotes
 stdin, stdout and stderr
 
-< or 0< is stdin filehandle
-> or 1> is stdout filehandle
-2> is stderr filehandle
-See also stackoverflow: stdin, stdout and stderr
-More detailed discussion in Shell chapter	
+	SED can be used in many different ways, such as:
+		(Convert string from one form to the other)
+		Text substitution,
+		Selective printing of text files,
+		In-a-place editing of text files,
+		Non-interactive editing of text files, and many more.
+	3 sections of sed.
+		Read: 
+			SED reads a line from the input stream (file, pipe, or stdin) and stores it in its internal buffer called pattern buffer.
+
+		Execute: 
+			All SED commands are applied sequentially on the pattern buffer. By default, SED commands are applied on all lines (globally) unless line addressing is specified.
+
+		Display: 
+			Send the (modified) contents to the output stream. After sending the data, the pattern buffer will be empty.
+
+	The above process repeats until the file is done.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Copy, Remove, Move and Time Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2402,7 +2437,7 @@ Copying Files
 		source?
 			should be already present
 		destination?
-
+			mandatory
 	You could unintentionally destroy another file with the cp command. 
 	The cp command 
 		generates a copy by first creating a file 
@@ -2540,6 +2575,7 @@ Syntax:
 rm [OPTION]... FILE...
 Let us consider 5 files having name a.txt, b.txt and so on till e.txt.
 1. 
+	touch file{1..5}
 	$ ls
 	a.txt  b.txt  c.txt  d.txt  e.txt
 	
@@ -2787,9 +2823,10 @@ Time
 				spent by executing a command when it terminates. 
 	‘real‘ time 
 		time elapsed wall clock time taken by a command to get executed
-	‘user‘ and ‘sys‘ time 
-		number of CPU seconds that command uses in user and kernel mode respectively.
-
+	‘user‘ and ‘ 
+		number of CPU seconds that command uses in user.
+	sys‘ time
+		number of CPU seconds that command uses in kernel mode respectively.
 	Synatx:
 	time [option] [COMMAND]
 
@@ -2797,13 +2834,19 @@ Time
 
 	Options:
 	time -p : This option is used to print time in POSIX format
-
+	
+	POSIX : portable operating system interface, primarily for UNIX systems
 
 
 	help time #get help with time
 	
-	
-
+-----------------------------------------------------------------------------	
+	Users of the bash shell need to use an explicit path in order to run
+  the external time command and not the shell builtin variant.  On system
+  where time is installed in /usr/bin, the first example would become
+       /usr/bin/time wc /etc/hosts
+	   
+-----------------------------------------------------------------------------
 		You can control time command output format using -f FORMAT as follows:
 		$ /usr/bin/time -f 'FORMAT' -p command
 
@@ -2840,12 +2883,13 @@ Time
 			$ /usr/bin/time -f "%E real,%U user,%S sys" sleep 2
 			$ /usr/bin/time -f "%E real,%U user,%S sys" /path/to/script
 	
-	
+	Why format is not working on CentOS?
 	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Diff and Grep Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	diff stands for difference. This command is used to display the differences in the files by comparing the files line by line. Unlike its fellow members, cmp and comm, it tells us which lines in one file have is to be changed to make the two files identical.
+	diff stands for difference. 
+	This command is used to display the differences in the files by comparing the files line by line. Unlike its fellow members, cmp and comm, it tells us which lines in one file have is to be changed to make the two files identical.
 
 	The important thing to remember is that diff uses certain special symbols and instructions that are required to make two files identical. It tells you the instructions on how to change the first file to make it match the second file.
 
@@ -2895,8 +2939,9 @@ Time
 		Lines preceded by a < are lines from the first file.
 		Lines preceded by > are lines from the second file.
 		The three dashes (“—“) merely separate the lines of file 1 and file 2
-		
+------------------------------------------------------------------------------		
 $ cat a.txt			|	$ cat b.txt    |
+------------------------------------------------------------------------------
 Gujarat             |    Tamil Nadu	   | 0a1 > Tamil Nadu. Add TN to file 1
 Uttar Pradesh       |    Gujarat       | 2,3c3 < Add 2, 3 lines of file 1 (UP and K) to file 2
 Kolkata             |    Andhra Pradesh|	Insert AP into file 1
@@ -3033,7 +3078,10 @@ Agrawal
  
 
 $grep –f pattern.txt  geekfile.txt
-12. Print n specific lines from a file:  -A prints the searched line and n lines after the result, -B prints the searched line and n lines before the result, and -C prints the searched line and n lines after and before the result. 
+12. Print n specific lines from a file:  
+	-A prints the searched line and n lines after the result, 
+	-B prints the searched line and n lines before the result
+	-C prints the searched line and n lines after and before the result. 
 
 Syntax:
 
@@ -3058,9 +3106,28 @@ Unix linux which one you choose.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Head
 	https://www.geeksforgeeks.org/head-command-linux-examples/
+	
+Hyderabad
+Itanagar
+Dispur
+Patna
+Raipur
+Panaji
+Gandhinagar
+Chandigarh
+Shimla
+Srinagar
+Trivandrum
+Chennai
+Bangalore
+Mumbai
+Culcutta	
 
 Tail
 	https://www.geeksforgeeks.org/tail-command-linux-examples/
+
+	tail +n is not working
+	
 Sort
 	https://www.geeksforgeeks.org/sort-command-linuxunix-examples/
 	https://www.tecmint.com/linux-sort-command-examples/
@@ -3074,15 +3141,26 @@ More
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 tr
 	https://www.geeksforgeeks.org/tr-command-in-unix-linux-with-examples/
+		echo "My name is Vilas" | tr [:space:] '\t'
+		cat <file> | tr “[a-z]” “[A-Z]”
+		cat <file> | tr “[:lower:]” “[:upper:]”
 	
 wc
 	https://www.geeksforgeeks.org/wc-command-linux-examples/
+	
+		Enter key: to scroll down line by line.
+		Space bar: To go to the next page.
+		b key: To go to back one page.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Disk utilities like fdisk, df and du commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 fdisk
 	https://www.geeksforgeeks.org/fdisk-command-in-linux-with-examples/
 	https://www.tecmint.com/fdisk-commands-to-manage-linux-disk-partitions/
+
+	Heads, cylinders, sector, blocks 
+		https://www.youtube.com/watch?v=oEORcCQ62nQ
+		https://www.youtube.com/watch?v=Cj8-WNjaGuM
 df
 	https://www.geeksforgeeks.org/df-command-in-linux-with-examples/
 du
@@ -3132,6 +3210,7 @@ explanation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 sed
 	https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/
+	sed advanced reference: https://www.tutorialspoint.com/sed/sed_basic_syntax.htm
 awk
 	https://www.geeksforgeeks.org/awk-command-unixlinux-examples/
 vmstat
