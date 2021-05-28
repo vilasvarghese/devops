@@ -3169,6 +3169,14 @@ du
 	o Getting Help From Command Line user Interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://vitux.com/get-help-on-linux-shell/
+		
+	Getting Help in Linux
+	---------------------
+		man COMMAND
+		info COMMAND
+		help COMMAND
+		COMMAND -h
+		COMMAND --help
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o w, who, hostname, hostnamectl and uname commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3187,9 +3195,39 @@ uname
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 find
 	https://www.geeksforgeeks.org/find-command-in-linux-with-examples/
+		why find exec has {} \;?
+			refer https://unix.stackexchange.com/questions/389705/understanding-the-exec-option-of-find/389706
+---------------------------------------------------------------------------------			
+This answer comes in the following parts:
+
+Basic usage of -exec
+Using -exec in combination with sh -c
+Using -exec ... {} +
+Using -execdir
+Basic usage of -exec
+The -exec option takes an external utility with optional arguments as its argument and executes it.
+
+If the string {} is present anywhere in the given command, each instance of it will be replaced by the pathname currently being processed (e.g. ./some/path/FILENAME). In most shells, the two characters {} does not need to be quoted.
+
+The command needs to be terminated with a ; for find to know where it ends (as there may be further options afterwards). To protect the ; from the shell, it needs to be quoted as \; or ';', otherwise the shell will see it as the end of the find command.
+
+Example (the \ at the end of the first two lines are just for line continuations):
+
+find . -type f -name '*.txt'      \
+   -exec grep -q 'hello' {} ';'   \
+   -exec cat {} ';'
+   
+If COMMAND contains {}, then find substitutes the full path name of the selected file for "{}".   
+   
+This will find all regular files (-type f) whose names matches the pattern *.txt in or below the current directory. It will then test whether the string hello occurs in any of the found files using grep -q (which does not produce any output, just an exit status). For those files that contain the string, cat will be executed to output the contents of the file to the terminal.
+
+Each -exec also acts like a "test" on the pathnames found by find, just like -type and -name does. If the command returns a zero exit status (signifying "success"), the next part of the find command is considered, otherwise the find command continues with the next pathname. This is used in the example above to find files that contain the string hello, but to ignore all other files.
+
+The above example illustrates the two most common use cases of -exec:
 locate
 	https://www.geeksforgeeks.org/locate-command-in-linux-with-examples/
 	https://www.tecmint.com/linux-locate-command-practical-examples/
+---------------------------------------------------------------------------------
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o top command its output explanation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3211,8 +3249,20 @@ explanation
 sed
 	https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/
 	sed advanced reference: https://www.tutorialspoint.com/sed/sed_basic_syntax.htm
+-----------------------------
+unix is great os. unix is opensource. unix is free os.
+learn operating system.
+unix linux which one you choose.
+unix is easy to learn.unix is a multiuser os.Learn unix .unix is a powerful.	
+-----------------------------
+	
 awk
 	https://www.geeksforgeeks.org/awk-command-unixlinux-examples/
+	1. AWK Operations: 
+		(a) Scans a file line by line 
+		(b) Splits each input line into fields 
+		(c) Compares input line/fields to pattern 
+		(d) Performs action(s) on matched lines 
 vmstat
 	https://www.redhat.com/sysadmin/linux-commands-vmstat
 	https://phoenixnap.com/kb/vmstat-command
@@ -3229,6 +3279,7 @@ https://www.geeksforgeeks.org/vnstat-command-in-linux-with-examples/
 	o Introduction to Graphical user interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.geeksforgeeks.org/introduction-to-graphical-user-interface-of-redhat-linux-operating-system/
+	https://www.youtube.com/watch?v=hoG4TFsobX4
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o cut command (Vertical copy paste with byte accuracy)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3316,16 +3367,27 @@ N.B:
 
 This only changes the permissions for the owner of the file.
 
+----------------------------------		
+	First group: owner
+	Second group: group
+	Third group: other's
+----------------------------------
 
-How to Change Directory Permissions in Linux for the Group Owners and Others
-The command for changing directory permissions for group owners is similar, but add a “g” for group or “o” for users:
+How to Change Directory Permissions in Linux 
+	for the Group Owners (add g)
+		chmod g+w filename
+		chmod g-wx filename
 
-	chmod g+w filename
-	chmod g-wx filename
-	chmod o+w filename
-	chmod o-rwx foldername
+	for Others (add o)
+		chmod o+w filename
+		chmod o-rwx foldername
 
-To change directory permissions for everyone, use “u” for users, “g” for group, “o” for others, and “ugo” or “a” (for all).
+
+To change directory permissions for everyone use 
+	“u” for users
+	“g” for group
+	“o” for others
+	and “ugo” or “a” (for all).
 
 	chmod ugo+rwx foldername to give read, write, and execute to everyone.
 	chmod a=r foldername to give only read permission for everyone.
@@ -3342,7 +3404,7 @@ These commands will give ownership to someone, but all sub files and directories
 You can also combine the group and ownership command by using:
 
 	chown -R name:filename /home/name/directoryname
-
+	chown -R vagrant:file1
 
 How to Change Permissions in Numeric Code in Linux
 You may need to know how to change permissions in numeric code in Linux, so to do this you use numbers instead of “r”, “w”, or “x”.
@@ -3409,7 +3471,68 @@ zip
 	o Scheduling future jobs using crontab
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.geeksforgeeks.org/crontab-in-linux-with-examples/
+	To view your crontab entries type for current unix .
+		crontab -l 
+		
+	To view crontab entries for other users
+		crontab -u <username> -l 
+		
+	Edit Current Logged-In User’s Crontab entries.
+		crontab -e. 	
+		
+
+	To schedule a job for every minute using Cron.
+		* * * * * CMD
+
+	The * means all the possible unit 
+		— i.e every minute 
+		
+	*/5 in minute field 
+		every 5 minutes.
+	0-10/2 in minute field  
+		every 2 minutes in the first 10 minute.
+	
+	Above convention can be used for all the other 4 fields.
+
+
+	Schedule a job for more than one time (e.g. Twice a Day)
+	--------------------------------------------------------
+
+	Execute a job at 11:00 and 16:00 on every day. 
+
+		00 11, 16 * * * /home/vilas/bin/incremental-backup
+		00 – 0th Minute (Top of the hour)
+		11, 16 – 11 AM and 4 PM
+		* – Every day
+		* – Every month
+		* – Every day of the week
+
+	Schedule a job for certain range of time (e.g. Only on Weekdays)
+	--------------------------------------------------------
+	Execute check-db status during 
+		working hours 9 a.m – 6 p.m.
+		on weekdays (mon-fri)
+			00 09-18 * * 1-5 /home/vilas/bin/check-db-status
+			00 – 0th Minute (Top of the hour)
+			09-18 – 9 am, 10 am, 11 am, 12 am, 1 pm, 2 pm, 3 pm, 4 pm, 5 pm, 6 pm
+			* – Every day
+			* – Every month
+			1-5 -Mon, Tue, Wed, Thu and Fri (Every Weekday)
+
+Cron special keywords and its meaning
+--------------------------------------------------------
+	Keyword    Equivalent
+	@yearly    0 0 1 1 *
+	@daily     0 0 * * *
+	@hourly    0 * * * *
+	@reboot    Run at startup.
+	8.To schedule a job for first minute of every year using @yearly
+		@yearly cron keyword as shown below.
+
+		@yearly /home/vilas/bin/annual-maintenance
+		
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	
 	o difference between scripting and programming
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.programmingeeks.com/scripting-vs-programming-languages/
@@ -3427,6 +3550,7 @@ zip
 		Run sequence of commands as a single command
 		Easy to use
 		Portable (It can be executed in any Unix-like operating systems without any modifications)
+			as long as we have coded using SH/BASH
 
 	Disadvantages:
 
@@ -3455,7 +3579,7 @@ Building blocks of scripts.
 Comments. 
 ---------
 	Lines beginning with a # 
-	(Exception: #!) 
+	(Exception: #! - Shebang) 
 	comments and will not be executed.
 
 	# This line is a comment.
@@ -3526,6 +3650,8 @@ Comments.
 	nano helloworld.sh
 	
 	#!
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+https://en.wikipedia.org/wiki/Comparison_of_command_shells	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Make Shell Script Template
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3535,7 +3661,7 @@ https://natelandau.com/boilerplate-shell-script-template/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ” “ = Double Quotes
 ‘ ‘ = Single Quotes
-“ = Reverse Quotes
+``= Reverse Quotes
 
 Shell Scripting Tutorial Quotes Double, Single and Reverse Quote
 	Double quotes
@@ -3574,6 +3700,7 @@ Every Linux command/shell script executed by user
 	Has an exit status.
 	An integer number.
 	The Linux man pages explains the exit statuses of each command.
+		https://www.gnu.org/software/bash/manual/html_node/Exit-Status.html
 	0:command was successful - without any errors.
 	non-zero (1-255 values) : command was failure.
 	Special shell variable "$?" will have previously executed exit status. 
@@ -3649,7 +3776,7 @@ https://www.tutorialspoint.com/unix/unix-special-variables.htm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Environment Variables, system variables, Local & Global variables and user defined variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-All 3 covered
+
 	https://www.geeksforgeeks.org/environment-variables-in-linux-unix/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Constant and Special variables
@@ -3658,6 +3785,8 @@ Constants
 	https://bash.cyberciti.biz/guide/Create_the_constants_variable
 Special variables
 	https://www.bogotobogo.com/Linux/linux_shell_programming_tutorial3_special_variables.php
+	
+	spacialvariables.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Positional Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3697,12 +3826,15 @@ Special variables
 	o if statement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/if-elif-statement.htm
+		if-statement.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o if-else statement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/if-elif-statement.htm
+	if-else-statement.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o if-else-if statement
+		if-elif-if
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/if-elif-statement.htm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
@@ -3717,15 +3849,18 @@ Special variables
 	o For Loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/for-loop.htm
+	1forloop.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o While Loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/unix-shell-loops.htm
+	while-loop.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Until Loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/until-loop.htm
 	https://www.javatpoint.com/bash-until-loop
+	untiloop.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3733,10 +3868,10 @@ Special variables
 	https://www.shellscript.sh/functions.html
 	
 	While shell script are executed sequentially
-		Functions are not.
+		Functions are not executed sequentially.
 		Functions are executed when they are called.
 		
-		
+	functions.sh	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Arrays
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3756,11 +3891,14 @@ done
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://unix.stackexchange.com/questions/23111/what-is-the-eval-command-in-bash
 	https://linuxhint.com/bash_eval_command/
+		eval.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Shifting parameters using shift command
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.geeksforgeeks.org/shift-command-in-linux-with-examples/
 	https://unix.stackexchange.com/questions/174566/what-is-the-purpose-of-using-shift-in-shell-scripts
+	
+	shiftparameters.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o IFS - Input Field Separator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3771,6 +3909,8 @@ done
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.2daygeek.com/linux-shell-script-to-monitor-cpu-utilization-usage-and-send-email/
 	https://unix.stackexchange.com/questions/69167/bash-script-that-print-cpu-usage-diskusage-ram-usage
+	
+	systemload.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Writing Disk Utilization script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3778,6 +3918,7 @@ done
 	https://linoxide.com/check-disk-usage-is-out-of-space/
 	https://gist.github.com/M1ke/5300297
 	https://kedar.nitty-witty.com/blog/simple-shell-script-to-monitoring-disk-space-on-a-linux-machine
+		cpumemdisk.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Trouble shooting debugging shell scripts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3855,27 +3996,51 @@ Read above sections in https://github.com/koalaman/shellcheck
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix_commands/getopt.htm
 	https://www.shellscript.sh/tips/getopts/#
+		getopts.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Executing Multiple scripts from single script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://stackoverflow.com/questions/20356583/run-multiple-shell-scripts-in-a-single-script
+
+	if you need to run multiple script simultaneous
+		then you need to background using ampersand
+
+example global.sh
+--------------------
+Quote:
+#!/bin/bash
+
+specific.sh &
+common.sh &
+--------------------
+	https://unix.stackexchange.com/questions/582092/how-can-i-run-multiple-bash-scripts-simultaneously-in-a-terminal-window
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o logger logging messages to log file 
+	
+	https://www.networkworld.com/article/3274570/using-logger-on-linux.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Curl 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		 Install curl 
 	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		https://www.tecmint.com/install-curl-in-linux/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		 Download files using curl 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		http://www.compciv.org/recipes/cli/downloading-with-curl/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		 Understanding https request and responses 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages
+		https://www.tutorialspoint.com/http/http_requests.htm
+		https://docs.plone.org/develop/plone/serving/http_request_and_response.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		 Various options of curl 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			https://curl.se/docs/httpscripting.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 	o Jq 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3899,6 +4064,9 @@ Read above sections in https://github.com/koalaman/shellcheck
 Examples of some shell functions
 	http://www.macs.hw.ac.uk/~hwloidl/Courses/LinuxIntro/x864.html
 
+Advanced references: 
+	https://rlworkman.net/howtos/rute/node23.html
+	https://tldp.org/LDP/abs/html/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Nexus – 1 Day

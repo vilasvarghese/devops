@@ -1,0 +1,20 @@
+1. Check if a given user exist? (userexists.sh)
+	User should be read from the input
+	
+2. Read user/password from the screen and create the user (useradd.sh)
+
+3 Print the below messages
+	Current directory
+	List files
+	Processes running
+	Today's date
+	User details
+	
+4. Print the below messages (setbashfeature.sh)
+	What day is it today? 
+	Month
+	Day of month
+	Time H:M:S 
+	TimeZone is UTC
+	Year is 2021
+	
