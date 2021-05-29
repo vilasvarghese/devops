@@ -32,6 +32,8 @@ fi
 #Please refer below url for an explanation on the below examples
 # https://acloudguru.com/blog/engineering/conditions-in-bash-scripting-if-statements 
 
+regularfile="nestedif.sh"
+readablefile="nestedif.sh"
 if [ -f regularfile ]; then		#-f
 	echo "Regular file" 
 fi

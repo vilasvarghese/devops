@@ -3829,7 +3829,7 @@ Special variables
 		less than or equal to the value of right operand; if yes, then the condition becomes true.	[ $a -le $b ] is true.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-	o LogicalOperators
+		o LogicalOperators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://opensource.com/article/19/10/programming-bash-logical-operators-shell-expansions
 	a AND b
@@ -3883,6 +3883,7 @@ Special variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o if statement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+continue from here
 	https://acloudguru.com/blog/engineering/conditions-in-bash-scripting-if-statements
 	https://www.tutorialspoint.com/unix/if-elif-statement.htm
 		if-statement.sh
@@ -3905,6 +3906,7 @@ Special variables
 	o Case statement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/case-esac-statement.htm
+	similar to switch case in java.
 	casestatement.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o For Loop
@@ -3967,6 +3969,8 @@ done
 	https://www.baeldung.com/linux/ifs-shell-variable
 	https://bash.cyberciti.biz/guide/$IFS
 	
+	ifs.sh
+	
 	Internal Field Separator (IFS)
 	
 The special shell variable IFS determines 
@@ -3990,10 +3994,17 @@ The special shell variable IFS determines
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Writing Disk Utilization script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://www.cyberciti.biz/tips/shell-script-to-watch-the-disk-space.html
 	https://www.2daygeek.com/linux-shell-script-to-monitor-disk-space-usage-and-send-email/
 	https://linoxide.com/check-disk-usage-is-out-of-space/
 	https://gist.github.com/M1ke/5300297
+	
+	/usr/bin/cat /proc/loadavg | awk '{print $1}' | awk '{ if($1 > 80) printf("Current CPU Utilization is: %.2f%\n"), $0;}' | mail -s "High CPU Alert" example@gmail.com
+	
+	df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }'
+	
 	https://kedar.nitty-witty.com/blog/simple-shell-script-to-monitoring-disk-space-on-a-linux-machine
+		diskspace1.sh
 		cpumemdisk.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Trouble shooting debugging shell scripts
