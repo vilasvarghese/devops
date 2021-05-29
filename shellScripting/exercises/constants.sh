@@ -6,7 +6,8 @@ echo "$var1"
 echo "$var2"
 echo "$var3"
 echo "$var4"
-var1=2
-var2=value3
-var3=4
-var4=value4
+unset var1
+#var1=2
+#var2=value3
+#var3=4
+#var4=value4
