@@ -16,6 +16,6 @@ if test $m -ge 35 -a $p -ge 35 -a $c -ge 35
 then
 echo "Congratulations, You have passed in all subjects"
 else
-echo "Sorry You not upto mark in one of the subject"
+echo "Sorry You are not upto mark in one of the subject"
 fi
 # END #

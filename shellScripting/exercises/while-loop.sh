@@ -1,7 +1,4 @@
-While Loop Example, print any given number table.
-
 #!/bin/bash
-## While Loop Example with 2 table
 echo -e "Please provide one value:\c"
 read -r c
 i=1
@@ -11,5 +8,3 @@ b=`expr $c \* $i`
 echo "$c * $i = $b"
 i=`expr $i + 1`
 done
-
-

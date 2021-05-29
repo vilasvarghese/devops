@@ -3783,18 +3783,22 @@ https://www.tutorialspoint.com/unix/unix-special-variables.htm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Constants
 	https://bash.cyberciti.biz/guide/Create_the_constants_variable
+	constants.sh
+	
 Special variables
 	https://www.bogotobogo.com/Linux/linux_shell_programming_tutorial3_special_variables.php
-	
 	spacialvariables.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Positional Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.computerhope.com/jargon/p/positional-parameter.htm#
+	
+	positionparam.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Count number command line arguments $#
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Covered in the above example
+	countargs.sh
+	above script.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Arithmetic Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3805,26 +3809,81 @@ Special variables
 	o Relational Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/unix-relational-operators.htm
+	relationaloper.sh
+	
+	-eq	/ ==
+		equal or not; 
+		if yes, then the condition becomes true.	[ $a -eq $b ] is not true.
+	-ne	/ !=
+		not equal to; 
+		if values are not equal, then the condition becomes true.	[ $a -ne $b ] is true.
+	-gt	/ >
+		greater than the value of right operand; 
+		if yes, then the condition becomes true.	[ $a -gt $b ] is not true.
+	-lt	/ <
+		less than the value of right operand; if yes, then the condition becomes true.	[ $a 
+		-lt $b ] is true.
+	-ge	/ >=
+		greater than or equal to the value of right operand; if yes, then the condition becomes true.	[ $a -ge $b ] is not true.
+	-le	/ <=
+		less than or equal to the value of right operand; if yes, then the condition becomes true.	[ $a -le $b ] is true.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o LogicalOperators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://opensource.com/article/19/10/programming-bash-logical-operators-shell-expansions
+	a AND b
+	-------
+	T and T - T
+	Anything else - F
+	(both should be T)
+	
+	a OR b
+	------
+	F or F = F 
+	Anything else is T
+	(at least one T)
+	
+	NOT
+	---
+	
+	exercises\logicaloperators\*.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Boolean Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/unix-boolean-operators.htm
+	boolean.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Maths using expr command
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.javatpoint.com/linux-expr-command
 	https://www.geeksforgeeks.org/expr-command-in-linux-with-examples/
+	
+	math-expr.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Real maths using bc command
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.shell-tips.com/linux/how-to-use-bc/
+	https://www.youtube.com/watch?v=yqpY-Wk-i9k
+		expr and normal calcuation cannot work with decimals.
+		
+		bc stand for basic calculator
+		Can do 
+			arithmetic operation
+			increment/decrement
+			assignment operator
+			comparison or relational-operators
+			Logical or boolean
+			Math functions
+			Conditional statements
+			Iterative statements
+	
+	
+	math-bc.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o if statement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://acloudguru.com/blog/engineering/conditions-in-bash-scripting-if-statements
 	https://www.tutorialspoint.com/unix/if-elif-statement.htm
 		if-statement.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
@@ -3834,27 +3893,29 @@ Special variables
 	if-else-statement.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o if-else-if statement
-		if-elif-if
+		if-elif-if.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/if-elif-statement.htm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Nested if statement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://tldp.org/LDP/abs/html/nestedifthen.html
+	nested-if.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Case statement
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/case-esac-statement.htm
+	casestatement.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o For Loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	https://www.tutorialspoint.com/unix/for-loop.htm
+	https://www.javatpoint.com/for-loop-shell-scripting
 	1forloop.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o While Loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.tutorialspoint.com/unix/unix-shell-loops.htm
-	while-loop.sh
+		while-loop.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Until Loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3867,7 +3928,7 @@ Special variables
 	https://www.tutorialspoint.com/unix/unix-shell-functions.htm
 	https://www.shellscript.sh/functions.html
 	
-	While shell script are executed sequentially
+	Shell script are executed sequentially
 		Functions are not executed sequentially.
 		Functions are executed when they are called.
 		
@@ -3886,6 +3947,7 @@ do
 done
 -------------------------------	
 	https://www.journaldev.com/35945/arrays-in-shell-scripts
+	array.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Eval command
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3904,6 +3966,20 @@ done
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.baeldung.com/linux/ifs-shell-variable
 	https://bash.cyberciti.biz/guide/$IFS
+	
+	Internal Field Separator (IFS)
+	
+The special shell variable IFS determines 
+	how Bash recognizes word boundaries while splitting a sequence of character strings. 
+	Default IFS 
+		three-character string comprising 
+			space, 
+			tab, and 
+			newline:
+
+	echo "$IFS" | cat -et
+	
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Writing CPU Usage script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3928,7 +4004,6 @@ done
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Checking shell script errors and improvements using shellcheck.net site
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 Copy paste the following script into shellcheck.net
 -----------------------------------------------------
@@ -4047,6 +4122,11 @@ common.sh &
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		 Install Jq 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		https://stedolan.github.io/jq/download/
+		
+		In centos
+			sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+			sudo yum install jq -y
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		 Understanding JSON 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

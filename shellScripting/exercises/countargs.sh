@@ -7,6 +7,10 @@
 # Author: Vilas Varghese
 ##################################################
 
+# sh countargs.sh a b c
+# sh countargs.sh *
+# sh countargs.sh /bin/*
+
 # START #
 echo "Your current given parameters are $#"
 if [ $# -lt 1 ];then
