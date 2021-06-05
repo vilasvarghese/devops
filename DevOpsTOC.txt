@@ -3987,9 +3987,15 @@ The special shell variable IFS determines
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Writing CPU Usage script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	https://www.2daygeek.com/linux-shell-script-to-monitor-cpu-utilization-usage-and-send-email/
+continue	https://www.2daygeek.com/linux-shell-script-to-monitor-cpu-utilization-usage-and-send-email/
+	
+	/usr/bin/cat /proc/loadavg | awk '{print $1}' | awk '{ if($1 > 0) printf("Current CPU Utilization is: %.2f%\n"), $0;}'
+	
+	
+	*/5 * * * * /usr/bin/cat /proc/loadavg | awk '{print $1}' | awk '{ if($1 > 0) printf("Current CPU Utilization is: %.2f%\n"), $0;}' | mail -s "High CPU Alert" example@gmail.com
 	https://unix.stackexchange.com/questions/69167/bash-script-that-print-cpu-usage-diskusage-ram-usage
 	
+	cpualert1.sh
 	systemload.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Writing Disk Utilization script
@@ -3999,19 +4005,18 @@ https://www.cyberciti.biz/tips/shell-script-to-watch-the-disk-space.html
 	https://linoxide.com/check-disk-usage-is-out-of-space/
 	https://gist.github.com/M1ke/5300297
 	
-	/usr/bin/cat /proc/loadavg | awk '{print $1}' | awk '{ if($1 > 80) printf("Current CPU Utilization is: %.2f%\n"), $0;}' | mail -s "High CPU Alert" example@gmail.com
-	
 	df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }'
 	
 	https://kedar.nitty-witty.com/blog/simple-shell-script-to-monitoring-disk-space-on-a-linux-machine
 		diskspace1.sh
-		cpumemdisk.sh
+		#cpumemdisk.sh - for multiple files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Trouble shooting debugging shell scripts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://www.youtube.com/watch?v=kgj-4_gmvi4
 	http://learn.openwaterfoundation.org/owf-learn-linux-shell/troubleshooting/troubleshooting/
 	https://www.cyberciti.biz/tips/debugging-shell-script.html
+	debug.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Checking shell script errors and improvements using shellcheck.net site
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4077,6 +4082,7 @@ Read above sections in https://github.com/koalaman/shellcheck
 	o Here Document to write paragraphs of text
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	http://www.learnlinux.org.za/courses/build/shell-scripting/ch12s05.html
+	here.sh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Getopts Function
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4138,18 +4144,23 @@ common.sh &
 		In centos
 			sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 			sudo yum install jq -y
+			
+			https://www.cyberithub.com/how-to-install-jq-json-processor-on-rhel-centos-7-8/
+			
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		 Understanding JSON 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		 Parsing JSON using Jq
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	http://www.compciv.org/recipes/cli/jq-for-parsing-json/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 	o Assignment :
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-	 Implement an use cases using shell script
+	 Implement an use case using shell script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Examples of some shell functions
@@ -4162,40 +4173,293 @@ Advanced references:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Nexus – 1 Day
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.youtube.com/watch?v=vcAyOiI97AU
+	https://www.youtube.com/watch?v=qpziE9FR3pQ
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	o Understanding a Package management
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Repo. mgmt tool
+		Manage artifacts/packages
+			jar
+			war
+			apt/yum packages
+			npm packages
+			docker images
+			nuget artifacts
+			
+	Nexus
+		From Sonatype
+		Profession version: Paid
+		Community version: 
+			free
+			limited functionality
+			supports java/maven based repo.
+			
+			
+			
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o What is Nexus
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Supports
+		Availability of package
+		Security of packages
+		Durability of packages
+		Easy admin and maintenance
+		
+	Other tools	
+		Artifactory
+		Archiva
+		Nuget Gallery
+		Choclate
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	o Repository Manager Concepts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.youtube.com/watch?v=vcAyOiI97AU
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Installating Nexus
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Install jdk
+	RHEL-7.5_HVM_GA-20180322 -- Hourly2-GP2
+	2 CPU 4 GB RAM
+	yum install wget -year
+	install open jdk 8
+	download nexus 3 
+	
+	https://notebook.yasithab.com/centos/install-nexus-repository-oss-on-centos-7/
+	https://www.fosslinux.com/27838/installing-sonatype-nexus-repository-oss-on-centos-7.htm
+
+----------------------------
+
+You may be getting an errror in log file to avoid that.
+	/opt/nexus/bin/nexus.vmoptions
+-------------------------------------------
+-Xms1200M
+-Xmx1200M
+-XX:MaxDirectMemorySize=3G
+-XX:+UnlockDiagnosticVMOptions
+-XX:+UnsyncloadClass
+-XX:+LogVMOutput
+-XX:LogFile=/zone/nexus-data/nexus3/log/jvm.log
+-Djava.net.preferIPv4Stack=true
+-Dkaraf.home=.
+-Dkaraf.base=.
+-Dkaraf.etc=etc/karaf
+-Djava.util.logging.config.file=etc/karaf/java.util.logging.properties
+-Dkaraf.data=/zone/nexus-data/nexus3
+-Djava.io.tmpdir=/zone/nexus-data/nexus3/tmp
+-Dkaraf.startLocalConsole=false
+-Djdk.tls.ephemeralDHKeySize=2048
+-Djava.util.prefs.userRoot=/opt/nexus/.java
+-------------------------------------------
+	mkdir /opt/nexus/.java
+
+
+
+Update /zone/nexus-data/nexus3/etc/nexus.properties
+	application-host=<ip>
+	Reference: https://stackoverflow.com/questions/54362411/cant-reach-sonatype-nexus-oss-repository-inside-lan
+	
+	
+
+----------------------------	
+	
+	
+	
+	vi /zone/nexus-data/nexus3/etc/nexus.properties
+	port:8081?
+	userid/pwd - admin/pwd location like jenkins
+		my instance: admin/admin
+	create a user
+	
+	
+	
+	Types of repository(packages)
+	-----------------------------	
+	Click setting button -> repository
+	
+	View default repo. created.
+	
+Lab steps summary
+-----------------
+1. Define 
+	Hosted Repo.
+		Release
+		Snapshot
+	Proxy repo.
+		attached to Remote:	https://repo.maven.apache.org/maven2
+	Maven group
+		Add above 3
+		
+2. Create 
+	Roles and Users with privilege to deploy
+
+Reference: https://github.com/devops-school/helloworld-java-maven
+
+3. To upload
+	a. Modify pom.xml with repo location
+	b. Modify settings.xml with permissions
+	c. mvn deploy
+	
+4. To download
+	a. Define dependency in  pom.xml 
+	b. Modify settings.xml with mirrors
+	c. mvn compile
+
+		pom.xml repository.id == settings.xml server.id.
+		username and pwd should match.
+	
+	We can create repo.
+	List of repo. can be seen here or on the homepage.
+		e.g. maven
+	
+	Further they have 
+		Format of repo.
+		Type of Repo.
+			HOSTED	(Nearest location : Local - Read/write)
+				Snapshot for backup.
+			Proxy	
+				(repo. created from remote repo. access)
+				Cached packages only
+				Has read only access 
+				Cannot write to it.
+				Used by hosted repo. to get packages from remote repo.
+				download multiple times as required.
+				Remote:	https://repo.maven.apache.org/maven2
+			Group
+				Group of multiple hosted and multiple proxy 
+				
+	Create maven hosted repo.
+	maven proxy
+	We can use the below as a remote repo.
+		http://repo.maven.apache.org/maven2
+		
+	Maven Group
+		Create a maven2 hosted repo.
+			release type
+			Name: my-release
+		Create a maven2 hosted 
+			snapshot type
+			Name: my-snapshot
+			
+		Create a maven2 proxy repo.
+			
+			Name: my-proxy (mixed)
+
+
+	Create a role with 
+		nx-all privilege
+		deploy-123
+		
+	Steps to upload artifacts to nexus using
+	----------------------------------------
+	1. Modify pom.xml with repo's dependencies
+		these 
+			https://github.com/devops-school/helloworld-java-maven
+			
+			other repo accounts
+			https://github.com/devops-school
+			devopsinstitute
+			devops-classroom
+			devopsschool lab-exercises\logicaloperators\*
+			devopsschool/projects
+			devops-sample-projects
+		
+		Add pom.xml
+		
+		Add 
+			distributionManagement
+			repository
+			snapshot
+				
+	2. Modify setting.xml with in maven
+		In settings.xml in maven folder
+			server inside servers
+			give permission
+			
+			mvn deploy:
+				do everything
+				upload the artifact into m
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Introduction of User Interface Sonatype Nexus
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.youtube.com/watch?v=3Z-TgTrrXDU
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Configuration of Sonatype Nexus
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Basic configuration
+	https://www.youtube.com/watch?v=83AGz9huJGo
+	
+	Step 3: Configure security
+a) Change default admin password: The default admin username/password is admin/admin. 
+	Login as admin and change the password to a secure password.
+	
+	Login -> [admin, admin] -> Your profile -> Change Password -> click “Change Password”
+
+b) Anonymous Access: By default Nexus is open to the public. If you want to secure access to nexus, disable ‘Nexus anonymous user’
+
+Admin login -> Settings (gear icon) -> Under Security -> ‘Anonymous Access’ -> Status=Disabled	
+	
+c)	Set SMTP server
+It is a good idea to configure SMTP server, so that you can receive emails from Nexus.
+
+Admin login -> Settings (gear icon) -> Under system -> Email Server -> (host localhost, port 25, no login, no password mostly works on a linux machine)	
+
+d) Add a task to periodically remove old snapshots
+If you or your CI server publishes snapshots to Nexus several times a day, 
+	then you should consider adding a task to delete duplicate/old snapshots for the same GAV (group, artifact, version). If you don’t do this, you will notice that the Nexus disk usage will increase with time.
+
+Admin login -> Settings (gear icon) -> Under system -> Tasks -> Cleanup service is present by default -> Click on the same and configure it further.
+	
+Advanced configuration
+	https://help.sonatype.com/repomanager2/configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		o Users and Roles of Sonatype Nexus
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Privileges 
+	Roles
+	Users
+
+*Confirm the below	
+	Roles can have one or more Privileges
+	Users can have one or more roles
+	
+	https://www.crestdatasys.com/blogs/how-to-use-nexus-oss-user-access-management/
+	
+	Add nx-admin privilege as well.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		o Creating Maven Hosted/Proxy/Group type repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.vogella.com/tutorials/Nexus/article.html
+	https://help.liferay.com/hc/en-us/articles/360018164871-Creating-a-Maven-Repository
+	
+	https://www.youtube.com/watch?v=FIVuuHiiqJo
+	https://help.sonatype.com/repomanager3/formats/maven-repositories
+	https://www.youtube.com/watch?v=vcAyOiI97AU
+	https://help.sonatype.com/learning/repository-manager-3/first-time-installation-and-setup/lesson-2%3A-proxy-and-hosted-maven-repositories?preview=%2F16351977%2F16351981%2Fbrowse_proxy_components.png
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
-		o Upload an artifact using Maven from Sonatype Nexus
+		o Upload an artifact using Maven to Sonatype Nexus
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Manually upload an artifact
+	https://blog.sonatype.com/2008/11/adding-a-jar-to-a-maven-repository-with-sonatype-nexus/
+
+Programatic upload of an artifact
+	https://support.sonatype.com/hc/en-us/articles/213465818-How-can-I-programmatically-upload-an-artifact-into-Nexus-2-
+	
+Upload artifact from maven
+	https://blog.sonatype.com/maven-deploy-to-nexus
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		o Download an artifacts using Maven from Sonatype Nexus
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 
+	https://blog.sonatype.com/using-nexus-3-as-your-repository-part-1-maven-artifacts
+	https://blog.sonatype.com/how-to-use-nexus-repository-with-maven-deploy-video
+	https://blog.sonatype.com/2011/01/downloading-artifacts-from-nexus-with-bash/
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+	
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4204,39 +4468,174 @@ Jira – 2 Days
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  Introduction to Jira
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	JIRA is an Incident Management Tool 
+	Used for 
+		Project Management
+		Bug Tracking
+		Issue Tracking 
+		Workflow. 
+	
+	JIRA is based on the following three concepts – 
+		Project, 
+		Issue and 
+		Workflow.
+
+The following points explain some interesting details of JIRA.
+	JIRA is an incident management tool.
+	Developed by Atlassian Inc., an Australian Company.
+	Platform independent tool - it can be used with any OS.
+	Multi-lingual tool − English, French, German, Japanese, Spanish, etc.
+	Supports MySQL, Oracle, PostgreSQL and SQL server in the backend.
+	Can be integrated with many other tools − Subversion, GIT, Clearcase, Team Foundation Software, Mercury, Concurrent Version System and many more.
+
+License and Free Trial
+	JIRA is a commercial tool and available as a Trial version for a limited time.
+	license required.
+	A 15-day trial version is available for an individual person to use.
+
+Use of JIRA
+-----------
+Most significant uses of JIRA.
+Track 
+	Bugs, 
+	Issues and 
+	Change Request Tracking.
+Can be used in 
+	Help desk, 
+	Support and 
+	Customer Services to 
+		create tickets and track the resolution and status of the created tickets.
+Useful in 
+	Project Management, 
+	Task Tracking and 
+	Requirement Management.
+
+useful in 
+	Workflow and 
+	Process management.
+
+JIRA - Core Features
+--------------------
+
+Core Features & Description
+
+	Boards
+		JIRA supports Scrum and Kanban boards.
+		These boards provide an immediate snapshot of the project to the team.
+		Helps to quickly review the progress of the project and see the status of the individual tasks.
+		Board workflow can be customized to fulfil the way a team wants to proceed.
+
+Business Project Template
+	JIRA supports n number of business templates to manage simple tasks and complex tasks like workflow.
+	Template can be customized based on the team and their approach. Ex: Workflow can be customized based on each team's approach.
+	Every step is accounted and team can move to achieve their goals.
+
+Task Details
+	Tasks can be defined at the individual level to track the progress.
+	Status of every task, comment, attachment and due dates are stored in one place.
+
+
+Notifications
+-------------
+	An email can be sent for a particular task to the users.
+	Voting and watching features to keep an eye on the progress for the stakeholders.
+	Use @mention to get the attention of a specific team member at Comments/Description.
+	User will instantly notify if something is assigned or if any feedback is required.
+
+Power Search
+------------
+	JIRA supports a powerful search functionality with Basic, Quick and Advanced features.
+	Use the search tool to find answers like due date, when a task was last updated, what items a team member still needs to finish.
+	Project information at one place, search within a project.
+	
+Reports
+-------
+	JIRA supports more than a dozen reports to track progress over a specific timeframe, deadlines, individual’s contribution, etc.
+
+	Easy to understand and generate different reports those help to analyze how the team is going on.
+
+	Easy to configure these reports and display the matrices to the stakeholders.
+
+Scale with Team Growth
+----------------------
+JIRA supports any business team and any project irrespective of size and complexity.
+
+
+Add -Ins
+--------
+JIRA supports more than 100 add-ins to connect with different software to make work easy.
+Wide range of add-ins makes it as universal across the globe.
+
+Multilingual
+------------
+JIRA supports more than 10 languages those are widely used as English (US, UK, India), French, German, Portuguese, Spanish, Korean, Japanese and Russian.
+
+
+Mobile App
+----------
+	JIRA is available as a Mobile Application as well.
+
+	It is available on Google Play Store and App Store (iTunes) of Apple.
+
+	Easy to stay connected with the team while moving anywhere with notification, comments and project activity.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	o Why Jira
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Jira is popular in the agile world due to its well-managed workflow mapping and issue tracking ability. To support agile development cycle it has Scrum and Kanban boards along with various reports. There are many other features such as watch list to get notifications of any changes to the issue you were watching on, audit log to view all the changes of an issue etc to carry your work smoothly. In short, a perfect tool to manage your agile project at one place with lots of features and add-ons. There are many other features such as watch list to get notifications of any changes to the issue you were watching on, audit log to view all the changes of an issue etc to carry your work smoothly.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Architecture of Jira
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://developer.atlassian.com/server/jira/platform/architecture-overview/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Installation and Configuraration of Jira
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/adminjiraserver/installing-jira-applications-on-windows-938846835.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Jira Terminologies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://di.net.au/atlassian-glossary/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Understanding Types of Jira Projects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Scrum software development
+	Basic software development
+	Kanban software development
+	Project management
+		https://confluence.atlassian.com/jiracoreserver070/project-management-777015806.html
+	Process management
+		https://confluence.atlassian.com/jiracoreserver070/process-management-777015804.html
+	Task management
+		https://confluence.atlassian.com/jiracoreserver070/task-management-777015801.html
+	https://confluence.atlassian.com/adminjiraserver/jira-applications-and-project-types-overview-938846805.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Projects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/jiracoreserver073/creating-a-project-861255642.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Jira Issues
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://support.atlassian.com/jira-software-cloud/docs/what-is-an-issue/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Adding Project Components and Versions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.youtube.com/watch?v=ULm60TYFuqI
+	https://www.testmanagement.com/blog/2019/06/jira-basics-module-5-versions-components
+	https://jira.atlassian.com/browse/JRASERVER-3228
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Use Subtasks to Better Manage and Structure Your Issues
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://rindle.com/blog/subtasks-what-they-are-and-when-to-use-them/
+	https://support.atlassian.com/jira-service-management-cloud/docs/create-issues-and-sub-tasks/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Link Issues to Other Resources
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://support.atlassian.com/jira-software-cloud/docs/link-an-issue/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Tracking Agile project in Jira
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.youtube.com/watch?v=LO8s6WM4Zo0
+	https://www.atlassian.com/agile/tutorials/creating-your-agile-board
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Issues Types by Adding/Editing/Deleting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4350,18 +4749,123 @@ Terraform – 1 Day
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ● Getting started with Terraform
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	Introduction to Terraform
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.terraform.io/intro/index.html
+Terraform 
+	tool for 
+		building, 
+		changing
+		versioning 
+			infrastructure 
+				safely and 
+				efficiently. 
+	Can manage 
+		existing and popular service providers 
+		custom in-house solutions.
+
+Steps involved
+--------------
+	1. 
+	Engineer writes the below and executes a command
+		Configuration files 
+		describe to Terraform 
+			components required
+	2. Terraform 
+		generates an execution plan 
+			steps to reach the desired state
+			Executes it to build the described infrastructure. 
+	3. As the configuration changes
+		Terraform can understand the change
+		create incremental execution plans 
+		apply the same.
+
+Terraform can manage infrastructure 
+	low-level components 
+		compute instances, 
+		storage
+		networking
+	high-level components 
+		DNS entries
+		SaaS features.
+		
+Infrastructure as Code
+----------------------
+	Infrastructure 
+		described using a high-level configuration syntax. 
+	Blueprint of your datacenter 
+		Can be versioned 
+		Treat like code. 
+	Infrastructure can be shared and re-used.
+
+Execution Plans
+----------------
+	Terraform has a "planning" step 
+	Generates an execution plan. 
+	Shows what Terraform will do 
+		when terraform apply
+	Avoid surprises 
+
+Resource Graph
+	Terraform builds a graph of all your resources, and parallelizes the creation and modification of any non-dependent resources. Because of this, Terraform builds infrastructure as efficiently as possible, and operators get insight into dependencies in their infrastructure.
+
+Change Automation
+	Complex changesets can be applied to your infrastructure 
+		minimal human interaction. 
+
+References
+1. https://github.com/vilasvarghese/devops-exercise-1-infra-vilasvarghese/blob/main/README.md
+2. https://blog.gruntwork.io/an-introduction-to-terraform-f17df9c6d180
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	What's the Scenario?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	Terraform Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://blog.scottlowe.org/2015/11/25/intro-to-terraform/
+	
+	Terraform Configuration: 
+		Text file 
+		contains the infrastructure resource definitions. 
+		Can write Terraform configurations in 
+			either Terraform format 
+				(using the .tf extension) 
+		or 
+			in JSON format 
+				(using the .tf.json extension). 
+				e.g. of json format config : https://blog.scottlowe.org/2015/11/25/intro-to-terraform/
+				
+	Providers: 
+		Terraform leverages multiple providers 	Providers talk to back-end platforms and services like 
+			AWS, Azure, DigitalOcean, Docker, or OpenStack. 
+	
+	Resources: 
+		Basic building blocks of a Terraform configuration. 
+		When you define a configuration
+			you are defining one or more resources. 
+		Provider-specific
+			Resource for the AWS provider is different from OpenStack. 
+		Unfortunate disadvantage in Terraform. 
+		e.g. To convert a configuration from using AWS to using OpenStack 	
+			re-create the configuration because all the resources are provider-specific.
+
+	Variables: 
+		Configurations can be made portable and flexible
+			use of variables. 
+		Re-use a single configuration multiple times 
+			(not across providers, 
+			resources are provider-specific).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Install Terraform
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  curl -O https://releases.hashicorp.com/terraform/0.14.10/terraform_0.14.10_linux_amd64.zip
+	sudo su
+	unzip terraform_0.14.10_linux_amd64.zip -d /usr/bin/
+	terraform -v
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		o Install Terraform on AWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4571,6 +5075,8 @@ Getting started with Jenkins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 	 Understanding the jenkins installation better
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://blog.knoldus.com/directory-structure-and-installing-plugins-in-jenkins/#
+	https://wiki.jenkins.io/display/jenkins/administering+jenkins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		o What are the directories created?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4658,6 +5164,7 @@ Getting started with Jenkins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 	 Jenkins Architecture
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://devopscube.com/jenkins-architecture-explained/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	
 	 Overview of how does it work?
@@ -4665,30 +5172,200 @@ Getting started with Jenkins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o What is Jenkins Shared Library 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+https://www.lambdatest.com/blog/use-jenkins-shared-libraries-in-a-jenkins-pipeline/
+	https://www.jenkins.io/doc/book/pipeline/shared-libraries/
+
+	Shared Library
+		Common pipeline code 
+		Maintained in version control system
+		Can be used by multiple pipelines.
+			while each of them refer to separate git url.
+		
+	
+	Common code can be used across pipelines in multiple module.
+	
+	Folder structure
+	jenkins-shared-library
+		- vars
+			- global shared library code
+			- executed from a pipeline
+			- libary files with .groovy extension
+		- src
+			- like java source directory
+			- added to the classpath during every compilation
+			- Can add custom groovy code to extend your shared library code.
+		- resources
+			- all non-groovy files required for your pipeline
+			
+	https://www.youtube.com/watch?v=bGDyGH13k1g
+	
+	https://github.com/DeekshithSN/shared-library
+	
+	
+	https://www.youtube.com/watch?v=Wj-weFEsTb0
+	Manage jenkins -> Configure systems ->"Global Pipeline Libraries"
+		Name: shared-library
+		version: master
+		Load implicitly: No
+		Others checked.
+		
+		Retrival: Modern SCM
+		Source:
+			Git
+			git url
+			
+	shared library preferably should not have anything else.
+
+------------------
+pipeline{
+	agent{ label "linux" }
+	stages {
+		stage("Example") {
+			steps {
+				sh "echo hello world"
+			}
+		}
+	}
+}
+------------------	
+@Library('shared-library') _
+pipeline{
+	agent any
+	stages {
+		stage("Example") {
+			steps {
+				helloWorld(name:"Vilas",dayOfWeek:"Monday")
+			}
+		}
+	}
+}
+https://github.com/darinpope/github-api-global-lib
+https://github.com/vilasvarghese/github-api-global-lib
+has helloWorld file in var folder.
+---------------------
+groovy file names should be (preferably) camel cased.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		 Extending with Shared Libraries 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
-		 Defining Shared Libraries  Directory structure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
-		 Global Shared Libraries 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
-		 Folder-level Shared Libraries 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
-		 Automatic Shared Libraries 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
-		 Using libraries 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
-		 Loading libraries dynamically
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+We are in an era of microservices where modern applications are split into individually deployable components. Jenkins with no doubt is one of the best open-source CI/CD tool for deploying microservices. As compared to a monolithic application, you will have many pipelines to deploy individual microservices.
+
+With pipeline as code, we can code our entire CI/CD process. It is treated the same way we develop applications. You can version your pipeline code and perform all levels of testing before using it for any application deployments.
+
+What is Jenkins Shared Library
+When we say CI/CD as code, it should have modularity and reusability. And mainly it should follow the DRY principles. He is where Jenkins Shared Library comes in to play.
+
+Jenkins Shared library is the concept of having a common pipeline code in the version control system that can be used by any number of pipelines just by referencing it. In fact, multiple teams can use the same library for their pipelines.
+
+You can compare it with the common programming Library. In programming, we create individual libraries that can be used by anyone just by importing it into their code.
+
+For example, if you have a ten java microservices pipelines, the maven build step will be duplicated in all the 10 pipelines. And whenever a new service gets added, you will copy and paste the pipeline code again. Also, let say you want to change some parameter in the maven build step, you will have to do it all the pipelines manually.
+
+For the same scenario, we can write a shared library for maven build, and in all the pipelines we just have to refer the maven build library code. In the future for any maven changes, all you have to update it he shared library code. It will be applied to all the pipelines.
+
+Getting Started With Shared Library
+A shared library is a collection of groovy files (DSLs + Groovy). All the groovy files should be present it a git repo. In this example, we will be using Github as our git repo. https://github.com/devopscube/jenkins-shared-library. You can clone this repo to get the basic structure of the shared library.
+
+Shared library repo has the following folder structure.
+
+jenkins-shared-library
+|____vars
+|____src
+|____resources
+vars: This directory holds all the global shared library code that can be called from a pipeline. It has all the library files with a .groovy extension. It also supports .txt files for the documentation of shared library code. For example, if you have a file named maven-build.groovy, you can have a help file named maven-groovy.txt. In this file, you can write the respective shared library function help documentation in markdown format.  The help file can be viewed from <your-jenkins-url>/pipeline-syntax/globals page. 
+src: It is a regular java source directory. It is added to the classpath during every script compilation. Here you can add custom groovy code to extend yous shared library code. Also, you can import existing Jenkins and plugins classes using an import statement. There will be scenarios where your groovy DSL’s will not be flexible enough to achieve some functionality. In this case, you can write custom groovy functions in src and call it in your shared library code.
+resources: All the non-groovy files required for your ur pipelines can be managed in this folder. One such example is, you might need a common JSON template to make an API call during the build. This JSON template can be stored in the resources folder and called can be called in the shared library using the libraryResource function.
+
+
+
+
+All below topics covered in 
+	https://www.jenkins.io/doc/book/pipeline/shared-libraries/
+
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+			 Defining Shared Libraries 
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+			 Directory structure
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+			 Global Shared Libraries 
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		https://www.jenkins.io/doc/book/pipeline/shared-libraries/
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+			 Folder-level Shared Libraries 
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		https://www.linkedin.com/pulse/jenkins-pipeline-overview-francisco-javier-d%C3%ADaz-herrera/
+		
+		http://jenkins-ci.361315.n4.nabble.com/How-to-use-Folder-level-Shared-Libraries-in-Declarative-Jenkinsfile-td4921540.html
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+			 Automatic Shared Libraries 
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Load implicitly in the settings 
+		https://www.jenkins.io/doc/book/pipeline/shared-libraries/#automatic-shared-libraries
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+			 Using libraries 
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://www.jenkins.io/doc/book/pipeline/shared-libraries/#automatic-shared-libraries
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
+			 Loading libraries dynamically
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			load using library 'my-shared-library'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 	o MPL - Modular Pipeline Library 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.jenkins.io/blog/2019/01/08/mpl-modular-pipeline-library/
+	
+	https://www.youtube.com/watch?v=CXghkwmsoXY
+	https://www.youtube.com/channel/UClq6XV80D1DVscGvCAk70cg
+	
+	Dis adv. with freestyle jobs
+		Thousands of jobs.
+		A pipeline with 10-20 jobs are common
+		Requires deep understanding of vairous tech stack.
+		Complicated to build and maintain.
+		JobDSL can't help
+		Hard to see the entire pipeline.
+		Hard to share best practices between teams.
+		
+		
+	Adv. of pipeline engine
+		Extended support of sandboxing and security plugin
+		Pipeline process, status and console log etc. easily available.
+		Scripted or declarative pipelines can be in SCM like git.
+		Resilient to jenkins restarts by continuation passing style scripts
+		Modern ways to control the pipeline.
+		BlueOcens user interface to improve visibility of the pipelines.
+		shared libraries to store common functionalities and practices
+		Easy to review logic in github
+		Re-running the stages.
+		
+	Dis adv. with pipelines
+		Complex pipeline scripts could be difficult to read.
+		Hard to find the right way to prepare a good shared library
+		Hard to test the pipelines
+	
+	
+	MPL
+		Shared Jenkins library with advanced features
+		Ability to store multipel pipeline
+		Flexible modular structure with overriding and inheritance
+		Easy to configure
+		Nested library support
+		Pipelines and modules testing framework
+		Scripted and declarative pipelines support
+		
+	Structure of MPL
+		Pipelines
+			Lot of pipelines prepared to use as is 
+		Implemented Modules
+			Library of modules to use in project pipeline or override
+		Common functions
+			Common functions to prepare nested shared library
+		
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		 Building the MPL with shared libraries and Jenkins pipelines 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4734,13 +5411,16 @@ Getting started with Jenkins
 			~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				 Have master launch agent via ssh 
-				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-				 Have master launch agent on Windows  Write your own script to launch Jenkins agents
-				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				 Have master launch agent on Windows 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				 Write your own script to launch Jenkins agents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				 Launch agent via "JNLP" from agent back to master in a browser 
-				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				 Launch agent headlessly from agent back to master on command line 
 			o Node labels 
@@ -4888,9 +5568,51 @@ Docker – 2.5 Days
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		 What is Nexus 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Follow
+1. https://blog.sonatype.com/using-nexus-3-as-your-repository-part-3-docker-images
+
+2. Enable the Docker Bearer Token Realm in Nexus Security->Realms Tab.
+
+3. /etc/default/dockerand put the line
+	DOCKER_OPTS="--config-file=/etc/docker/daemon.json"
+
+
+
+	Create 
+		docker (hosted) repo.
+			click HTTP
+			port:8083
+		
+	In /etc/docker/daemon.json update the below
+--------------------------------------------------
+{
+  "insecure-registries" : ["192.168.253.7:8082","192.168.253.7:8083"]
+}
+Define the above according to what you have configured in nexus.
+
+--------------------------------------------------
+	systemctl restart docker
+	docker info
+		Insecure registered.
+		
+	push your image 
+	---------------
+	docker tag <image> <ip:port>/image
+	e.g.
+	docker tag nginx 192.168.253.7:8083/nginx
+	docker login -u admin -p admin 192.168.253.7:8082
+	docker login -u admin -p admin 192.168.253.7:8083
+	
+	docker push <full name>
+	
+Pulling image
+------------
+	remove the image on the local machine.
+	docker pull <ip:port>/image
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		 Using Nexus 3 as Your Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://blog.sonatype.com/using-nexus-3-as-your-repository-part-3-docker-images
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 	o Volume
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5085,12 +5807,86 @@ Kubernetes – 2.5 Days
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		o ConfigMaps 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ConfigMap 
+	an API object 
+	lets you store configuration for other objects to use. 
+	No spec
+	Instead data and binaryData fields. 
+		Accept key-value pairs as their values. 
+		Both are optional. 
+		data field 
+			contain UTF-8 byte sequences 
+		binaryData field 
+			contain binary data as base64-encoded strings.
+
+	
+	
+	Four different ways that to use ConfigMap inside a Pod:
+		1. Inside a container command and args
+		2. Environment variables for a container
+		3. Add a file in read-only volume, for the application to read
+		4. Write code to run inside the Pod that uses the Kubernetes API to read a ConfigMap
+	First three methods
+		the kubelet uses the data from the ConfigMap when it launches container(s) for a Pod.
+	Fourth method 
+		We have to write code to read the ConfigMap and its data. 
+		Kubernetes API available which our application can subscribe to get updates 
+			whenever the ConfigMap changes
+			react when that happens. 
+		By accessing the Kubernetes API directly, this technique also lets you access a ConfigMap in a different namespace.
+
+
+
+	Refer 
+		1. instructions
+		2. 	
+			1ConfigMap.yaml
+			1Pod.yaml
+			
+	https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+			
+			
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		o Secrets
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 	 EKS and Openshift
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://medium.com/cloud-prodigy/create-and-manage-amazon-eks-using-eksctl-4e39abafbdbf
+	https://www.eksworkshop.com/030_eksctl/
+	https://www.youtube.com/watch?v=aGTOVaVXz7k
+	
+	install aws
+	
+	aws s3 ls
+	aws ec2 describe-vpcs
+	
+	install eksctl
+	
+	eksctl help
+	
+	eksctl create --help
+	
+	eksctl create cluster --name first-eks [--version 1.14] --region eu-west-1 --nodegroup-name standard-nodes --node-type t3.small --node-type t3.small --managed
+	
+	eksctl create cluster --name koteswar-cluster --region us-east-2 --fargate
+	
+	eksctl utils nodegroup-health first-eks --name standard-nodes
+	
+	eksctl create cluster --name first-eks --region eu-west-1 --nodegroup-name standard-nodes --node-type t3.small --node-type t3.small --managed
+	
+	eksctl create cluster --name my-cluster --region us-east-2 --node-type t3.small --fargate
+	
+	
+	eksctl delete --help
+	eksctl delete cluster --region --wait 
+	eksctl get cluster
+	
+	
+	openshift
+	https://www.youtube.com/watch?v=ykx8gAD9vAw&list=PL2We04F3Y_43DDcvM1bAxF7YIPglrMdif
+	https://www.youtube.com/watch?v=dAWPuqZwlOA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
 

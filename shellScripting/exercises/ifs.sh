@@ -44,5 +44,5 @@ echo "Home Directory = $6 "
 echo " Current Shell = $7"
 
 
-
+# execution: filename user - e.g. sh ifs.sh vagrant
 # END #

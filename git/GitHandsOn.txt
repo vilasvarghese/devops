@@ -111,7 +111,7 @@
 		git config <key>
 		
 8. 	git add README.md test.txt LICENSE
-	git commit -m 'Initial commit'
+	git commit -m 'Initial commit'	
 
 9. 	git branch testing
 
