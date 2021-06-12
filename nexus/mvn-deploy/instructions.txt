@@ -1,0 +1,4 @@
+Do all the settings as mentioned here
+
+
+mvn deploy

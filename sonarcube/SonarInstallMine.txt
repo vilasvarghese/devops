@@ -1,0 +1,134 @@
+
+
+Nevin K <nevin.cleetus@gmail.com>
+To:
+vilas varghese
+,
+Varghese Vilas
+
+Sat, 20 Jun at 1:47 pm
+
+MySQL DB instance using RDS
+---------------------------
+Create a Mysql DB instance in AWS with default settings
+
+DB   - sonardb
+User/Password  - sonardbadmin/Sonar123
+
+
+Create an AWS ECS instance (Atleast t2.small instance as sonarqube require 1 GB free memory )
+login to the machine as ec2-user
+
+Install Java and Mysql client
+-----------------------------
+
+sudo su -
+sudo yum install mysql java-1.8* -y   //Community Edition
+sudo amazon-linux-extras install java-openjdk11 //Dev edition 
+
+
+Sonarqube Installation
+----------------------
+CD to /opt 
+#wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip
+#unzip sonarqube-7.6.zip
+#mv sonarqube-7.6  sonarqube
+
+
+#useradd sonaradmin
+#passwd  sonaradmin
+Sonar@admin123
+
+Give the sonaradmin user the permission to run the sonarqube 
+#chown -R sonaradmin:sonaradmin sonarqube
+
+#mysql -h <AWS RDS instance service name> -u sonardbadmin -p
+Password: Sonar123
+
+MySQL>create database sonar CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+Create a local and remote user for sonarqube
+
+MySQL> create user sonar@localhost identified by 'sonar';
+
+MySQL > create user sonar@'%' identified by 'sonar';
+
+
+Grant database access permission to sonar user
+
+MySQL > grant all on sonar.* to sonar@localhost;
+
+MySQL > grant all on sonar.* to sonar@'%';
+
+
+Check whether the users and database created 
+
+MySQL>use mysql
+MySQL>show databases;
+MySQL>select user from mysql.user;      
+Make sure a user with name 'sonar' exists.
+
+MySQL>FLUSH PRIVILEGES;
+MySQL>QUIT
+
+Configure Sonarqube to use the RDS instance
+-------------------------------------------
+#cd /opt/sonarqube/conf/
+Update the DB details in sonar.properties file
+
+Uncomment the below entries and input the DB details 
+
+sonar.jdbc.username=sonardbadmin
+sonar.jdbc.password=Sonar123
+sonar.jdbc.url=<Replace the localhost with RDS DB instance name>  
+
+sonar.web.context=/sonar
+
+
+#>su - sonaradmin
+sonaradmin@..>cd /opt/sonarqube/bin/linux-x86-64/
+sonaradmin@..>./sonar.sh start
+sonaradmin@..>./sonar.sh status
+
+
+Register SonarQube at boot time (RedHat, CentOS, 64 bit):
+sudo ln -s $SONAR_HOME/bin/linux-x86-64/sonar.sh /usr/bin/sonar
+sudo chmod 755 /etc/init.d/sonar
+sudo chkconfig --add sonar
+
+
+Configure Reverse Proxy to route the request through 80
+
+
+
+[root@ip-1...]# yum install epel-release
+[root@ip-1...]# yum install nginx
+[root@ip-1...]# sudo amazon-linux-extras install nginx1.12
+
+
+
+Update the config file to proxy the connection to port 9000 to 80.
+
+
+[root@ip-1...]# vi /etc/nginx/nginx.conf
+
+# the server directive is nginx's virtual host directive
+server {
+  # port to listen on. Can also be set to an IP:PORT
+  listen 80;
+ 
+  # sets the domain[s] that this vhost server requests for
+  server_name www.somecompany.com;   //Only if domain exists.
+ 
+  location / {
+    proxy_pass http://sonarhost:sonarport;
+  }
+}
+
+
+[root@ip-linux-x86-64]# systemctl start nginx
+[root@ip-linux-x86-64]# systemctl enable nginx
+
+
+
+

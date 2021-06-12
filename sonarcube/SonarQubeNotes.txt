@@ -1,0 +1,82 @@
+SonarQube
+---------
+Open source continous code quality integration tool
+
+Identify 
+	Code quality
+	Bugs
+	Code vulnerabilities
+	
+e.g. 
+	Define rules for different code bases.
+	https://sonarcloud.io/
+		Hosted SonarQube for free.
+		
+	
+	Software Testing
+		
+	Testing Type
+		Manual
+		Automatic
+		
+	Testing Methods
+		Static
+		Dynamic
+		
+	Testing Approaches
+		Black Box
+		White Box
+			knows internal structure
+		Gray Box
+			Knows little bit of internal structure
+	
+	Testing Levels
+		Unit Testing
+		Integration Testing
+		System Testing
+		Acceptance Testing
+		
+	
+	
+	
+	Static Analysis
+		During development
+		Early testing
+		
+	Why static code analysis
+		Cost of defect increases with time.
+		Find errors earlier in development
+		Detects over complexity in code
+		Find Security Errors
+		Enforces Best Coding practices
+		Automated and integrates in jenkins
+		Can create project specific rules
+		
+	E.g of static testing tools
+		SonarQube
+		Coverity
+		Pycharm
+		
+
+	SonarQube
+		Static analysis code tool
+		Open source 
+		Code quality
+		Consistency
+		
+		Can identify
+			Potential defects
+			Code defects to design inefficiencies
+			Code duplication
+			Lack of test coverage
+			Excess complexity
+			
+	Features
+		Detect Bugs
+		Code smells
+			characteristics indicate that there might be a problem caused by the code in the future
+			
+		Security Vulnerability
+		Activate Rule needed
+		Execution Path
+			

@@ -1,0 +1,28 @@
+https://medium.com/@harith.sankalpa/a-complete-guide-to-install-sonarqube-server-in-amazon-linux-ed1fee227d81
+
+sudo yum install postgresql postgresql-server
+sudo service postgresql initdb
+
+sudo service postgresql start
+	vilas123
+	
+	
+	useradd -c "Sonar System User" -d /opt/sonar -g sonar -s /bin/bash sonar
+
+
+----------------------------------
+
+Pre - requisite
+	Get free versions of 
+		AWS RDS mysql instance
+		centos ec2 instane
+	
+	Connect as root to ec2 
+		yum install mysql -y
+		
+		https://github.com/ValaxyTech/DevOpsDemos/tree/master/SonarQube
+		 yum install java-1.8.0-openjdk
+		 
+		 
+		 vagrant
+		 https://github.com/rgl/sonarqube-vagrant

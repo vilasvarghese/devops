@@ -88,8 +88,8 @@ https://kbroman.org/github_tutorial/pages/init.html
 	Preferably we can do this a little latter.
 D:\PraiseTheLord\HSBGInfotech\Others\vilas\devops\git\GitOneDay_Notes
 	 Section: "Internals of Git"
-https://www.linkedin.com/pulse/git-internals-how-works-kaushik-rangadurai/
-https://www.daolf.com/posts/git-series-part-1/
+	https://www.linkedin.com/pulse/git-internals-how-works-kaushik-rangadurai/
+	https://www.daolf.com/posts/git-series-part-1/
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
@@ -699,8 +699,7 @@ $ git push --force example-branch
 	 Retrieving old versions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	Restore working dir to the latest in remote repo.
-		$ git checkout HEAD fil
-		ename
+		$ git checkout HEAD filename
 
 	$ git log --oneline
 		79a4e5f bad take
@@ -3993,6 +3992,13 @@ continue	https://www.2daygeek.com/linux-shell-script-to-monitor-cpu-utilization-
 	
 	
 	*/5 * * * * /usr/bin/cat /proc/loadavg | awk '{print $1}' | awk '{ if($1 > 0) printf("Current CPU Utilization is: %.2f%\n"), $0;}' | mail -s "High CPU Alert" example@gmail.com
+	
+	The first three fields in this file are load average figures giving the number of jobs in the run queue (state R) or waiting for disk I/O (state D) averaged over 1, 5, and 15 minutes. They are the same as the load average numbers given by uptime(1) and other programs.
+
+The fourth field consists of two numbers separated by a slash (/). The first of these is the number of currently executing kernel scheduling entities (processes, threads); this will be less than or equal to the number of CPUs. The value after the slash is the number of kernel scheduling entities that currently exist on the system.
+
+The fifth field is the PID of the process that was most recently created on the system.
+	
 	https://unix.stackexchange.com/questions/69167/bash-script-that-print-cpu-usage-diskusage-ram-usage
 	
 	cpualert1.sh
@@ -4102,14 +4108,16 @@ example global.sh
 Quote:
 #!/bin/bash
 
-specific.sh &
-common.sh &
+sudo sh specific.sh &
+./common.sh &
 --------------------
 	https://unix.stackexchange.com/questions/582092/how-can-i-run-multiple-bash-scripts-simultaneously-in-a-terminal-window
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o logger logging messages to log file 
 	
 	https://www.networkworld.com/article/3274570/using-logger-on-linux.html
+	
+	logger not generating logs in syslog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Curl 
@@ -4154,6 +4162,9 @@ common.sh &
 		 Parsing JSON using Jq
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	http://www.compciv.org/recipes/cli/jq-for-parsing-json/
+	cat user.json | jq .user
+	cat users.json | jq ".name"
+	cat users.json | jq '.name.first'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 	o Assignment :
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4190,7 +4201,8 @@ Nexus – 1 Day
 			
 	Nexus
 		From Sonatype
-		Profession version: Paid
+		Profession version: 
+			Paid
 		Community version: 
 			free
 			limited functionality
@@ -4248,33 +4260,42 @@ You may be getting an errror in log file to avoid that.
 -Dkaraf.etc=etc/karaf
 -Djava.util.logging.config.file=etc/karaf/java.util.logging.properties
 -Dkaraf.data=/zone/nexus-data/nexus3
+#-Dkaraf.log=/zone/nexus-data/nexus3/log
 -Djava.io.tmpdir=/zone/nexus-data/nexus3/tmp
 -Dkaraf.startLocalConsole=false
 -Djdk.tls.ephemeralDHKeySize=2048
 -Djava.util.prefs.userRoot=/opt/nexus/.java
 -------------------------------------------
-	mkdir /opt/nexus/.java
+	mkdir -p /opt/nexus/.java
+	mkdir -p /zone/nexus-data/nexus3/log
+	mkdir -p /zone/nexus-data/nexus3/instances
 
-
-
-Update /zone/nexus-data/nexus3/etc/nexus.properties
+Update #/zone/nexus-data/nexus3/etc/nexus.properties
 	application-host=<ip>
 	Reference: https://stackoverflow.com/questions/54362411/cant-reach-sonatype-nexus-oss-repository-inside-lan
 	
-	
+Property files
+	/opt/nexus/etc/nexus-default.properties
+	/zone/nexus-data/nexus3/etc/nexus.properties
 
+https://help.sonatype.com/repomanager3/installation/installation-methods
 ----------------------------	
 	
 	
-	
-	vi /zone/nexus-data/nexus3/etc/nexus.properties
+	vi $NEXUS_HOME/etc/nexus-default.properties
+	#vi /zone/nexus-data/nexus3/etc/nexus.properties
 	port:8081?
 	userid/pwd - admin/pwd location like jenkins
 		my instance: admin/admin
 	create a user
 	
-	
-	
+	 *SYSTEM org.sonatype.nexus.bootstrap.jetty.JettyServer - Failed to start java.io.IOException: Failed to bind to /3.234.254.176:8081
+	 
+----------------------------------------------------
+Alternatively work with Nexus using the following 	 
+	 https://github.com/sonatype/docker-nexus
+	 Above link has all required details.
+----------------------------------------------------	
 	Types of repository(packages)
 	-----------------------------	
 	Click setting button -> repository
@@ -4296,6 +4317,22 @@ Lab steps summary
 	Roles and Users with privilege to deploy
 
 Reference: https://github.com/devops-school/helloworld-java-maven
+My settings can be seen at
+D:\software\maven\apache-maven-3.6.3-bin\apache-maven-3.6.3\conf
+-------------------------------------------
+	<distributionManagement>
+		<repository>
+			<id>vilas</id>
+			<name>release vilas project</name>
+			<url>http://34.227.171.74:8081/nexus/content/repositories/maven_hosted_release</url>
+		</repository>
+		<snapshotRepository>
+			<id>vilas</id>
+			<name>snapshot vilas project</name>
+			<url>http://34.227.171.74:8081/nexus/content/repositories/maven_hosted_snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+---------------------------------------------------	
 
 3. To upload
 	a. Modify pom.xml with repo location
@@ -4333,7 +4370,7 @@ Reference: https://github.com/devops-school/helloworld-java-maven
 	Create maven hosted repo.
 	maven proxy
 	We can use the below as a remote repo.
-		http://repo.maven.apache.org/maven2
+		https://repo.maven.apache.org/maven2
 		
 	Maven Group
 		Create a maven2 hosted repo.
@@ -4392,7 +4429,7 @@ Basic configuration
 	https://www.youtube.com/watch?v=83AGz9huJGo
 	
 	Step 3: Configure security
-a) Change default admin password: The default admin username/password is admin/admin. 
+a) Change default admin password: The default admin username/password is admin/admin or admin/admin123. 
 	Login as admin and change the password to a secure password.
 	
 	Login -> [admin, admin] -> Your profile -> Change Password -> click “Change Password”
@@ -4657,6 +4694,7 @@ Jira is popular in the agile world due to its well-managed workflow mapping and 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Jira Integration with Github and Jenkins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://confluence.atlassian.com/adminjiracloud/integrate-jira-software-cloud-with-jenkins-972355471.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Configuring the Default Dashboard 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4866,18 +4904,51 @@ References
 	unzip terraform_0.14.10_linux_amd64.zip -d /usr/bin/
 	terraform -v
 
+
+or
+	https://learn.hashicorp.com/tutorials/terraform/install-cli
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		o Install Terraform on AWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://learn.hashicorp.com/tutorials/terraform/install-cli
+	yum install -y git
+	git clone 
+	
+	
+	
+Install aws cli
+	https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-install
+Install unzip on centos	
+	https://linuxhint.com/centos_unzip/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 	 Deploying Your First Terraform Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.youtube.com/watch?v=SLB_c_ayRMo
+	https://learn.hashicorp.com/tutorials/terraform/aws-build
+	https://learn.hashicorp.com/tutorials/terraform/aws-change?in=terraform/aws-get-started
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		o Introduction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://devopslearning.medium.com/introduction-to-terraform-part-1-30bca7efa436
+https://devopslearning.medium.com/my-road-to-hashicorp-terraform-associate-22f2e603ea2d
+
+
+Refer my git repo.
+
+
+Find ami
+	https://aws.amazon.com/marketplace/server/configuration?productId=b7ee8a69-ee97-4a49-9e68-afaee216db2e&ref_=psb_cfg_continue
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		o What's the Scenario?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 terraform validate
+	 terraform init
+	 terraform plan
+	 terraform apply
+	 terraform apply -auto-approve
+	 terraform show
+	 terraform plan -destroy
+	 terraform apply -destroy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		o Terraform Components
 	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4894,6 +4965,10 @@ References
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		o What's the Scenario?
 	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+Off topic
+	https://www.terraform.io/docs/extend/best-practices/detecting-drift.html
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 		o Data Type and Security Groups
@@ -4907,38 +4982,467 @@ Ansible – 1 day
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ● Basics of Ansible
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		System Engineer
+		Lot of repetitive tasks
+			Sizing
+			Provisioning
+			Creating VM's
+				Assign Config
+				Patching applications
+				Deploying applications
+				migrating apps
+				security compliance audits
+		Execute 100's of commands on 100's of different servers
+			In certain orders
+			with some reboots
+		
+		Most of them create scripts for these.
+
+	What is ansible?
+	----------------
+		- Simple automation language 
+			perfectly describe and enable an IT application infrastructure 
+		- Ansible is powerful IT automation tool  
+		- Simple enough for everyone in your IT team to learn and use, 
+		- Powerful to meet enterprise class deployment complexity 
+			Complex things can be automated
+		- Handles repetitive tasks.
+				
+		
+	Some Use cases
+		- Configuration management
+		  App deployment
+		  Provisioning
+		  Continous Delivery
+		  Security and Compliance
+		  Orchestration
+
+	for e.g. 
+		Restart few m/c in certain orders
+		Powerdown web servers
+		Powerdown db 
+		Start db
+		Start web servers
+
+
+	Ansible Tower by Red Hat 
+		Enterprise framework for 
+				controlling 
+				securing and 
+				managing 
+			Ansible automation with UI and restful API.
+
+
+	Advantages of Ansible
+	---------------------
+		Simple
+			- Human readable
+			- No coding skills required
+			- Tasks executed in Order
+			- Get productive quickly
+		Powerful
+			- App deployment
+			- Configuration Management
+			- Workflow orchestration
+			- Orchestrate the app lifecycle
+		Agentless
+			- Agentless architecture
+			- Uses OpenSSH & WinRM
+			- No agent to exploit or update
+			- More efficient and secure
+
+
+
+	Playbooks
+		Plain text YAML files that describe the desired state of something.
+		YAML: Human and machine readble
+		Can be used to build entire application environments
+		- Contain plays
+			- Plays contain tasks
+				- Tasks calls modules
+				- Tasks run sequentially
+				- Trigger Handlers and are run once at the end of plays.
+	Variables
+		like variables in language
+			
+	Inventories
+		- Used to define servers/machines.
+		- Static lines of servers
+		- Ranges
+		- Other custom things
+		- Dynamic list of servers: AWS, Azure, GCP etc
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	 Introduction to YAML
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	 Ansible installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Theory of installation
+	https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+Practical of installation
+	https://docs.ansible.com/ansible/latest/installation_guide/index.html
+	https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-and-upgrading-ansible-with-pip
+Installation on Centos/Redhat/Fedora	
+	https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-ansible-on-rhel-centos-or-fedora
+	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Managed nodes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	No daemon/client application on your managed nodes
+	Ansible master should be able to communicate with managed nodes. 
+	Ansible connects over SSH 
+	Transfers modules using SFTP. 
+	If SSH works but SFTP is not available 
+		we can switch to SCP in ansible.cfg. 
+	For any machine or device that can run Python
+		install Python 2 (version 2.6 or later) 
+	or 
+		Python 3 (version 3.5 or later).
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Inventory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Default inventory file: /etc/ansible/hosts
+	
+	Machines Ansible manages in a file 
+		(INI, YAML, etc.) 
+	Categories of machines.
+	Add/Update/Delete machines
+		small entry in a file.
+	Debugging hosts related issues became very easy.	
+		
+	Ansible can draw inventory, group, and variable information from sources like 
+		EC2, 
+		Rackspace, 
+		OpenStack
+		, and more.
+	You can mention 
+		IP
+		Hostname
+		FQDN
+		in inventory file.
+
+	Here’s what a plain text inventory file looks like:
+
+-------------------------------------------------
+---
+[webservers]
+www1.example.com
+www2.example.com
+
+[dbservers]
+db0.example.com
+db1.example.com
+-------------------------------------------------
+	Types of Inventory
+		Static
+			hardcoded ip, hostname or fqdn
+		Dynamic
+			Scripts for dynamic env.
+				e.g. Shell, python etc.
+			Cloud Public IP keeps changing on restart 
+			Ansible implementation available for 
+				AWS EC2
+				Azure
+				Openstack
+				GCE
+				Space Walk
+				Jails 
+				etc.
+		Now the code can be found at
+			https://raw.githubusercontent.com/ansible/ansible/stable-2.9/contrib/inventory/ec2.py
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Modules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Like commands - Ansible works by executing modules.
+		Ansible works by 
+			connecting to nodes 
+			pushing out scripts called “Ansible modules” to them. 
+		
+		Most modules : describe the desired state of the system. 
+		Executes these modules 
+			(over SSH by default), 
+		Removes them when finished. 
+		Library of modules can reside on any machine
+			No servers, daemons, or databases required.
+
+		To write our own modules
+		
+			Check the following if there is already a module
+			https://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html
+		Modules can be written in any language that can return JSON 
+			(Ruby, Python, bash, etc).
+
+	Module utilities
+	----------------
+		Multiple modules 
+			can use the same code
+			Ansible stores those functions as module utilities 
+				minimize duplication 
+				ease maintenance. 
+			E.g., 
+				code that parses URLs is lib/ansible/module_utils/url.py. 
+				Module utilities 
+					write in Python or in PowerShell.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Tasks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	The units of action in Ansible. You can execute a single task once with an ad hoc command.
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Playbooks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Finely orchestrate infrastructure 
+	Detailed control over machines in parallel. 
+
+	Ansible’s approach to orchestration is one of finely-tuned simplicity, as we believe your automation code should make perfect sense to you years down the road and there should be very little to remember about special syntax or features.
+
+	Here’s what a simple playbook looks like:
+------------------------------------------------------------------
+---
+- name: nginx install and start services
+  hosts: all
+  become: true
+  
+  tasks:
+  - name: install nginx
+    yum:
+	  name: nginx
+	  state: latest
+	
+  - name: start nginx
+    service: 
+	  name: nginx
+	  state: started
+	  
+------------------------------------------------------------------	
+	Ansible follows Push mechanism
+	Ansible is agentless.
+	
+	The Ansible search path
+	Following can live in multiple locations
+		Modules
+		module utilities
+		plugins
+		playbooks and 
+		roles. 
+	
+	While extending Ansible’s core features
+		we need multiple files with similar or the same names 
+			in different locations
+	This is managed using search path determines which of these files.
+	
+	Ansible’s search path grows incrementally
+	Ansible finds 
+		playbook and role included in a given run, 
+			appends any directories related to that playbook or role to the search path. 
+	Those directories remain in scope 
+		for the duration of the run, 
+		even after the playbook or role has finished executing. 
+	
+	
+	Ansible loads modules, module utilities, and plugins in following order:
+	Directories adjacent to a playbook specified on the command line. If you run Ansible with ansible-playbook /path/to/play.yml, Ansible appends these directories if they exist:
+
+	/path/to/modules
+	/path/to/module_utils
+	/path/to/plugins
+	Directories adjacent to a playbook that is statically imported by a playbook specified on the command line. If play.yml includes - import_playbook: /path/to/subdir/play1.yml, Ansible appends these directories if they exist:
+
+	/path/to/subdir/modules
+	/path/to/subdir/module_utils
+	/path/to/subdir/plugins
+	Subdirectories of a role directory referenced by a playbook. If play.yml runs myrole, Ansible appends these directories if they exist:
+
+	/path/to/roles/myrole/modules
+	/path/to/roles/myrole/module_utils
+	/path/to/roles/myrole/plugins
+	Directories specified as default paths in ansible.cfg or by the related environment variables, including the paths for the various plugin types. See Ansible Configuration Settings for more information. Sample ansible.cfg fields:
+
+	DEFAULT_MODULE_PATH
+	DEFAULT_MODULE_UTILS_PATH
+	DEFAULT_CACHE_PLUGIN_PATH
+	DEFAULT_FILTER_PLUGIN_PATH
+	Sample environment variables:
+
+	ANSIBLE_LIBRARY
+	ANSIBLE_MODULE_UTILS
+	ANSIBLE_CACHE_PLUGINS
+	ANSIBLE_FILTER_PLUGINS
+	The standard directories that ship as part of the Ansible distribution.
+
+	Caution
+
+	Modules, module utilities, and plugins in user-specified directories will override the standard versions. This includes some files with generic names. For example, if you have a file named basic.py in a user-specified directory, it will override the standard ansible.module_utils.basic.
+
+	If you have more than one module, module utility, or plugin with the same name in different user-specified directories, the order of commands at the command line and the order of includes and roles in each play will affect which one is found and used on that particular play.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Configurations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Ansible supports several sources for configuring its behavior
+	- ini file named ansible.cfg
+	- environment variables
+	- command-line options
+	- playbook keywords and variables. 
+	
+	
+ansible-config utility 
+	allows users to see 
+		all the configuration settings available
+			their defaults
+			how to set them 
+			where their current value comes from. 
+	For more details refer: 
+	https://docs.ansible.com/ansible/latest/cli/ansible-config.html#ansible-config
+
+The configuration file
+Changes can be made and used in a configuration file 
+	which will be searched for in the following order:
+
+	ANSIBLE_CONFIG (environment variable if set)
+	ansible.cfg (in the current directory)
+	~/.ansible.cfg (in the home directory)
+	/etc/ansible/ansible.cfg
+
+Precedence categories
+---------------------
+Ansible offers four sources for controlling its behavior. 
+In order of precedence 
+	from lowest (most easily overridden) 
+	to highest (overrides all others):
+
+	Configuration settings
+	Command-line options
+	Playbook keywords
+	Variables
+
+‘last defined’ wins and overrides any previous definitions.
+
+Configuration settings
+----------------------
+Configuration settings include 
+	ansible.cfg file 
+	environment variables. 
+
+
+Ansible uses  
+	first ansible.cfg file it finds, 
+	ignore all others. 
+	Ansible searches for ansible.cfg in these locations in order:
+
+	ANSIBLE_CONFIG (environment variable if set)
+	ansible.cfg (in the current directory)
+	~/.ansible.cfg (in the home directory)
+	/etc/ansible/ansible.cfg
+
+
+Further read and examples
+	https://docs.ansible.com/ansible/latest/reference_appendices/config.html
+	https://docs.ansible.com/ansible/latest/installation_guide/intro_configuration.html
+	https://docs.ansible.com/ansible/latest/cli/ansible-config.htmlf
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
 ● Ansible authentication and Authorization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://docs.ansible.com/ansible/latest/user_guide/connection_details.html
+
+By default
+	Ansible uses native OpenSSH
+		because it supports 
+			ControlPersist (a performance feature)
+			Kerberos and 
+			configuration in ~/.ssh/config 
+				such as Jump Host setup. 
+		
+	If Control machine uses an older version of OpenSSH 
+		which does not support ControlPersist
+		Ansible will fallback to a Python implementation of OpenSSH called ‘paramiko’.
+
+
+	Default, 
+		Ansible connects to all remote devices with 
+			same user name as that of the control node. 
+		If that user name does not exist on a remote device, you can set a different user name for the connection. If you just need to do some tasks as a different user, look at Understanding privilege escalation: become. You can set the connection user in a playbook:
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 SSH with password
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://linuxhint.com/how_to_use_sshpass_to_login_for_ansible/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 SSH with key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	1. Create same user e.g. ansible for all hosts including master node and give root privilege to all users.
+	
+	On master node AND On worker node
+		sudo su -
+		useradd ansible
+		
+	2. Give password for all users
+		passwd ansible
+	
+	
+	3.  check python
+		python --version
+		If not found install python.
+		N.B: python is not mandatory. We can work with basic systems also. But 
+		
+	4. Create same user and password
+	5. visudo
+	add entry for ansible
+	ansible 	ALL=(ALL)		NOPASSWD: ALL
+
+	6. Update "PasswordAuthentication yes" in all servers in 
+		/etc/ssh/sshd_config
+	
+	7. systemctl restart sshd or
+		service sshd restart
+
+	On the master node.
+	8. Generate ssh keys as "ansible" user
+		sudo su ansible #login as ansible
+		cd /home/ansible
+		ssk-keygen
+		cd .ssh
+		ls
+			id_rsa
+			id_rsa.pub
+		
+	9. ssh-copy-id <private key of worker nodes>
+		userid and password are not required in the above command if it is same.
+
+		Above command copied public key to a file named authorized_keys
+
+		On the worker node
+		------------------
+	sudo yum update -y
+	wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+	sudo yum install epel-release-latest-7.noarch.rpm
+		
+
+		
+	10. ssh <private key>
+		
+	11. exit and return back to the master machine.
+		Repeat steps 9 and 10.
+	
+	12. Install ansible only on the master
+		 sudo yum update -y
+		 wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+		 sudo yum install epel-release-latest-7.noarch.rpm
+		 sudo yum update -y
+		 sudo yum install python python-devel python-pip openssl ansible -y
+		
+
+
+Inventory can be in the below format
+------------------------------------
+IP  ansible_user=ec2-user  ansible_ssh_private_key_file=~/<pem>
+		
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 sudo access
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4952,12 +5456,15 @@ Ansible – 1 day
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Localhost
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	D:\PraiseTheLord\HSBGInfotech\Others\vilas\ansible\adhoc
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Remote machine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	D:\PraiseTheLord\HSBGInfotech\Others\vilas\ansible\adhoc
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Multiple remote machines using
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	D:\PraiseTheLord\HSBGInfotech\Others\vilas\ansible\adhoc
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Simple Inventory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4968,6 +5475,7 @@ Ansible – 1 day
 
 ● Ansible Inventory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 Inventory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4980,6 +5488,25 @@ Ansible – 1 day
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 directory
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	in ansible.cfg:
+
+inventory = /path/to/inventory
+
+
+By default, Ansible ignores certain file extensions when it looks for inventory files. This is set in the [inventory] section of ansible.cfg.
+
+[inventory]
+# enable inventory plugins, default: 'host_list', 'script', 'auto', 'yaml', 'ini', 'toml'
+#enable_plugins = host_list, virtualbox, yaml, constructed
+
+# ignore these extensions when parsing a directory as inventory source
+#ignore_extensions = .pyc, .pyo, .swp, .bak, ~, .rpm, .md, .txt, ~, .orig, .ini, .cfg, .retry
+
+# ignore files matching these patterns when parsing a directory as inventory source
+#ignore_patterns=
+
+# If 'true' unparsed inventory sources become fatal errors, they are warnings otherwise.
+#unparsed_is_failed=False
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
 Playbooks
@@ -4987,17 +5514,26 @@ Playbooks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 Intro to Playbooks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Writing a Play Using Modules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.middlewareinventory.com/blog/ansible-playbook-example/
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Writing a Playbook
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.middlewareinventory.com/blog/ansible-playbook-example/
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Running a Playbook
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.middlewareinventory.com/blog/ansible-playbook-example/
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
+
+Further reference: https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Sonar – 1 day
@@ -5005,18 +5541,230 @@ Sonar – 1 day
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	o What is SonarQube?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	SonarQube is an open-source platform 
+	Developed by SonarSource for continuous inspection of code quality. 
+	Sonar does static code analysis
+	Provides a detailed report of 
+		bugs, 
+		code smells, 
+		vulnerabilities
+		code duplications.
+
+	Supports 25+ major programming languages 
+		through built-in rulesets 
+		can also be extended with various plugins.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Benefits of SonarQube?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Sustainability - 
+		Reduces 
+			complexity
+			possible vulnerabilities
+			code duplications
+			optimising the life of applications.
+	Increase productivity - 
+		Reduces 
+			cost of maintenance
+			risk of the application
+			removes the need to spend more time changing the code
+	Quality code - 
+		Ensure code quality 
+	Detect Errors - 
+		Detects errors in the code 
+		alert developers to fix them automatically
+	Increase consistency - 
+		Determines where the code criteria breaches the standard.
+	Business scaling - 
+		No restriction on the number of projects to be evaluated
+	Enhance developer skills - 
+		Regular feedback on quality problems helps developers to improve their coding skills
+
+
+	
+	Static Analysis
+		During development
+		Early testing
+		
+	Why static code analysis
+		Cost of defect increases with time.
+		Find errors earlier in development
+		Detects over complexity in code
+		Find Security Errors
+		Enforces Best Coding practices
+		Automated and integrates in jenkins
+		Can create project specific rules
+		
+	SonarQube
+		Static analysis code tool
+		Open source 
+		Code quality
+		Consistency
+		
+		Can identify
+			Potential defects
+			Code defects to design inefficiencies
+			Code duplication
+			Lack of test coverage
+			Excess complexity
+			
+	Features
+		Detect Bugs
+		Code smells
+			characteristics indicate that there might be a problem caused by the code in the future
+			
+		Security Vulnerability
+		Activate Rule needed
+		Execution Path
+		
+	Types of testing
+		Black
+		White
+		Gray
+		
+
+	Static Vs Dynamic testing
+	
+	Why static analysis
+	-------------------
+	Find errors early
+	Detects over complexity in code
+		(Refactoring / simplication)
+	Find security errors
+	Enforces Best Coding Practices
+	Automated and integrates with CI/CD tools like jenkins.
+	Can create project specific rules
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Alternative of SonarQube
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Coverity.
+	Checkmarx.
+	Veracode Application Security Platform.
+	Kiuwan Code Security & Insights.
+	Embold.
+	Klocwork.
+	Codacy.
+	GitLab.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Undertanding Various License of SonarQube
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.sonarsource.com/plans-and-pricing/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Architecture of SonarQube
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Refer image in this directory
+	Sonar Runner
+		Run using 
+			ant
+			maven 
+			gradle
+	Source Code
+		Actual source code of what needs to be analyzed.
+		can be integrated through 
+			git 
+			svn
+			etc...
+	Sonar analyzer
+		Analyses source code based on the plugins
+		Based on the language of the source code, we should add the respective plugins.	Plugins can be downloaded from sonarqube website.
+			PMD
+			Checkstyle
+			Findbugs: 
+			Squid: caching server to hold reports.
+				From cache will be sent to the queue
+					From queue to db.
+	Database
+		defult : 
+			h2 db. In memory db.
+			we should replace it with a different db.
+			Can integrate with 
+				mysql
+				Oracle
+				postgre 
+					etc.
+	Web Analysis report : http://localhost:9000
+	
+	
+	-----------------------------------------------------------------
+	
+	https://docs.sonarqube.org/latest/architecture/architecture-integration/
+	Components in detail
+	--------------------
+	One SonarQube Server starting 3 main processes:
+		
+		1. Web Server 
+			display quality snapshots 
+			configure the SonarQube instance
+		2. Search Server 
+			based on Elasticsearch 
+			support searches from the UI
+		3. Compute Engine Server 
+			process code analysis reports 
+			save them in the SonarQube Database
+
+	
+	One SonarQube Database to store:
+		1. Configuration of the SonarQube instance 
+			(security, plugins settings, etc.)
+		2. quality snapshots of projects, views, etc.
+	Multiple SonarQube Plugins 
+		installed on the server
+		possibly including language, 
+			SCM, 
+			integration, 
+			authentication
+			governance plugins
+	One or more SonarScanners 
+		running on your Build / Continuous Integration Servers 
+		analyze projects
+		
+	Refer to the image in https://docs.sonarqube.org/latest/architecture/architecture-integration/
+	Workflow of SonarQube
+	---------------------
+	1. Developers code in their IDEs 
+		use SonarLint to run local analysis.
+	2. Developers push their code into their favourite SCM : 
+		git, SVN, TFVC, ...
+		The Continuous Integration Server 
+			triggers an automatic build
+			SonarScanner 
+				run's the SonarQube analysis.
+				Analysis report is sent to the SonarQube Server for processing.
+		SonarQube Server 
+			processes and stores the analysis report results in the SonarQube Database
+			displays the results in the UI.
+	3. 
+	Developers 
+		review, comment, challenge their Issues 
+		manage and reduce their Technical Debt through the SonarQube UI.
+	Managers 
+		receive Reports from the analysis. 
+	Ops 
+		use APIs to automate configuration 
+		extract data from SonarQube. Ops use JMX to monitor SonarQube Server.
+	
+	
+	Machines and Locations
+	----------------------
+	The SonarQube Platform 
+		Cannot have 
+			more than one SonarQube Server 
+			more than one SonarQube Database.
+	For optimal performance
+		each component 
+			(server, 
+			database, 
+			scanners) 
+		should be installed on a separate dedicated machine.
+	SonarScanners scale by adding machines.
+	All machines must be time synchronized.
+	SonarQube Server and the SonarQube Database 
+		must be located in the same network
+	SonarScanners don't need to be on the same network as the SonarQube Server.
+	There is no direct communication between SonarScanners and the SonarQube Database.
+	
+	
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o How SonarQube works?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5110,6 +5858,9 @@ Getting started with Jenkins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		o Types of Jobs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Free style
+	Multi-configuration job
+		https://www.linkedin.com/pulse/jenkins-multi-configuration-matrix-muhammad-zbeedat/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		
 		o Setup a Free Style Project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5137,6 +5888,9 @@ Getting started with Jenkins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			
 			 Working with Maven
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.toolsqa.com/jenkins/jenkins-maven/
+	Find maven home directory by executing 
+		mvn -version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			
 	 Nodes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5198,6 +5952,7 @@ https://www.lambdatest.com/blog/use-jenkins-shared-libraries-in-a-jenkins-pipeli
 		- resources
 			- all non-groovy files required for your pipeline
 			
+	https://www.youtube.com/watch?v=Wj-weFEsTb0		
 	https://www.youtube.com/watch?v=bGDyGH13k1g
 	
 	https://github.com/DeekshithSN/shared-library
@@ -5390,19 +6145,89 @@ https://www.jenkins.io/doc/book/pipeline/shared-libraries/#automatic-shared-libr
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			
 				o Different ways to add nodes 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+					Add node by master connecting to agent
+						- my devops/jenkins/ folder
+					Add node by agent connecting to master
+						- https://medium.com/@_oleksii_/how-to-deploy-jenkins-agent-and-connect-it-to-jenkins-master-in-microsoft-azure-ffeb085957c0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			
 				o Add Node to the Jenkins Master 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~				
 				o How it works? 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~				
-				o Master to agent connections o Agent to master connections 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~				
 
-				o Choosing which agent pipelines and steps run on 
+	A "master" operating by itself 
+		basic installation of Jenkins 
+		master handles all tasks for your build system. 
+	In most cases 
+		installing an agent doesn't change the behavior of the master. 
+	It will serve all HTTP requests
+	It can still build projects on its own. 
+	Install a few agents 
+		remove the executors on the master 
+			to free up master resources 
+		(allowing it to concentrate resources on managing your build environment) 
+		Not mandatory.
+
+
+	An agent is a computer 
+		set up to offload build projects from the master 
+		once setup this distribution of tasks is fairly automatic. 
+	The exact delegation behavior depends on the configuration of each project; 
+		some projects may choose to "stick" to a particular machine for a build
+		others may choose to roam freely between agents. 
+	For people accessing your Jenkins system via the integrated website 
+		(http://yourjenkinsmaster:8080)
+		things work mostly transparently. 
+		Still browse javadoc
+		see test results
+		download build results from a master
+		without ever noticing that builds were done by agents.  
+	In other words, the master becomes a sort of "portal" to the entire build farm.
+
+	Since each agent runs a separate program called an "agent" 
+		need to install the full Jenkins 
+		(package or compiled binaries) on an agent. 
+	There are various ways to start agents
+		but in the end the agent 
+		Jenkins master need to establish a bi-directional communication link 
+		(for example a TCP/IP socket) in order to operate.
+
+
+Different ways to connect 
+	Master to agent connections
+	Agent to master connections
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~				
+				o Master to agent connections 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			
+	The most popular way agents are configured 
+		connections that are initiated from the master. 
+	Agents to be minimally configured 
+	Control lives with the master
+	This does require that the master have network access (ingress) to the agent 
+		(typically this is via ssh). 
+	Some cases this is not desirable due to security network rules
+		in which case you can use Agent to master connections via "JNLP".
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			
+					o Agent to master connections 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	In some cases 
+		agent server will not be visible to the master
+		so the master can not initiate the agent process
+	Use a different type of agent configuration called "JNLP". 
+	Master does not need network "ingress" to the agent 
+		(but the agent will need to be able to connect back to the master). 
+	Advantages
+		agents are behind a firewall
+	or 
+		perhaps in some more secure environment to do trusted deploys 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			
+https://wiki.jenkins.io/display/jenkins/distributed+builds
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~							o Choosing which agent pipelines and steps run on 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+As you will see below, 
+	agents can be labelled. 
+	This means different part of your build, or pipeline, can be allocated to run in specific agents (based on their label). This can be useful for tools, operating systems or perhaps for security purposes (it is possible to set quite detailed access rules of what can run where, based on agent configurations). A server that runs an agent is often referred to as a "Node" in Jenkins terminology. 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			• Configuring and Managing Nodes 
 		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

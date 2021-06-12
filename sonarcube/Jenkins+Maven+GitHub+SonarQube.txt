@@ -1,0 +1,86 @@
+CentOS 7/8
+
+
+Jenkins 
+	integrating with git + github webhooks
+		 
+	integrating with maven
+	integrating with jira
+	integrating with SonarCube
+	multi-branching strategy
+	Success 
+		here
+	Failure
+		here
+	Test fails
+		what should be other approach.
+		
+
+8 hours
+	2/3
+	
+	
+	Maven
+		Packaging
+		Add package
+		Remove package
+		
+	
+	Jenkins, Maven, Github,
+	
+	Git is already done.
+	
+	
+Microservices
+	
+	
+	
+	
+	NO.25 2 BETTADASANAPURA VILLAGE BEGUR HOBLI. KAR, IND
+
+
+
+Jenkins Integration with Maven, Git and SonarCube
+
+- Review of the CentOS instance that all engineers have.
+
+Jenkins basics
+	Introduction to Jenkins
+	Installing Jenkins
+	Introdution Jenkins UI
+	Master-Slave Architecture 
+	Jenkins Jobs
+	Jenkins Views
+	
+	
+Git
+	Introduction to Git
+	Create a github account
+	Fork my repository
+	Clone the repository to the local machine
+	Update the repo locally and check in back to your own repo.
+	Setup a jenkins job to download git code
+	Trigger the above job.
+	Setup git hub with webhook to automatically download the git code
+	
+Maven
+	Introduction to Maven
+	Installing Maven
+	Overview of POM.xml
+	Build a java project using pom.xml
+	Update the jenkins job to build the code using maven
+	
+SonarQube
+	Introduction to SonarQube
+	Install SonarQube
+	Continuous Code Inspection
+	Software Quality Metrices
+	Update the jenkins job to execute static code analysis using SonarQube
+	
+End to End
+	Make a change in local repo. and push it into github.
+	Using webhook automatically trigger
+		download of the code
+		run static analysis
+		build using maven
+		

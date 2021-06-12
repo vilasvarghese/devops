@@ -1,0 +1,608 @@
+https://www.youtube.com/watch?v=11z2x3VYO_I
+
+
+CentOS 7/8
+
+
+Jenkins 
+	integrating with git + github webhooks
+		 
+	integrating with maven
+	integrating with jira
+	integrating with SonarCube
+	multi-branching strategy
+	Success 
+		here
+	Failure
+		here
+	Test fails
+		what should be other approach.
+		
+
+8 hours
+	2/3
+	
+	
+	Maven
+		Packaging
+		Add package
+		Remove package
+		
+	
+	Jenkins, Maven, Github,
+	
+	Git is already done.
+	
+	
+Microservices
+	
+	
+	
+	
+	NO.25 2 BETTADASANAPURA VILLAGE BEGUR HOBLI. KAR, IND
+
+
+
+Jenkins Integration with Maven, Git and SonarCube
+
+- Review of the CentOS instance that all engineers have.
+
+Jenkins basics
+	Introduction to Jenkins
+	Installing Jenkins
+---------------------------------------------------------------------------------
+https://www.jenkins.io/doc/book/installing/
+	Look for CentOS section
+	
+	
+	sudo su
+	yum install wget -y
+	sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo	
+	sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+	sudo yum upgrade -y
+	sudo yum install jenkins java-1.8.0-openjdk-devel -y
+
+
+	Access using http://ip:8080/
+	
+	In centos jenkins.war can be found mostly at
+	/usr/lib/jenkins/
+	If not found check 
+	systemctl status jenkins
+
+
+or
+
+
+https://pkg.jenkins.io/redhat/
+
+sudo yum update
+
+java -version
+sudo yum install java-1.8.0
+sudo /usr/sbin/alternatives --config java
+
+Step 1 : Connect to your Linux machine
+SetUp JAVA PATH
+Set up Custom TCP port: 8080 in AWS Security Groups
+
+Step 2: Update Packages
+   sudo yum update
+
+Step 3 : Check Java is installed. If not install java  
+   java -version
+   sudo yum install java-1.8.0
+
+   To check and select one out of multiple java versions available
+   sudo /usr/sbin/alternatives --config java
+
+Step 4 : Download latest Jenkins code package
+	sudo yum install wget #if wget is not present.
+   sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo
+
+
+Step 5 : Import a key file from Jenkins-CI to enable installation from the package
+   sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+
+
+Step 6 : Install Jenkins
+   sudo yum install jenkins
+
+Step 7 : Start jenkins
+   sudo service jenkins start
+
+Step 8 : Access Jenkins server using the public DNS of your ec2 on port 8080
+   http://{ec2-public-dns}:8080
+   example : http://3.89.79.74:8080/
+
+
+Useful tips
+
+To start jenkins on a diff port
+Update port number in /etc/sysconfig/jenkins
+
+
+To fetch initial admin password
+ sudo su -
+ cd /var/lib/jenkins/secrets/
+ cat initialAdminPassword
+0bcbbcab7f984af7b4171b55e9201d04
+To stop Jenkins
+ sudo service jenkins stop
+
+To uninstall Jenkins
+ sudo service jenkins stop
+ sudo yum remove jenkins
+ sudo rm -r /var/lib/jenkins
+ 
+Start jenkins on a different port
+ java -jar jenkins.war -httpPort=9090
+
+###################################################################################################
+
+If you are on windows or Mac and want to install jenkins.
+	1. Download and install java.
+		Download the installable and execute it.
+		Ensure the path is set.
+	2. Download jenkins war file
+	3. Move the war file to a location you like (optional)
+	4. On the command prompt or terminal
+		cd <folder where jenkins.war is present>
+		java -jar jenkins.war
+
+###################################################################################################
+References
+https://www.youtube.com/redirect?v=jmm8DsosBqw&event=video_description&redir_token=QUFFLUhqbWlYOGtPQWhQZHVFOHlzTHBrX2JaQ2d2Z1lmd3xBQ3Jtc0ttOHFyMXc3dzZqUVZOdlUtUW1ic0FkU0JkVnNkdnpMd2JVQmMtSGJ5MDFNWk10QVJtd0wxMk9VNVRWclFic3ZpSnF5bTdQYzJGRm1uZEZtV2g2eTdWY0tKQmNTcmlOSmRmdkIzT0wyTmhMd1VES0Rwcw%3D%3D&q=https%3A%2F%2Fdocs.aws.amazon.com%2Faws-technical-content%2Flatest%2Fjenkins-on-aws%2Finstallation.html
+
+https://www.cloudbees.com/blog/using-git-jenkins
+https://www.tutorialspoint.com/jenkins/jenkins_git_setup.htm
+---------------------------------------------------------------------------------	
+	
+	Introdution Jenkins UI
+	
+###################################################################################################
+	
+	The most popular open source tool
+	Perform continuous integration and build automation. 
+	Execute a predefined list of steps, 
+		e.g. to compile Java source code and build a JAR from the resulting classes. 
+	Can execute time or event based.
+	
+	Exmaples of what Jenkins can do:
+		perform a software build using a build system like Apache Maven or Gradle
+		execute a shell script
+		archive a build result
+		run software tests
+
+
+	Monitors the execution of the steps 
+	Allows to stop the process, if one of the steps fails. 
+	Can send emails in case of a build success or failure.
+	
+	
+	
+###################################################################################################
+	
+	Master-Slave Architecture 
+	
+	Jenkins can be executed in Master Slave Mode.
+
+
+	Multiple environments can be used to improve performance.
+	
+	Jenkins Master
+		Scheduling build jobs.
+		Dispatching builds to the slaves for the actual execution.
+		Monitor the slaves (possibly taking them online and offline as required).
+		Recording and presenting the build results.
+		Can also execute build jobs directly.
+		Admin. configures lot on master
+			e.g. Secrets
+			
+	Jenkins Slave
+		It hears requests from the Jenkins Master instance.
+		Slaves can be  running on any operating systems.
+		Executes the job instructed by master
+		
+		Can configure a project to always run on a particular Slave machine.
+		
+	
+	
+###################################################################################################
+###################################################################################################
+
+	Jenkins Jobs
+###################################################################################################
+###################################################################################################
+
+	Jenkins Views
+###################################################################################################
+###################################################################################################
+
+
+	Introduction to Jenkins Pipeline
+#####################################################################################################################
+https://www.jenkins.io/doc/book/pipeline/getting-started/
+Jenkins Pipeline is a suite of plugins that supports implementing and integrating continuous delivery pipelines into Jenkins. Pipeline provides an extensible set of tools for modeling simple-to-complex delivery pipelines "as code" via the Pipeline DSL. [1]	
+#####################################################################################################################
+	
+Git
+	Introduction to Git
+
+#####################################################################################################################
+	
+	Configuring git in jenkins # added latter	
+	https://www.cloudbees.com/blog/using-git-jenkins
+#####################################################################################################################
+	
+	Create a github account
+###################################################################################################
+
+###################################################################################################
+
+	Fork my repository
+###################################################################################################
+
+###################################################################################################
+	
+	Clone the repository to the local machine
+#####################################################################################################################
+
+	sudo yum install git -y
+	git clone https://github.com/vilasvarghese/springboot
+	
+	Setup  a job and specify gitHub and git.
+	Build in "Execute in Shell"
+	echo "Hello World!!"
+	Save and trigger the job
+	
+	Go to 
+	/var/lib/jenkins/workspace/<<job name>>
+	Folder should appear.
+#####################################################################################################################
+	
+	Update the repo locally and check in back to your own repo.
+	Setup a jenkins job to download git code
+	Trigger the above job.
+	Setup git hub with webhook to automatically download the git code
+#####################################################################################################################
+	Setup on jenkins for github and enable github hook.
+	
+	
+	In jenkins rep - settings - webhooks 
+	Click "Add webhook"
+	Update payload url as 
+		http://<public ip>:8080/github-webhook/	#github-webhook/ is mandatory.`
+		ContentType: application/json
+		Click "Add Webhook"
+		
+	Make some changes and check in.
+	
+#####################################################################################################################
+
+	
+Maven
+	Introduction to Maven
+	Installing Maven
+#####################################################################################################################
+
+Step 1
+	cd /opt
+	sudo wget http://www-us.apache.org/dist/maven/mave-3/3.5.3/binaries/apache-maven-3.5.3-bin.zip
+
+Step
+	Add the following content into ~/.bashrc
+	vi ~/bashrc
+	
+	export M2_HOME=/home/<user>/apache-maven-3.5.3
+	export M2=@M2_HOME/bin
+	export PATH=$M2:$PATH
+	
+Step3
+	Verify installation
+	
+https://github.com/TechPrimers/jenkins-example/blob/master/pom.xml
+
+https://pkg.jenkins.io/redhat-stable/
+
+
+Try
+https://linuxize.com/post/how-to-install-apache-maven-on-centos-7/
+
+Apache Maven is a free and open-source project management and comprehension tool used primarily for Java projects. Maven uses a Project Object Model (POM), which is essentially an XML file containing information about the project, configuration details, the project’s dependencies, and so on.
+
+
+
+The official CentOS repositories contain Maven packages that can be installed with the yum package manager. 
+This is the easiest way to install Maven on CentOS. 
+For this use Strategy 1
+
+However, the version included in the repositories may lag behind the latest version of Maven.
+
+For this use Strategy 2
+
+Prerequisites 
+	User should have sudo privileges.
+	
+	sudo yum install maven
+#####################################################################################################################
+	
+	Overview of POM.xml
+	Build a java project using pom.xml
+	Update the jenkins job to build the code using maven
+	
+SonarQube
+	Introduction to SonarQube
+	Install SonarQube
+######################################################################################################################
+http://lampblogs.com/blog/how-to-install-sonarqube-on-centos-7	
+
+
+https://github.com/ValaxyTech/DevOpsDemos/tree/master/SonarQube
+yum install java-1.8.0-openjdk
+
+wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.7.zip
+
+mysql -h mysqldb.c3ibyik7ozif.us-east-1.rds.amazonaws.com:3306 -u admin -p
+######################################################################################################################
+	
+	Continuous Code Inspection
+	Software Quality Metrices
+	Update the jenkins job to execute static code analysis using SonarQube
+	
+End to End 1
+	Make a change in local repo. and push it into github.
+	Using webhook automatically trigger
+		download of the code
+		run static analysis
+		build using maven
+		
+Jenkins Continued...
+	Introduction to Multi-branching
+	Setup Jenkins for multi-branching
+	Define a multi-branched job targetting to the same git repo.
+	Make a change and merge it into git repo.
+	Using webhook trigger the branch for download, build and test.
+	
+	
+	
+
+Jenkins Beginner - https://bit.ly/2MIn8EC
+
+Jenkins Tips & Trick - https://bit.ly/2LRt6xC
+
+Maven - https://bit.ly/2NJdDRS
+
+https://www.youtube.com/channel/UCuFg53ZTr6maqBC-4i9o4-w/playlists
+
+Jenkins + pipeline + maven
+https://www.youtube.com/watch?v=pts8zdHel5E
+
+
+
+#########################################################################################################
+https://www.youtube.com/watch?v=PWhqbpVbaTo&list=PLH1ul2iNXl7txKuhhDMKenYOThDww6x8S
+
+
+Jenkins
+	popular automation tool for CI/CD
+		Bamboo
+		Circle CI
+		Solano CI
+		Team City
+		
+	Automate any task
+	Open source
+	Written in java
+	Collection of plugins
+	Can deploy in existing server
+	
+
+Jenkins Install and Configure
+	Install and configure
+	https://jenkins.io/download
+	Click Download
+	Under "Long term Support"
+	
+	Click ".... CentOS"
+	Instructions are present there.
+	
+	
+############################################################################################################
+
+Jenkins
+-------
+3. Change home directory in jenkins (.jenkins)
+https://www.youtube.com/watch?v=m47MWSXNslg&list=PLhW3qG5bs-L_ZCOA4zNPSoGbnVQ-rp_dG&index=3
+
+4. Jenkins from CLI
+	Start jenkins
+		- Manage jenkins
+		- Configure global security
+		- Enable security (check)
+			- Apply and save
+		- go to http://ip:port/cli
+		- Download jenkins-cli.jar 
+		- move it to your convenient location
+		- On terminal/cmd go to the location where the jenkins-cli.jar is present.
+			- cd to the location
+		- Copy the command from cli page and paste it on the terminal
+			- should be like java -jar jenkins-cli.jar -s http://localhost:8080/ help
+			- You may be prompted for password.
+				- Go to user's configure
+					- In browser jenkins url click on your name drop down and go to configure
+					- Add passphrase
+		
+		Try this before explaining
+		
+
+
+5. Create Users, control and manage users.
+https://www.youtube.com/watch?v=QvFungzXI5s&list=PLhW3qG5bs-L_ZCOA4zNPSoGbnVQ-rp_dG&index=5
+
+	a. Create a new user.
+		Click Manage Jenkins
+		Click Configure System
+		Home can be seen here
+		
+		Click Manage Jenkins
+		
+			
+	b. Configure users
+		Install Role Strategy plugins
+		Download and save plugins into 
+			<Jenkins home>/plugins and restart
+		Go to plugins and install from there.
+
+		Click Manage Jenkins
+		Configure Global Security
+		Enable Security 
+		Authorization
+			Check role-based strategy (available only after the above plugin is installed)
+		Apply and save.
+		
+		
+		3 roles 
+			Global roles
+				Can define roles at global (master/slave + projects)
+			Project roles
+				Can define roles at project level
+			Slave roles
+													c. Create new roles
+	d. Assign roles to users
+	e. Control user access on projects
+
+
+6. Basic configurations in Jenkins
+https://www.youtube.com/watch?v=Cr8XSljgEPI&list=PLhW3qG5bs-L_ZCOA4zNPSoGbnVQ-rp_dG&index=6
+	
+		Manage Jenkins
+		Configure System 
+		Understanding basic configurations
+		-----------------------------------
+		Home directory
+			where is the home directory in the system.
+				Plugins logs ect would be in this directory
+--------------------------------------------------	Advanced missing for me				
+			Click Advanced
+				Workspace Root directory
+					change path
+					Click help
+				Build Record Root Directory
+					Click help
+--------------------------------------------------				
+			System Message
+				Add some text in it.
+				Apply
+					This would be displayed on the Jenkins Home when a user logs in.
+				We can use html tags in this.
+				If you can't give html
+					Manage Jenkins 
+					Configure Global properties
+						Check Markup Formatter
+			
+			# of executors
+			
+			Labels
+				Node configuration
+				Manage Jenkins 
+				Manage Nodes
+				
+					Labels and Usage go hand in hand.
+					
+				New job 
+					Configure
+					In General section 
+					Restrict where this projecct can be run
+						can mention a regex.
+						try typing after creating some labels from manage jenkins.
+						
+					Query Period
+						Click help
+					
+					SCM checkout retry count
+						How many times should it retry if scm (like git) is down.
+
+				Environment variables 
+					define like key and value
+					Can be accessed as 
+						${key1}
+						$key1
+						
+						
+7. Jobs
+	Trigger ect. please watch.
+	
+	
+
+13. Pipeline
+https://www.youtube.com/watch?v=DTRfG_gMLeU&list=PLhW3qG5bs-L_ZCOA4zNPSoGbnVQ-rp_dG&index=14
+	
+	What is a Pipe
+	What is a Pipeline?
+		Multiple sections of pipes
+		Each section can have inlet and outlet
+	Pipeline in software delivery workflow
+		Build
+		Deploy
+		Test
+		Release
+	
+	Pipeline
+		workflow with a group of events or jobs
+		Chained and integrated with each other in a sequence.
+		Every job in a pipeline has dependency
+			on one or more other jobs.
+
+
+14. Delivery Pipeline
+		Search for Delivery Pipeline plugin
+
+
+Default Plugins in Jenkins
+	Folders
+	OWASP Markup Formatter
+	Build Timeout
+	Credentials Binding
+	Formatter
+	Timestamper
+	Workspace Cleanup
+	Ant
+	Gradle
+	Pipeline
+	GitHub Branch Source
+	Pipeline: GitHub Groovy Libraries
+	Pipeline: Stage View
+	Git
+	Subversion
+	SSH Slaves
+	Matrix Authorization Strategy
+	PAM Authentication
+	LDAP
+	Email Extension
+	Mailer
+	
+	
+	
+
+Jenkins Beginner - https://bit.ly/2MIn8EC
+
+Jenkins Tips & Trick - https://bit.ly/2LRt6xC
+
+Maven - https://bit.ly/2NJdDRS
+
+https://www.youtube.com/channel/UCuFg53ZTr6maqBC-4i9o4-w/playlists
+
+Jenkins + pipeline + maven
+https://www.youtube.com/watch?v=pts8zdHel5E
+	
+	
+https://www.youtube.com/watch?v=7KCS70sCoK0	
+
+https://www.youtube.com/watch?v=7KCS70sCoK0
+
+
+#########################################################################################################
+Refer Course.txt in devops - git.
+There are extra content there.
+#########################################################################################################
