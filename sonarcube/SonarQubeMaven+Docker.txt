@@ -1,0 +1,36 @@
+docker run -d --name sonarqube -p 9000:9000 sonarqube:7.5-community
+	or refer: https://hub.docker.com/_/sonarqube
+
+git clone <any of my java repo>
+
+Create a new project
+	key: unique key
+	display name: 
+	generate token if not already created
+	Select project main language - build tool.
+	
+	
+Install java and maven
+	export PATH=$PATH:JAVA_HOME/bin:maven_home/bin
+	
+	yum install java-1.8.0-openjdk
+		Reference: https://www.liquidweb.com/kb/install-java-8-on-centos-7/
+
+	maven: Rerefence: https://gist.github.com/sebsto/19b99f1fa1f32cae5d00
+		sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+		sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+		sudo yum install -y apache-maven
+		mvn --version
+
+	
+	vi sonar.properties
+		change if required.
+		
+	in aws give access to your machine.
+	
+	mvn compile
+		
+		503fcba59c76715217bc4dc62d73457efe28356b
+mvn sonar:sonar \
+  -Dsonar.host.url=http://3.238.126.20:9000 \
+  -Dsonar.login=503fcba59c76715217bc4dc62d73457efe28356b

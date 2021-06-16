@@ -1,1 +1,3 @@
+https://docs.sonarqube.org/latest/setup/get-started-2-minutes/
+
 https://blog.setapp.pl/sonarqube_introduction

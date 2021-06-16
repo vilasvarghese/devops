@@ -4232,15 +4232,10 @@ Nexus – 1 Day
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Installating Nexus
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	Install jdk
-	RHEL-7.5_HVM_GA-20180322 -- Hourly2-GP2
-	2 CPU 4 GB RAM
-	yum install wget -year
-	install open jdk 8
-	download nexus 3 
-	
-	https://notebook.yasithab.com/centos/install-nexus-repository-oss-on-centos-7/
-	https://www.fosslinux.com/27838/installing-sonatype-nexus-repository-oss-on-centos-7.htm
+
+For installation follow the below and do it on ubuntu.
+https://stackoverflow.com/questions/57028412/how-to-install-nexus-on-ubuntu-18-04
+
 
 ----------------------------
 
@@ -4505,6 +4500,8 @@ Jira – 2 Days
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  Introduction to Jira
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://www.knowledgehut.com/tutorials/scrum-tutorial/sprint-execution
+
 	JIRA is an Incident Management Tool 
 	Used for 
 		Project Management
@@ -4618,15 +4615,24 @@ Mobile App
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	o Why Jira
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Jira is popular in the agile world due to its well-managed workflow mapping and issue tracking ability. To support agile development cycle it has Scrum and Kanban boards along with various reports. There are many other features such as watch list to get notifications of any changes to the issue you were watching on, audit log to view all the changes of an issue etc to carry your work smoothly. In short, a perfect tool to manage your agile project at one place with lots of features and add-ons. There are many other features such as watch list to get notifications of any changes to the issue you were watching on, audit log to view all the changes of an issue etc to carry your work smoothly.
-
+Jira is popular in the agile world 
+	well-managed workflow 
+	issue tracking ability. 
+	Scrum and Kanban boards 
+	various reports. 
+	watch list 
+		get notified of any changes to the issue you were watching 
+	audit log to view all the changes of an issue 
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Architecture of Jira
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://developer.atlassian.com/server/jira/platform/architecture-overview/
+	https://www.youtube.com/watch?v=P2caSpqEyHs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Installation and Configuraration of Jira
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.atlassian.com/software/jira/free
 	https://confluence.atlassian.com/adminjiraserver/installing-jira-applications-on-windows-938846835.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Jira Terminologies
@@ -4636,19 +4642,52 @@ Jira is popular in the agile world due to its well-managed workflow mapping and 
 	o Understanding Types of Jira Projects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	Scrum software development
+		https://www.atlassian.com/agile/tutorials/how-to-do-scrum-with-jira-software
 	Basic software development
 	Kanban software development
+		https://www.atlassian.com/agile/kanban
+		Kanban Vs Scrum
+		https://www.youtube.com/watch?v=F5QIqFEDv2k
 	Project management
 		https://confluence.atlassian.com/jiracoreserver070/project-management-777015806.html
-	Process management
-		https://confluence.atlassian.com/jiracoreserver070/process-management-777015804.html
-	Task management
-		https://confluence.atlassian.com/jiracoreserver070/task-management-777015801.html
+	
+	Following defines more complex workflows...
+		Process management
+			https://confluence.atlassian.com/jiracoreserver070/process-management-777015804.html
+		Task management
+			https://confluence.atlassian.com/jiracoreserver070/task-management-777015801.html
 	https://confluence.atlassian.com/adminjiraserver/jira-applications-and-project-types-overview-938846805.html
+	
+------------------------------------------------------------
+
+States	
+To-do	
+	Tasks arrive here for the first time in this state.
+Ready for analysis	
+	Analyze the task and add requirements completely.
+Ready for development	
+	Analysis completed and development can start.
+In the development	
+	Tasks are being developed.
+Ready for testing	
+	Development completed, and now testing can start.
+In the testing	
+	Tasks are being tested.
+Ready for release	
+	Testing completed; release can happen.
+Released/Done	
+	Released.
+-----------------------------------------------------------	
+	
+	When you have complex workflows... 
+		use complicated workflows in Jira.. This will be covered latter.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Projects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	https://confluence.atlassian.com/jiracoreserver073/creating-a-project-861255642.html
+
+Go to your site as follows 	
+	https://vilastes1.atlassian.net/welcome/software
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Jira Issues
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4676,47 +4715,66 @@ Jira is popular in the agile world due to its well-managed workflow mapping and 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Issues Types by Adding/Editing/Deleting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://support.atlassian.com/jira-cloud-administration/docs/add-edit-and-delete-an-issue-type/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Custom Fields by Adding/Editing/Deleting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://confluence.atlassian.com/adminjiraserver/adding-custom-fields-1047552713.html
+https://support.atlassian.com/jira-cloud-administration/docs/edit-or-delete-a-custom-field/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Screens by Adding/Editing/Deleting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://confluence.atlassian.com/display/ADMINJIRASERVER/Defining+a+screen
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Searching and Filtering Issues
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://support.atlassian.com/jira-core-cloud/docs/search-for-and-filter-issues/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Workflow basic
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/adminjiraserver070/working-with-workflows-749383109.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Introduction of Jira Plugins and Addons.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://developer.atlassian.com/server/jira/platform/plugins2-add-ons/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Jira Integration with Github and Jenkins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 https://confluence.atlassian.com/adminjiracloud/integrate-jira-software-cloud-with-jenkins-972355471.html
+
+https://github.com/jenkinsci/jira-trigger-plugin
+https://www.youtube.com/watch?v=DfmOOB_mGwo
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Configuring the Default Dashboard 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://support.atlassian.com/jira-software-cloud/docs/what-is-a-jira-dashboard/
+	https://confluence.atlassian.com/adminjiraserver/configuring-the-default-dashboard-938846989.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	o Using Dashboard Gadgets 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://support.atlassian.com/jira-cloud-administration/docs/use-dashboard-gadgets/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	o How to setup an effective dashboard 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.atlassian.com/blog/jira-software/5-steps-to-build-a-killer-dashboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o What is a board 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/jirasoftwareserver/what-is-a-board-938845235.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o How to set up a Scrum board 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.atlassian.com/agile/tutorials/creating-your-agile-board
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o How to set up a kanban board 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o User and Group Management 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://support.atlassian.com/jira-software-cloud/docs/how-do-jira-permissions-work/
+	https://www.youtube.com/watch?v=SdUrt7NOV3k&list=PLYtAmt7gziDVCipQoBrpBuJXE3jtJznpA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Managing Users 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4726,48 +4784,67 @@ https://confluence.atlassian.com/adminjiracloud/integrate-jira-software-cloud-wi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Configuring User Directories 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.youtube.com/watch?v=_ApmLpNngJA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Diagrams of Possible Configurations for User Management 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/adminjiraserver0813/diagrams-of-possible-configurations-for-user-management-1027137714.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o User Management Limitations and Recommendations 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/adminjiraserver084/user-management-limitations-and-recommendations-979404523.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-	o Viewing User Sessions 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	o Viewing User Sessions ~~~~~~~~~~~~~
+	https://confluence.atlassian.com/jira064/viewing-user-sessions-720412310.html
+~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o User access logging 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/confkb/how-to-enable-user-access-logging-182943.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Clearing 'Remember my login' Tokens 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.cwiki.us/display/JIRA064/Clearing+%27Remember+my+login%27+Tokens
+	https://confluence.atlassian.com/adminjiraserver085/prevent-automatic-login-981154809.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Configuring Security 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/adminjiraserver/configuring-issue-level-security-938847117.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Configuring Issue-level Security
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.youtube.com/watch?v=sjk46eUU_x4
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Managing Project Permissions 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/adminjiraserver/managing-project-permissions-938847145.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Managing Project Roles
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+	https://support.atlassian.com/jira-cloud-administration/docs/manage-project-role-membership/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Managing Global Permissions 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Configuring Secure Administrator Sessions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/doc/configuring-secure-administrator-sessions-218269595.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Overview of Preventing Security Attacks 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/adminjiraserver084/preventing-security-attacks-979405451.html
+	https://confluence.atlassian.com/adminjiraserver/security-overview-and-advisories-966063401.html	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Workflows
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-	o Configuring Workflow o Activating workflow
+	o Configuring Workflow 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	o Activating workflow
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Configuring Email 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4777,8 +4854,13 @@ https://confluence.atlassian.com/adminjiracloud/integrate-jira-software-cloud-wi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Configuring JIRA's SMTP Mail Server to Send Notifications
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://confluence.atlassian.com/adminjiraserver/configuring-an-smtp-mail-server-to-send-notifications-947184044.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
+	webhook
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+https://confluence.atlassian.com/jirakb/trigger-the-jenkins-build-from-jira-automation-1036061474.html	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5768,18 +5850,59 @@ Sonar – 1 day
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o How SonarQube works?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-	o Components of SonarQube
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://docs.sonarqube.org/latest/analysis/overview/
+	
+	When you execute it from maven
+	
+		Maven will use sonarqube plugins and communicate with SonarQube server
+		Server will load all the rules 
+		Analyze source code using set of rules from SonarQube server
+		Calculate file-level metrics
+		Read coverage reports if any
+		Compile data into an analysis report and push it back to the SonarQube server
+		The server pops the uploaded report from the queue, and integrates it, storing issues and calculating high-level metrics
+		User sees updated project status on Project homepage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o SonarQube runtime requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	SonarQube 
+		not support 32-bit systems on the server side. 
+		SonarQube does, however, support 32-bit systems on the scanner side.
+
+	A small-scale (individual or small team) instance of the SonarQube server 
+		requires at least 2GB of RAM 
+		1GB of free RAM for the OS. 
+			disk space is propotional to the code size.
+	
+		hard drives 
+			excellent read & write performance. 
+			"data" 
+				has Elasticsearch indices 
+				huge amount of I/O will be done by server 
+		
+Enterprise Hardware Recommendations
+	A starting configuration should include at least:
+		8 cores, to allow the main SonarQube platform to run with multiple Compute Engine workers
+		16GB of RAM 
+	
+	
+	Database and ElasticSearch should run on a different machine.
+
+	Refer : https://docs.sonarqube.org/latest/requirements/requirements/
+	for further details.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Installing and configuring SonarQube in Linux
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://devopscube.com/setup-and-configure-sonarqube-on-linux/
+https://docs.sonarqube.org/latest/setup/install-server/
+
+For docker
+	D:\PraiseTheLord\HSBGInfotech\Others\vilas\devops\sonarcube
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Basic Workflow in SonarQube using Command line
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://engineering.bitnami.com/articles/how-to-improve-your-workflow-with-sonarqube.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Issues in SonarQube
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -6413,6 +6536,17 @@ Follow
 {
   "insecure-registries" : ["192.168.253.7:8082","192.168.253.7:8083"]
 }
+
+{
+  "insecure-registries" : ["3.223.6.115:8085","3.223.6.115:8087","3.223.6.115:8088"]
+}
+{
+  "insecure-registries": [
+    "3.223.6.115:8085",	#This can be the private ip. Doesn't need to match the url
+    "3.223.6.115:8087",
+	"3.223.6.115:8088"
+  ]
+}
 Define the above according to what you have configured in nexus.
 
 --------------------------------------------------
@@ -6730,6 +6864,5 @@ Final Project – 1 day
 			Create an EC2 instance using Terraform
 			Apply configuration using Ansible
 			Run automated (dummy) tests using maven
-			Update status in Jira
 			Push the image into DockerHub
 			Deploy it into Kubernetes orchestrated environment.

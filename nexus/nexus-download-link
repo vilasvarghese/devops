@@ -1,0 +1,9 @@
+Following link was got from the dockerfile of nexus.
+Reference: https://github.com/sonatype/docker-nexus3
+
+wget -O /tmp/nexus.tar.gz https://download.sonatype.com/nexus/3/nexus-3.30.1-01-unix.tar.gz
+
+
+cd /etc/docker/daemon.json
+
+https://stackoverflow.com/questions/57028412/how-to-install-nexus-on-ubuntu-18-04
