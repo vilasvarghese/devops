@@ -1,0 +1,14 @@
+Following are all written for ubuntu.
+
+
+Install ansible
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-ubuntu-18-04
+
+Configure ssh for ansible
+https://stackoverflow.com/questions/4594048/how-do-i-setup-passwordless-ssh-on-aws
+
+k8s-instance
+https://github.com/kairen/kubeadm-ansible
+https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/
+
+ansible-playbook <playbook-name>.yml
