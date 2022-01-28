@@ -31,7 +31,7 @@ Go to jenkins
 
 	Manage Jenkins
 		Configure System
-			Add SonarQueb
+			Add SonarQube
 				Name: sonarqube (Not mandatory)
 				Server URL: http://18.223.136.35:9000 (trailing slash fails)
 				Credential: "Secret Text" credential

@@ -155,3 +155,40 @@ I hope this blog helped you understand the basics of scripted and declarative pi
 
 Now that you’ve understood the features and working of a Jenkins pipeline, check out DevOps Course and an exclusive Jenkins Course by Pipeline1 to learn more.
 
+
+
+RBAC in jenkins
+---------------
+Create two users 
+Add "Role strategy plugin" = "Role based Authorization Strategy" 
+Restart jenkins
+
+In "Manage Jenkins" -> "Configure Global Security"
+	- check "Enable security" (now default and not available)
+	- check "Jenkins own user database"
+		- "Allow users to sign up"
+	- In Authorization section
+		- check "Role based strategy"
+		
+Come back to 
+	"Manage Jenkins" 
+		- "Manage and Assign Roles" - will be visible now
+		- Create emp role
+		- Create guest role
+		
+	Project roles
+		- Create dev and test roles
+		
+		
+parameters{
+}
+
+tools {
+}
+
+environment{
+}
+
+
+Recommendation: 
+	install "Authorize Project Plugin" or another plugin implementing the QueueItemAuthenticator extension point.

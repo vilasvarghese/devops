@@ -58,3 +58,26 @@ vi id_rsa on slave
 copy paste the private key from beginning to end save it
 select the credential created and click save
 
+---------------------------------------------
+Create a new freestyle job
+	Select "Restrict where this project can be run"
+	Enter "centos1" as the Label
+	Execute shell
+		enter "hostname"
+		Save
+		Build now
+	
+	
+Create another job
+
+
+	pipeline {
+    agent {label "centos1"}
+    stages {
+        stage('Example Build') {
+				steps {
+					sh 'hostname'
+				}
+			}
+		}
+	}

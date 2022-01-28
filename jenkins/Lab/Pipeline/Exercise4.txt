@@ -19,6 +19,8 @@ pipeline {
         }
         unstable {
             echo 'This will run only if the run was marked as unstable'
+			//A build is unstable if it was built successfully and one or more publishers report it unstable. 
+			//For example if the JUnit publisher is configured and a test fails then the build will be marked unstable.
         }
         changed {
             echo 'This will run only if the state of the Pipeline has changed'

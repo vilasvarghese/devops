@@ -5734,6 +5734,7 @@ Sonar – 1 day
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Architecture of SonarQube
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://www.swtestacademy/
 	Refer image in this directory
 	Sonar Runner
 		Run using 
@@ -5912,9 +5913,47 @@ For docker
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Quality Profiles in SonarQube
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://docs.sonarqube.org/latest/instance-administration/quality-profiles/
+
+	https://dx.appirio.com/quality-sonarqube/sonarqube-quality-profiles/
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	o Working with Quality Gates in SonarQube
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Reference: 
+	https://medium.com/@tarunprakash/quality-gates-a-must-have-thing-for-the-code-analysis-process-75b33d6b49dc
+	Quality Gates can be defined as a set of threshold measures set on your project. Few conditions that can be in included are listed below.
+		Code Coverage > certain value
+		Number of Blocker issues >certain value
+		Security Rating / Unit Test Pass Rate etc..
+
+
+	Each Quality Gate condition is a combination of:
+		measure
+		period: Value (to date) or New Code (differential value over the New Code period)
+		comparison operator
+		warning value (optional)
+		error value (optional)
+
+
+	For instance, a condition might be:
+		measure: Blocker issue
+		period: Value
+		comparison operator: >
+		error value: 0
+		Which can be stated as "No blocker issues".
+		For e.g. 
+			quality gate for “code coverage” 
+			
+	Refer https://medium.com/@tarunprakash/quality-gates-a-must-have-thing-for-the-code-analysis-process-75b33d6b49dc 
+		for the example
+		
+	Other references:
+	https://docs.sonarqube.org/7.4/user-guide/quality-gates/
+	
+	https://samirbehara.com/2017/12/16/sonarqube-setting-up-quality-gates-in-your-application/
+		
+			
+			
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
 Jenkins – 2.5 days
