@@ -183,8 +183,10 @@ or
 	Snapshots, Not Differences
 	--------------------------
 	The major difference between Git and any other VCS (e.g. Subversion) 
+		
 		the way Git thinks about its data. 
-	Most other systems store information as a list of file-based changes. 
+	Most other systems store information as a list of file-based changes.
+	
 	These other systems (CVS, Subversion, Perforce, Bazaar, and so on) 
 		consider information they store as a set of files 
 		changes made to each file over time
@@ -364,10 +366,11 @@ Here is what’s your .git will look like before your first commit:
 				Not through .gitignore 
 			
 (do two commit's to the same file .. watch objects folder step by step)
+
 Add a file called file_1.txt - 
 	git add *
 		A new folder is created.
-		cd /root/.git/<number>
+		cd /<git root folder>/.git/<number>
 	git commit -m "comments"
 		That creates another two folders
 		
@@ -384,7 +387,10 @@ What’s inside a commit ?
 
 
 
-And once that snapshot is created, it will also be compressed and be name with an hash, and where all those compressed objects end up ? In the object folder.
+And once that snapshot is created, 
+	it will also be compressed 
+		name with an hash
+	all compressed objects are stored in object folder.
 
 Contents of the objects directory after creating an empty file and committing.
 	── 4c

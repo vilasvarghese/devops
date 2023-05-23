@@ -1,0 +1,42 @@
+GIT & GITHUB Content
+•GIT Fundamentals
+• What is Version Control System (VCS)
+• Difference between Centralized VCS and Decentralized VCS
+• Introduction to GIT
+
+• Installing GIT
+• Getting Started with GIT
+• Command Line Tool
+
+• Create Repository
+• Configuring GIT Repository
+• Stage and Commit changes to repository
+• Interactive Staging
+• .Git folder structure and GIT Objects
+• Git Log
+• Git Checkout
+• Undoing Changes
+• Discarding changes
+• Un-stage changes
+• Amend Commits
+• Git Revert
+• Git Reset
+• GIT Branches and Tags
+• Create branch
+• Merge Branch
+• Dealing with conflicts on merge
+• Getting started with GITHUB
+• Creating GITHUB Account
+• GITHUB cloud and GITHUB Enterprise
+• Push local repository to GITHUB.
+• Working with Remote Repository
+• Cloning a remote Repository
+• Remote Branching and Merging
+• Working with remote branch
+• Synchronizing Remote branch with local branch
+• Pull requests
+• GIT GUI Tools (Eclipse)
+• Overview on GIT client UI tools
+• Integration with Eclipse and basic functions
+• Walkthrough other client UI tools like Sourcetree, GITHUB Desktop,
+Tortoise GIT etc

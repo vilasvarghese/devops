@@ -1,5 +1,27 @@
 What is Git: Features, Command and Workflow in Git
 
+
+
+Local repositories 
+	- No collaboration 
+		- Lack of community and ecosystem support
+	- Huge disk space required
+	- dependency management challenges
+	- reduced availabilty and reliability
+	- scalability challenges
+	- Increased maintanance overhead
+
+Remote repositories 
+	- Time taking operations
+	 - Network trip required
+	- Blocking operations 
+
+
+Distributed repositories
+	- All disadv. solved.
+
+
+
 Git Life Cycle
 -----------------------------------------------------------------------------------------------------------
 On linux setup your env. referring to 

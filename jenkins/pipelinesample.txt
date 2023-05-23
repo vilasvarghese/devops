@@ -1,0 +1,214 @@
+pipeline { 
+    environment { 
+        registry = "YourDockerhubAccount/YourRepository" 
+        registryCredential = 'dockerhub_id' 
+        dockerImage = '' 
+    }
+    agent any 
+    stages { 
+        stage('Cloning our Git') { 
+
+          steps { 
+
+              git 'https://github.com/YourGithubAccount/YourGithubRepository.git' 
+
+          }
+
+      } 
+
+      stage('Building our image') { 
+          steps { 
+              script { 
+                  dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+              }
+          } 
+      }
+      stage('Deploy our image') { 
+          steps { 
+              script { 
+                  docker.withRegistry( '', registryCredential ) { 
+                      dockerImage.push() 
+                    }
+                } 
+           }
+        } 
+        stage('Cleaning up') { 
+         steps { 
+                sh "docker rmi $registry:$BUILD_NUMBER" 
+            }
+     } 
+    }
+}
+
+
+
+
+
+----------------------
+pipeline {
+    
+    agent any
+
+    parameters {
+        booleanParam(name: 'BRANCHNAME', choices: ['master', 'old'], description: 'Select branch')
+    }
+	tools {
+		maven "M3_Home"
+	}
+
+    stages {
+        stage('Test') {
+            steps {
+                script {
+                    if(params.FAIL == true) {
+                        echo "This build will fail"
+                        error("Build has failed")
+                    }
+                    else {
+                        echo "This build is a success"
+                    }
+                }
+            }
+        }
+    }
+}
+
+-------------------------
+node('Jenkins-Slave') {
+   timestamps{
+     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '3', numToKeepStr: '7'))])
+      stage ('Code Checkout') {
+        try{
+          // Cleaning workspace before checkout
+          cleanWs()
+	    checkout([$class: 'GitSCM', branches: scm.branches,
+            extensions: scm.extensions + [[$class: 'CleanCheckout']] + [[$class: 'LocalBranch',
+            localBranch: "${env.BRANCH_NAME}" ]], userRemoteConfigs: scm.userRemoteConfigs])
+        }
+        catch(e) {
+            echo "Error occured during checkout :${e}"
+            Notify()
+            throw(e)
+        }
+      }
+
+      stage ('Maven Build') {
+          try {
+            sh 'mvn clean install'
+          }
+          catch(e) {
+            echo "Error occured during build :${e}"
+            Notify()
+            throw(e)
+          }
+      }
+
+      stage('Unit Test') {
+          try {
+            echo "Running Unit tests"
+            sh 'mvn test'
+            step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+
+          }
+          catch(e) {
+            echo "Unit tests failed :${e}"
+            Notify()
+            throw(e)
+          }
+      }
+
+      stage('Integration Test') {
+          try {
+            echo "Running integration tests"
+            sh 'mvn failsafe:integration-test'
+            step([$class: 'JUnitResultArchiver', testResults: '**/target/failsafe-reports/TEST-*.xml'])
+          }
+          catch(e) {
+            echo "Error while running integration tests : ${e} "
+            Notify()
+            throw(e)
+          }
+      }
+
+      stage('Sonar Scan') {
+          try {
+            def sonarqubeScannerHome = tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+            withCredentials([string(credentialsId: 'sonar-token', variable: 'sonarLogin')]) {
+            sh """
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=MavenPOC \
+                    -Dsonar.host.url=https://sonar.natwest-labs.com \
+                    -Dsonar.login=${sonarLogin}
+            """
+          }
+        }
+          catch(e) {
+            echo "Error with Sonar scan : ${e} "
+            Notify()
+            throw(e)
+          }
+      }
+
+      stage ('Publish Artifacts') {
+        try {
+          def server = Artifactory.server "Artifactory"
+          def buildInfo = Artifactory.newBuildInfo()
+          buildInfo.env.capture = true
+          buildInfo.env.collect()
+          def uploadSpec = """{
+            "files": [
+              {
+                "pattern": "target/*.jar",
+                "target": "Maven"
+              }
+            ]
+         }"""
+
+          // Upload to Artifactory.
+          server.upload spec: uploadSpec, buildInfo: buildInfo
+          // Publish build info.
+          server.publishBuildInfo buildInfo
+        }
+        catch(e) {
+           echo "Error while running integration tests : ${e} "
+           Notify()
+           throw(e)
+        }
+      }
+	   
+    //   stage('S3 Publish Artifacts') {
+    //       try {
+    //         step([
+    //             $class: 'S3BucketPublisher',
+    //             dontWaitForConcurrentBuildCompletion: false;
+    //             entries: [[
+    //                 bucket: 'jenkincisartifacts',
+    //                 excludedFile: '',
+    //                 flatten: false,
+    //                 gzipFiles: false,
+    //                 keepForever: false,
+    //                 managedArtifacts: true,
+    //                 noUploadOnFailure: true,
+    //                 selectedRegion: 'us-east-1',
+    //                 sourceFile: 'target/*.jar',
+    //                 storageClass: 'STANDARD',
+    //                 uploadFromSlave: true,
+    //                 useServerSideEncryption: false
+    //             ]],
+    //             profileName: '',
+    //             userMetaData: []
+    //         ])
+    //       }
+    //       catch(e) {
+    //         echo "Error while pushing artifacts to S3 : ${e} "
+    //         throw(e)
+    //         Notify()
+    //       }
+    //   }
+   }
+}
+
+def Notify(){
+    emailext body: 'Please check ${env.Build_URL} for more details on this.',
+    recipientProviders: [culprits()], subject: 'Build failed for ${env.BRANCH_NAME} branch'
+}

@@ -87,13 +87,31 @@ https://kbroman.org/github_tutorial/pages/init.html
 		$ git commit -m "First commit"
 	At the top of your GitHub repository's Quick Setup page, click to copy the remote repository URL.
 
-	In the Command prompt, add the URL for the remote repository where your local repository will be pushed.
 
-	 $ git remote add origin <remote repository URL>
-	 # Sets the new remote
-	 $ git remote -v
-	 # Verifies the new remote URL
-	Push the changes in your local repository to GitHub if there is a remote branch called master (or main if that's what you're using)
+	#Attaching to a remote repository
+		In the Command prompt, add the URL for the remote repository where your local repository will be pushed.
+
+		 $ git remote add origin <remote repository URL>
+		 # Sets the new remote
+
+			 $ git remote -v
+		 # Verifies the new remote URL
+			Push the changes in your local repository to GitHub if there is a remote branch called master (or main if that's what you're using)
+
+	OR as copied from github
+		…or create a new repository on the command line
+			echo "# new" >> README.md
+			git init
+			git add README.md
+			git commit -m "first commit"
+			git branch -M main
+			git remote add origin https://github.com/vilasvarghese/new.git
+			git push -u origin main
+
+		…or push an existing repository from the command line
+			git remote add origin https://github.com/vilasvarghese/new.git
+			git branch -M main
+			git push -u origin main
 
 	 $ git push origin master
 	Otherwise you will have to name local branch first by
@@ -293,13 +311,12 @@ Git log P or Patch
 
 	$ git log -p  
 	Generally, we can say that the --patch flag is used to display:
+		Modified files
+			The location of the lines that you added or removed
+			Specific changes that have been made.
 
-	Modified files
-		The location of the lines that you added or removed
-		Specific changes that have been made.
-
-	See changes to a particular file
-		git log -p <file>
+		See changes to a particular file
+			git log -p <file>
 
 
 e)
@@ -467,6 +484,58 @@ Git Diff Branches
 
 	The above command will display the differences between branch 1 and branch 2. 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+• Git Alias
+
+	If you prefer aliases than typing the whole command - git supports that.
+		for e.g. 
+		git st #may be for status
+		git co #may be for checkout
+		
+	
+This can be done in two ways
+	1. Update ~/.gitconfig
+	2. git config --global #Recommended.
+		
+		
+	1. 	
+	add lines to ~/.gitconfig
+-----------------------------------------------
+[alias]
+    st = status
+    ci = commit -v
+Or you can use the git config alias command:
+-----------------------------------------------
+
+	2. Recommended approach
+$ git config --global alias.st status 
+On unix, use single quotes if the alias has a space:
+
+$ git config --global alias.ci 'commit -v'
+On windows, use double quotes if the alias has a space or a command line argument:
+
+c:\dev> git config --global alias.ci "commit -v"
+
+
+
+Further read
+	https://stackoverflow.com/questions/2553786/how-do-i-alias-commands-in-git
+	https://opensource.com/article/20/11/git-aliases
+	https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases
+------------------------------------------------
+Git tagging
+	https://www.freecodecamp.org/news/git-tag-explained-how-to-add-remove/
+
+[incomplete]
+• Tags
+• Tag Concepts and when it is used
+• GIT tag commands
+• View tags
+• Checkout tags
+
+• Synchronize with Remote using Push, Pull, Fetch and Rebase
+• Git Ignore
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Viewing only staged changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -542,7 +611,8 @@ o Undoing Changes
 	Remove all local untracked files, so only git tracked files remain:
 		git clean -fdx
 
-	WARNING: -x will also remove all ignored files, including ones specified by .gitignore! You may want to use -n for preview of files to be deleted.
+	WARNING: -x will also remove all ignored files, including ones specified by .gitignore! 
+	You may want to use -n for preview of files to be deleted.
 
 
 	Nothing in Git is deleted, so when you work in Git, you can undo your work.
