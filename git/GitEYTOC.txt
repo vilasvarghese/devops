@@ -21,7 +21,51 @@ Distributed repositories
 	- All disadv. solved.
 
 
+Getting started
+-----------------------------------------------------------------------------------------------------------
+Go for ssh access
 
+To setup GitHub SSH keys and use them on Ubuntu, follow these steps:
+
+1.  Create a GitHub SSH key pair with the ssh-keygen command
+    Copy the value of the public SSH key to the clipboard
+    Login to GitHub and navigate to your account settings
+    Click on the SSH and GPG link
+    Click Add Key to register the public SSH key with your account
+    Name the key and paste the copied  value into the text field
+    Save your changes
+    In your Git client, use the SSH based GitHub URL to clone your repo
+
+
+2. git clone ssh url 
+	git clone git@github.com:vilasvarghese/test1.git
+	add some file in repo. 
+	git add .
+	git commit -m "test"
+	git push 
+	
+
+
+3. ERROR: Permission to bitsvilas/hello-world-javascript-action.git denied to vilasvarghese
+	git remote rm origin
+	git remote add origin git@github.com:bitsvilas/hello-world-javascript-action.git
+
+
+
+
+2 ways 
+	initialize remote 	
+	initialize locally 
+	
+	1. Existing remote
+		while cloning get the ssh url
+		
+		
+
+
+
+
+-----------------------------------------------------------------------------------------------------------
 Git Life Cycle
 -----------------------------------------------------------------------------------------------------------
 On linux setup your env. referring to 
@@ -39,6 +83,7 @@ Refer images
 	
 
 	index
+		staging area
 		track changes to files. 
 		You can add files to the staging area using the git add command.
 
@@ -158,10 +203,13 @@ When you use the --local option,
 
 	git init 
 		create a new Git repository from scratch. 
-		
+		also creates a .git directory
+		Refer "GitOneDay_Notes" line 315 (Here is what’s your .git will look like before your first commit:)
+	
+
+	
 	git add .
 	git commit -m "Initial commit"
-	
 	
 	
 	
@@ -213,9 +261,17 @@ When git init is executed in a directory
 	-----------------------------------------------------------------------------------------------------------
 	• Git add
 	
-	git add is a Git command that is used to stage changes in a file or directory for inclusion in the next commit.
+		stage changes 
+			in a file or directory 
+				for inclusion in the next commit.
 
-When you make changes to files in your Git repository, those changes are initially untracked by Git. The git add command allows you to select which changes you want to include in the next commit by adding them to the Git staging area. Once changes have been added to the staging area, they can then be committed to the repository using the git commit command.
+	When you make changes 
+		those are initially untracked by Git. 
+		git add command 
+			select which changes you want to include in the next commit 
+				by adding them to the Git staging area. 
+				Once added to the staging area
+					they can then be committed to the repository using the git commit command.
 
 Here are some common uses of the git add command:
 
@@ -239,26 +295,32 @@ It's important to note that git add only adds changes to the staging area; it do
 
 
 -------
-When you run git add, Git starts tracking the changes you made to a file, and it prepares those changes to be included in the next commit. Here's what happens internally when you run git add:
-
-Git reads the contents of the file(s) you specified with the command.
-
-Git calculates the SHA-1 hash of the file(s) content, which is a unique identifier for the file(s).
-
-Git stores the contents of the file(s) in the Git object database, using the SHA-1 hash as the object's name.
-
-Git updates the Git index (also known as the staging area) with the SHA-1 hash of the file(s) content.
-
-By adding files to the staging area, Git is keeping track of which files are ready to be committed. This allows you to commit specific changes instead of committing all changes in the repository.
-
-It's important to note that git add only adds the changes to the staging area. 
-
+When you run git add, 
+	starts tracking the changes 
+	prepares those changes to be included in the next commit. 
 	
+	Internally what happens when we do git add:
+	--------------------------------------------
+
+	Git reads the contents of the file(s) you specified with the command.
+	Git calculates the SHA-1 hash of the file(s) content
+		is a unique identifier for the file(s).
+	Git stores the contents of the file(s) 
+		in the Git object database
+		using the SHA-1 hash as the object's name.
+	Git updates the Git index 
+		(also known as the staging area) 
+			with the SHA-1 hash of the file(s) content.
+	By adding files to the staging area
+		Git is keeping track of which files are ready to be committed. 
+		This allows you to commit specific changes instead of committing all changes in the repository.
+	It's important to note that git add only adds the changes to the staging area. 
+
+		
 	
 	-----------------------------------------------------------------------------------------------------------
 	• Git diff
-	
-	
+
 	
 Make some changes to a file in the repository.
 
@@ -275,6 +337,7 @@ Make some changes to a file in the repository.
 		git diff
 			nothing
 		git diff --cached
+			shows the diff between stage and commit
 	modify the file
 		git diff
 			shows difference
@@ -289,7 +352,8 @@ git diff -
 	shows the difference between the working directory and the index.
 
 $ git diff
-This will show you the changes you have made to your files since the last commit that are not yet staged for the next commit.
+	show changes made to files since the last commit 
+		that are not yet staged for the next commit.
 
 git diff --cached 
 	--cached represent the staging area.
@@ -297,14 +361,12 @@ or
 git diff --staged - 
 	
 	shows the difference between the index and the last commit.
+		changes you have staged for the next commit
 
-
-$ git diff --cached
-	will show the changes you have staged for the next commit
-		compared to the last commit.
 
 $ git diff HEAD
-	This will show you the changes you have made to your files since the last commit, including changes that are not yet staged.
+	show changes made since the last commit
+		including changes that are not yet staged.
 
 git log --oneline
 git diff <commit> <commit> - shows the difference between two commits.
@@ -315,6 +377,8 @@ $ git diff master..feature
 This will show you the changes between the master and feature branches.
 
 git diff <tag>..<tag> - shows the difference between two tags.
+
+
 
 	-----------------------------------------------------------------------------------------------------------
 	• Git commit
@@ -334,11 +398,17 @@ git diff <tag>..<tag> - shows the difference between two tags.
 			The commit is identified by a unique SHA-1 hash
 				used to refer to the commit in other Git commands.
 
-The git commit command requires you to provide a commit message that describes the changes you have made in the commit. This message should be brief, but informative, and should explain the purpose of the changes and any relevant context.
-
-To create a commit, you must first stage the changes you want to include in the commit using the git add command. This adds the changes to the staging area, which is also known as the index or the cache. Once the changes are staged, you can run git commit to create the commit.
-
-Here's an example workflow for creating a commit in Git:
+	git commit 
+		commit message is mandatory
+		describes the changes 
+			what changes 
+			why did you change?
+			should be brief
+				but informative
+			
+	first stage then commit
+	
+	Here's an example workflow for creating a commit in Git:
 
 Make changes to one or more files in your working directory.
 Use git add to stage the changes you want to include in the commit.
@@ -400,26 +470,23 @@ It's important to note that git reset can be a destructive operation, especially
 Here are some common ways to use git reset:
 
 Resetting the index: If you have added changes to the staging area using git add, but then decide that you want to remove those changes from the staging area, you can use git reset with the --mixed or --soft option. For example:
-perl
-Copy code
+
+
 $ git reset HEAD file.txt
 This command will remove the changes to file.txt from the staging area, but leave the changes in the working directory.
 
 Undoing changes in the working directory: If you have made changes to your files in the working directory, but haven't yet added them to the staging area, you can use git reset with the --hard option to discard those changes. For example:
-css
-Copy code
+
 $ git reset --hard HEAD
 This command will discard any changes in the working directory that are not part of the current commit.
 
 Moving the branch pointer: If you want to move the branch pointer to a previous commit, you can use git reset with the --soft option. This will keep the changes in the working directory and the index, but move the branch pointer to the specified commit. For example:
-css
-Copy code
+
 $ git reset --soft HEAD~2
 This command will move the branch pointer back two commits, but keep the changes in the working directory and the index.
 
 Undoing a merge: If you have merged two branches and want to undo the merge, you can use git reset with the --hard option to reset the branch pointer to the commit before the merge. For example:
-css
-Copy code
+
 $ git reset --hard HEAD^
 This command will undo the merge and set the branch pointer to the commit before the merge.
 
@@ -435,11 +502,17 @@ It's important to note that git reset can be a destructive command, especially w
 
 	run git status
 		Git will display the following information:
-
-		On branch: This shows you the current branch you are on.
-		Changes to be committed: This lists the files that have been staged and are ready to be committed.
-		Changes not staged for commit: This lists the files that have been modified in your working directory but haven't been staged yet.
-		Untracked files: This lists the files that are not tracked by Git and have not been added to the staging area.
+			On branch: 
+				Display current branch.
+			Changes to be committed: 
+				lists the files that have been staged.
+			Changes not staged for commit: 
+				lists the modified files 
+					in your working directory 
+						but haven't been staged yet.
+			Untracked files: 
+				lists of files not tracked by Git 
+					have not been added to the staging area.
 
 Here's an example output of git status:
 
@@ -462,36 +535,56 @@ This output shows that file1.txt has been modified and staged, file2.txt is a ne
 	• Git merge
 
 
-Git merge is a powerful feature of the Git version control system that allows you to combine changes from two or more branches. Here are some of the common use cases of Git merge:
+	combine/merge changes from two or more branches. 
+	Here are some of the common use cases of Git merge:
 
-Integrating feature branches: 
-	When working on a software project, developers often create separate feature branches to work on specific features or fixes. Git merge allows you to merge these branches into the main development branch, such as the master branch, to integrate the changes and create a cohesive codebase.
+	Integrating feature branches: 
+		create separate feature branches 
+			to work on specific features or fixes. 
+		Git merge 
+			merge these branches 
+				into the main development branch (e.g. master branch)
+					integrate the changes 
+					create a cohesive codebase.
 
-Resolving conflicts: 
-	Git merge is useful when two or more branches contain conflicting changes. Git provides tools to help you resolve conflicts and merge the changes in a way that preserves the work of all contributors.
+	Resolving conflicts: 
+		Two or more branches 
+			can contain conflicting changes. 
+		Git provides tools 
+			identify conflicts 
+			resolve conflicts 
+			merge the changes in a way that preserves the work of all contributors.
 
-Branch maintenance: 
-	Git merge can be used to bring changes made in one branch into another. This can be useful when maintaining long-lived branches, such as a release branch that receives bug fixes from multiple development branches.
+	Branch maintenance:
+		Git merge 
+			Import changes changes from one branch into another. 
+			useful when maintaining long-lived branches
+				e.g. release branch 
+					receives bug fixes from multiple development branches.
 
-Collaboration: 
-	Git merge is essential for collaborative software development. Developers can work on their own branches and then merge changes into a shared branch, allowing them to work on separate tasks without interfering with each other's work.
-
-Rollback: 
-	Git merge can be used to undo changes made in a branch or revert back to a previous state. This is useful when a mistake has been made, and it's necessary to go back to an earlier version of the code.
-
-
-
+	Collaboration: 
+		Git merge 
+			essential for collaborative software development. 
+			Developers 
+				work on their own branches 
+				then merge changes into a shared branch
+			allow to work on separate tasks 
+				without interfering with each other's work.
 
 	-----------------------------------------------------------------------------------------------------------
 	• Git push
-	
-	this may fail if you clonned on linux using https and setup ssh access
+
+	Github recently stopped support for password based push. Hence use ssh.
+	This may fail if you clonned on linux using https and setup ssh access
 	git remote rm origin
-	git remote add origin git@github.com:<user>/last part of repo.git
+	git remote add origin git@github.com:<user>/last-part-of-repo.git
 	e.g. git remote add origin git@github.com:vilasvarghese/docker-k8s.git
 	
 
-	git push is a command in Git that is used to upload local repository content to a remote repository. When you make changes to files in your local repository, you can use the git push command to send those changes to a remote repository, such as GitHub, GitLab, or Bitbucket. Here are the steps to use the git push command:
+	git push 
+		upload local repository changes  
+			to a remote repository. 
+		make changes to files in your local repository, you can use the git push command to send those changes to a remote repository, such as GitHub, GitLab, or Bitbucket. Here are the steps to use the git push command:
 
 First, make sure you have changes to push by checking the status of your local repository using the git status command.
 
@@ -511,18 +604,25 @@ That's it! You have successfully pushed changes from your local repository to a 
 	-----------------------------------------------------------------------------------------------------------
 	• Git pull
 	
-	git pull is a command in Git that is used to download changes from a remote repository and merge them into the local repository. When you collaborate with others on a Git project, you may need to download the latest changes made by others and merge them into your local repository. Here are the steps to use the git pull command:
+		download changes from a remote repository 
+		merge them into the local repository. 
+		When you collaborate with others on a Git project, you may need to download the latest changes made by others and merge them into your local repository. Here are the steps to use the git pull command:
 
-First, make sure you are in the local repository that you want to update. You can check the current repository using the git remote -v command.
+	First, make sure you are in the local repository that you want to update. 
+	You can check the current repository using the 
+		git remote -v command.
 
-Next, use the git pull command to download and merge changes from the remote repository. For example, use the command git pull origin master to download and merge changes from the master branch of the remote repository named "origin".
-
-If there are any conflicts between the local repository and the remote repository, Git will prompt you to resolve them. Follow the instructions on the screen to resolve the conflicts manually.
-
-Once the merge is complete, use the git status command to check the status of the local repository. It should show that the local repository is up to date with the remote repository.
-
-That's it! You have successfully downloaded changes from a remote repository and merged them into your local repository using the git pull command.
 	
+	If there are any conflicts between the local repository and the remote repository, 
+		Git will prompt you to resolve them. 
+		Follow the instructions on the screen to resolve the conflicts manually.
+
+	Once the merge is complete, 
+		use the git status command to check the status of the local repository. 
+		It should show that the local repository is up to date with the remote repository.
+
+	That's it! You have successfully downloaded changes from a remote repository and merged them into your local repository using the git pull command.
+		
 ----------------------------------------------------------
 Git Branching
 
@@ -547,13 +647,19 @@ Git Branching
 			git switch second-branch 
 			git log --oneline
 			
+			git log -n
+				see only the last "n" changes
+			git log -1 
+				see only the last change
+			
 	Switching branches
 		git checkout <branch-name>
 		git switch <branch-name>
 		
 ----------------------
 git checkout: 
-	use to 
+	not preferred anymore
+	used to 
 		switch between branches
 		check out a specific commit, or 
 		discarding changes in a file. 
@@ -571,6 +677,8 @@ git switch:
 		introduced as a safer alternative to git checkout
 		does not update the working directory by default when switching branches. 
 		Instead, prompts to either stash or commit any uncommitted changes before switching branches.
+
+
 ----------------------
 	Listing branches
 	----------------
@@ -858,3 +966,20 @@ It is important to carefully review the changes made during the merge process an
 		Release
 		Hotfix
 			
+
+
+---------------------------------------------------------
+Errors and solutions
+--------------------
+403 error when you push 
+
+ git config [--local] user.email mailId
+ git config [--local] user.name name
+ 
+ git remote set-url origin ssh://git@github.com/bitsvilas/test1.git
+ [git remote set-url origin git@github.com:bitsvilas/test1.git]
+ 
+ 
+ 
+ 
+
