@@ -27,8 +27,9 @@ Go for ssh access
 
 To setup GitHub SSH keys and use them on Ubuntu, follow these steps:
 
-1.  Create a GitHub SSH key pair with the ssh-keygen command
-    Copy the value of the public SSH key to the clipboard
+1.  Create a GitHub SSH key pair 
+		ssh-keygen 
+    Copy the value of the public SSH key 
     Login to GitHub and navigate to your account settings
     Click on the SSH and GPG link
     Click Add Key to register the public SSH key with your account
@@ -432,7 +433,7 @@ In summary, git commit is used to create a new commit in Git, which records the 
 	
 	Refer my presentation "Git_OneDay.ppt" slide number 53 then continue if required.
 	
-	undo changes 
+	undo changes a
 	move the current branch pointer to a previous commit. 
 	
 Here are some common use cases for git reset:
@@ -818,17 +819,25 @@ How to Resolve Merge Conflicts in Git?
 	
 	Merge conflicts occur when Git is unable to automatically merge changes from different branches into a single branch. There are different types of merge conflicts that can occur, depending on the nature of the changes made in the conflicting branches. Here are some common types of merge conflicts:
 
-Content conflict: This type of conflict occurs when two branches have made changes to the same line(s) of code in a file. Git is unable to determine which change to accept, so it prompts the user to resolve the conflict manually.
+Content conflict: 
+	This type of conflict occurs when two branches have made changes to the same line(s) of code in a file. Git is unable to determine which change to accept, so it prompts the user to resolve the conflict manually.
 
-Rename conflict: This type of conflict occurs when one branch renames a file that another branch is also modifying. Git is unable to determine how to merge the changes, so it prompts the user to resolve the conflict manually.
+Rename conflict: 
+	This type of conflict occurs when one branch renames a file that another branch is also modifying. Git is unable to determine how to merge the changes, so it prompts the user to resolve the conflict manually.
 
-Add/add conflict: This type of conflict occurs when both branches have added a file with the same name to the same directory. Git is unable to determine which file to keep, so it prompts the user to resolve the conflict manually.
+Add/add conflict: 
+	This type of conflict occurs when both branches have added a file with the same name to the same directory. Git is unable to determine which file to keep, so it prompts the user to resolve the conflict manually.
 
-Delete/modify conflict: This type of conflict occurs when one branch deletes a file that another branch is modifying. Git is unable to determine how to merge the changes, so it prompts the user to resolve the conflict manually.
+Delete/modify conflict: 
+	This type of conflict occurs when one branch deletes a file that another branch is modifying. Git is unable to determine how to merge the changes, so it prompts the user to resolve the conflict manually.
 
-Binary conflict: This type of conflict occurs when two branches have made changes to the same binary file, such as an image or a video. Git is unable to merge the changes, so it prompts the user to resolve the conflict manually.
+Binary conflict: 
+	This type of conflict occurs when two branches have made changes to the same binary file, such as an image or a video. Git is unable to merge the changes, so it prompts the user to resolve the conflict manually.
 
 When a merge conflict occurs, Git will typically mark the conflicting areas in the affected files with special markers, such as "<<<<<<<", "=======", and ">>>>>>>". The user can then manually edit the affected files to resolve the conflict, and then commit the changes to complete the merge.
+	
+	More details with hands on : GitHandsOn-section 39
+	
 	
 	-----------------------------------------------------------------------------------------------------------
 	• Resolve conflicts

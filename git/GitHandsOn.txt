@@ -14,6 +14,9 @@
 	git config --global user.name "vilasvarghese"
 	git config --global user.email "vilas@vilas.com"
 
+
+
+
 3.	Using Git help	
 	
 	To get help there are three equivalent ways:
@@ -330,6 +333,7 @@ git show @author
     git config merge.conflictstyle diff3
 		git clean -fn #clean all extra files created by git.
 
+	#more reference on this: https://gist.github.com/karenyyng/f19ff75c60f18b4b8149
 
 ----------------------------------------------------------------------------------		
 confirm if the following is working
