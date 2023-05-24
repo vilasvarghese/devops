@@ -129,7 +129,7 @@
 		git checkout -b newissue
 			Similar to 
 				$ git branch newissue
-				$ git checkout newissue
+				$ git checkout newissue #git switch newissue
 
 13. vi index.html
 	git add .
@@ -137,13 +137,14 @@
 
 14. git checkout master
 	
-15. git checkout -b hotfix
+15. git checkout -b hotfix 
+	- instead use git branch and git switch 
 	
 16. vi index.html
 	git add *
 	git commit -a -m 'Any comment'
 	
-17. git checkout master
+17. git switch master
 	git merge hotfix
 	
 	cd .git/logs
@@ -185,7 +186,7 @@
 	vi m2.txt
 		Enter some data and save.
 	git add *
-	git commit -m "crete 3 files for testing"
+	git commit -m "create 3 files for testing"
 	
 24. Create two different branches.
 	git branch b1
@@ -340,7 +341,7 @@ confirm if the following is working
 sudo apt-get update
 sudo apt-get install kdiff3
 or
-yum install kdiff3
+yum install kdiff3	#doesn't work on amazon linux.
 
 
 
@@ -378,18 +379,25 @@ From f1
 			f1 - feature1 started.
 			f2
 		m3
+
+		git switch f1
+		git rebase main
 		
-		rebase
+		After rebase f1 would be 
 			m1
 			m2
 			m3
-			?
-		
-		merge
+			f1
+			f2
+
+		git switch main
+		git merge f1
+		After merge main branch would be 
 			m1
 			m2
+			f1
+			f2
 			m3
-			?
 			
 -------------------------------------------------------------------------------------
 	git checkout master
@@ -676,3 +684,4 @@ Other good references:
 	1. https://shiivangii.medium.com/all-about-git-and-github-c4b987df1b16
 	2. https://docs.gitlab.com/ee/topics/git/numerous_undo_possibilities_in_git/
 	3. https://www.javatpoint.com/git-ignore
+	4. http://swcarpentry.github.io/git-novice/

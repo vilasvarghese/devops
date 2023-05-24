@@ -648,13 +648,13 @@ Git Branching
 			git switch second-branch 
 			git log --oneline
 			
-			git log -n
+			git log -n #where n is a number
 				see only the last "n" changes
 			git log -1 
 				see only the last change
 			
 	Switching branches
-		git checkout <branch-name>
+		git checkout <branch-name> #old way has disadv. 
 		git switch <branch-name>
 		
 ----------------------
@@ -687,6 +687,8 @@ git switch:
 		git branch -r
 	see all local branches
 		git branch 
+	see all local and remote branches
+		git branch -a 
 	
 		
 	Rename a branch
@@ -698,6 +700,9 @@ git switch:
 	----------------------
 		git push -u origin <local branch>
 		git push -u origin feature/<name>
+			This will allow create a pull request 
+				link to create pull reques will be there in the output 
+				
 		
 	Tracking branches
 	-----------------
@@ -753,6 +758,7 @@ For more information about using git switch:
 		to associate a local branch (say local) to remote
 			git switch <branch name>
 			git push -u origin <branch name>
+				#will allow to create pull request
 				
 N.B: If you get permission denied error
 	most likely you have configured another user.
