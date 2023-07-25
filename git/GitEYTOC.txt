@@ -431,6 +431,8 @@ In summary, git commit is used to create a new commit in Git, which records the 
 	• Git reset
 	
 	
+	
+	
 	Refer my presentation "Git_OneDay.ppt" slide number 53 then continue if required.
 	
 	undo changes a
@@ -532,97 +534,6 @@ Untracked files:
   (use "git add <file>..." to include in what will be committed)
         file3.txt
 This output shows that file1.txt has been modified and staged, file2.txt is a new file that has been added to the staging area, and file1.txt has been modified but not staged yet. Additionally, there is an untracked file called file3.txt that has not been added to the staging area.
-	-----------------------------------------------------------------------------------------------------------
-	• Git merge
-
-
-	combine/merge changes from two or more branches. 
-	Here are some of the common use cases of Git merge:
-
-	Integrating feature branches: 
-		create separate feature branches 
-			to work on specific features or fixes. 
-		Git merge 
-			merge these branches 
-				into the main development branch (e.g. master branch)
-					integrate the changes 
-					create a cohesive codebase.
-
-	Resolving conflicts: 
-		Two or more branches 
-			can contain conflicting changes. 
-		Git provides tools 
-			identify conflicts 
-			resolve conflicts 
-			merge the changes in a way that preserves the work of all contributors.
-
-	Branch maintenance:
-		Git merge 
-			Import changes changes from one branch into another. 
-			useful when maintaining long-lived branches
-				e.g. release branch 
-					receives bug fixes from multiple development branches.
-
-	Collaboration: 
-		Git merge 
-			essential for collaborative software development. 
-			Developers 
-				work on their own branches 
-				then merge changes into a shared branch
-			allow to work on separate tasks 
-				without interfering with each other's work.
-
-	-----------------------------------------------------------------------------------------------------------
-	• Git push
-
-	Github recently stopped support for password based push. Hence use ssh.
-	This may fail if you clonned on linux using https and setup ssh access
-	git remote rm origin
-	git remote add origin git@github.com:<user>/last-part-of-repo.git
-	e.g. git remote add origin git@github.com:vilasvarghese/docker-k8s.git
-	
-
-	git push 
-		upload local repository changes  
-			to a remote repository. 
-		make changes to files in your local repository, you can use the git push command to send those changes to a remote repository, such as GitHub, GitLab, or Bitbucket. Here are the steps to use the git push command:
-
-First, make sure you have changes to push by checking the status of your local repository using the git status command.
-
-Next, add the changes you want to push to the staging area using the git add command. For example, if you want to push all changes, use the command git add ..
-
-Once you have added the changes to the staging area, create a commit for those changes using the git commit command. For example, use the command git commit -m "Commit message" to create a commit with the message "Commit message".
-
-After creating the commit, use the git push command to upload the changes to the remote repository. For example, use the command git push origin master to push the changes to the master branch of the remote repository.
-
-If you are pushing to a remote repository for the first time, you may need to specify the remote repository URL using the git remote add command. For example, use the command git remote add origin https://github.com/username/repository.git to add a remote repository named "origin".
-
-If your push fails due to conflicts with the remote repository, you may need to pull changes from the remote repository before pushing your changes. Use the git pull command to pull changes, resolve any conflicts, and then try the git push command again.
-
-That's it! You have successfully pushed changes from your local repository to a remote repository using the git push command.
-
-
-	-----------------------------------------------------------------------------------------------------------
-	• Git pull
-	
-		download changes from a remote repository 
-		merge them into the local repository. 
-		When you collaborate with others on a Git project, you may need to download the latest changes made by others and merge them into your local repository. Here are the steps to use the git pull command:
-
-	First, make sure you are in the local repository that you want to update. 
-	You can check the current repository using the 
-		git remote -v command.
-
-	
-	If there are any conflicts between the local repository and the remote repository, 
-		Git will prompt you to resolve them. 
-		Follow the instructions on the screen to resolve the conflicts manually.
-
-	Once the merge is complete, 
-		use the git status command to check the status of the local repository. 
-		It should show that the local repository is up to date with the remote repository.
-
-	That's it! You have successfully downloaded changes from a remote repository and merged them into your local repository using the git pull command.
 		
 ----------------------------------------------------------
 Git Branching
@@ -813,6 +724,100 @@ N.B: If you get permission denied error
 		git diff main..second-branch
 		git diff origin/main..main
 		
+---------------------------
+
+
+	-----------------------------------------------------------------------------------------------------------
+	• Git merge
+
+
+	combine/merge changes from two or more branches. 
+	Here are some of the common use cases of Git merge:
+
+	Integrating feature branches: 
+		create separate feature branches 
+			to work on specific features or fixes. 
+		Git merge 
+			merge these branches 
+				into the main development branch (e.g. master branch)
+					integrate the changes 
+					create a cohesive codebase.
+
+	Resolving conflicts: 
+		Two or more branches 
+			can contain conflicting changes. 
+		Git provides tools 
+			identify conflicts 
+			resolve conflicts 
+			merge the changes in a way that preserves the work of all contributors.
+
+	Branch maintenance:
+		Git merge 
+			Import changes changes from one branch into another. 
+			useful when maintaining long-lived branches
+				e.g. release branch 
+					receives bug fixes from multiple development branches.
+
+	Collaboration: 
+		Git merge 
+			essential for collaborative software development. 
+			Developers 
+				work on their own branches 
+				then merge changes into a shared branch
+			allow to work on separate tasks 
+				without interfering with each other's work.
+
+	-----------------------------------------------------------------------------------------------------------
+	• Git push
+
+	Github recently stopped support for password based push. Hence use ssh.
+	This may fail if you clonned on linux using https and setup ssh access
+	git remote rm origin
+	git remote add origin git@github.com:<user>/last-part-of-repo.git
+	e.g. git remote add origin git@github.com:vilasvarghese/docker-k8s.git
+	
+
+	git push 
+		upload local repository changes  
+			to a remote repository. 
+		make changes to files in your local repository, you can use the git push command to send those changes to a remote repository, such as GitHub, GitLab, or Bitbucket. Here are the steps to use the git push command:
+
+First, make sure you have changes to push by checking the status of your local repository using the git status command.
+
+Next, add the changes you want to push to the staging area using the git add command. For example, if you want to push all changes, use the command git add ..
+
+Once you have added the changes to the staging area, create a commit for those changes using the git commit command. For example, use the command git commit -m "Commit message" to create a commit with the message "Commit message".
+
+After creating the commit, use the git push command to upload the changes to the remote repository. For example, use the command git push origin master to push the changes to the master branch of the remote repository.
+
+If you are pushing to a remote repository for the first time, you may need to specify the remote repository URL using the git remote add command. For example, use the command git remote add origin https://github.com/username/repository.git to add a remote repository named "origin".
+
+If your push fails due to conflicts with the remote repository, you may need to pull changes from the remote repository before pushing your changes. Use the git pull command to pull changes, resolve any conflicts, and then try the git push command again.
+
+That's it! You have successfully pushed changes from your local repository to a remote repository using the git push command.
+
+
+	-----------------------------------------------------------------------------------------------------------
+	• Git pull
+	
+		download changes from a remote repository 
+		merge them into the local repository. 
+		When you collaborate with others on a Git project, you may need to download the latest changes made by others and merge them into your local repository. Here are the steps to use the git pull command:
+
+	First, make sure you are in the local repository that you want to update. 
+	You can check the current repository using the 
+		git remote -v command.
+
+	
+	If there are any conflicts between the local repository and the remote repository, 
+		Git will prompt you to resolve them. 
+		Follow the instructions on the screen to resolve the conflicts manually.
+
+	Once the merge is complete, 
+		use the git status command to check the status of the local repository. 
+		It should show that the local repository is up to date with the remote repository.
+
+	That's it! You have successfully downloaded changes from a remote repository and merged them into your local repository using the git pull command.
 		
 	
 			

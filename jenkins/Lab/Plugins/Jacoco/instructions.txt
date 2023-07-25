@@ -1,0 +1,22 @@
+Install jacoco plugin and codecoverage plugin 
+Create a new freestyle job 
+	git url: https://github.com/vilasvarghese/JacocoExample
+
+	Build steps: 
+		mvn package
+		mvn test
+	Post-Build action 
+		Select: Record JaCoCo coverage report
+		Keep everything default 
+		Run the job 
+	
+	Check the console
+	Return to the job 
+		New option "Coverage Trend" can be seen in left menu bottom 
+		Click on it 
+			No Trend available 
+			Click on that blank image
+				See the jacoco report
+			
+			
+			
