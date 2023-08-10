@@ -135,6 +135,26 @@
 	git add .
 	git commit -m 'Fix issue'
 
+
+	To delete files using Git:
+	--------------------------
+	git rm <filename>
+	git rm <file1> <file2> <file3>
+
+	git add .
+	git commit -m "Delete files: filename(s)"
+
+	To delete folders using Git:
+	--------------------------
+	git rm -r <folder>
+	git rm -r <folder1> <folder2>
+	
+
+	git add .
+	git commit -m "Delete folders: foldername(s)"
+
+
+
 14. git checkout master
 	
 15. git checkout -b hotfix 
@@ -493,32 +513,34 @@ From f1
 Git Stashing
 ############
 
-  135  vi file1.txt
-  136  vi file2.txt
-  137  git add file1.txt 
-  138  git status
-  139  git stash "first stash"
-  140  git stash save "first stash"
-  141  git status
-  142  git add .
-  143  git status
-  144  git stash save 'first stash'
-  145  git stash list
-  146  git checkout -b branch1
-  147  git ls
-  148  ls
-  149  git checkout master
-  150  ls
-  151  ls fi*
-  152  git branch
-  153  git branch f1
-  154  git checkout f1
-  155  ls
-  156  clear
-  157  git stash list
-  158  git stash apply stash@{0}
-  159  ls
-  160  vi file1.txt
+  vi file1.txt
+  vi file2.txt
+  git add file1.txt 
+  git status
+  git stash save "first stash"
+	no commit yet
+  git commit -m "testing"
+  
+  vi file1.txt 
+	make some changes and save
+  git status
+  git stash save 'first stash'
+	saving working dir. and index state
+  git stash list
+  
+  git checkout -b branch1
+  ls
+  git checkout master
+  ls
+  git branch
+  git branch f1
+  git checkout f1
+  ls
+  clear
+  git stash list
+  git stash apply stash@{0}
+  ls
+  vi file1.txt
   
   Get back and retain a stash
   161  git stash apply stash@{1}
@@ -580,6 +602,47 @@ Commits
 	what to revert back to 4
 	
 	git reset <commit id of 4>
+
+----------------------------------------------------------------------------
+Git rebase vs revert vs reset
+-----------------------------
+	https://opensource.com/article/18/6/git-reset-revert-rebase-commands
+	https://davidzych.com/difference-between-git-reset-soft-mixed-and-hard/
+
+Git rebase, revert, and reset 
+	commands that can be used to modify the history of your Git repository. 
+	Each have different purposes and should be used in different situations.
+
+Git rebase 
+	Purpose:
+		Integrates changes 
+			from one branch 
+			into another.	
+	What it does: 	
+		Rewrites the history of your repository.
+	This can be useful if you have been working on a feature branch and you want to merge those changes back into the main branch. 
+	Rebase	 
+		will rewrite the history of your repository, 
+		so it is important to use it carefully.
+
+Git revert 
+	Purpose: Undoes a commit.	
+	What it does: Creates a new commit that reverses the changes made in the original commit.
+
+	This can be useful if you have made a mistake or if you need to go back to a previous version of your code. Revert will create a new commit that reverses the changes made in the original commit.
+
+Git reset 
+	Purpose: Resets the state of your repository to a previous point in time.	
+	What it does: Removes all commits that were made after the specified point in time.
+
+	Used to reset the state of your repository to a previous point in time. This can be useful if you have made a mistake and you need to start over. Reset will remove all commits that were made after the specified point in time.
+
+
+Here are some additional things to keep in mind when using these commands:
+
+    Git rebase can be disruptive to your team's workflow. If you are working on a shared repository, it is important to coordinate with your team before using rebase.
+    Git revert can be used to undo a merge commit. However, it is important to note that revert will not undo the changes that were made in the merged branch.
+    Git reset can be used to discard changes that have not been committed yet. However, it is important to note that reset will remove the changes from your working directory and the index.
 
 
 	
@@ -685,3 +748,100 @@ Other good references:
 	2. https://docs.gitlab.com/ee/topics/git/numerous_undo_possibilities_in_git/
 	3. https://www.javatpoint.com/git-ignore
 	4. http://swcarpentry.github.io/git-novice/
+	
+	
+----------------
+In Git, the git diff command is used to show the changes between two different states of the repository. It allows you to see the differences between commits, branches, or the working directory. Here are some examples of using git diff:
+
+    Difference between Working Directory and Staging Area:
+    This command shows the changes between the current state of the files in your working directory and the staging area (index).
+
+git diff
+
+Difference between Working Directory and Last Commit:
+This command shows the changes between the current state of the files in your working directory and the last commit.
+
+git diff HEAD
+
+Difference between Two Commits:
+This command shows the changes between two specific commits.
+
+php
+
+git diff <commit-hash-1> <commit-hash-2>
+
+Difference between Two Branches:
+This command shows the changes between two branches.
+
+
+git diff <branch-name-1> <branch-name-2>
+
+Difference in a Specific File:
+To see the changes for a specific file, add the file path after the git diff command.
+
+lua
+
+git diff <file-path>
+
+Difference in a Specific Directory:
+To see the changes for files in a specific directory, add the directory path after the git diff command.
+
+lua
+
+git diff <directory-path>
+
+Difference Summary:
+To get a summary of the changes, you can use the --stat option.
+
+bash
+
+git diff --stat
+
+Difference with Color Highlighting:
+To display the diff with color highlighting, use the --color option.
+
+css
+
+git diff --color
+
+Difference Summary with Color Highlighting:
+To get a summary of the changes with color highlighting, use the --stat and --color options together.
+
+css
+
+git diff --stat --color
+
+
+---------------
+
+To rename a file in Git, you can use the git mv command, which is a shorthand for moving the file to a new name. The git mv command automatically stages the rename, making it easy to commit the change afterward. Here's the syntax for renaming a file:
+
+lua
+
+git mv <old-file-path> <new-file-path>
+
+Replace <old-file-path> with the current path of the file you want to rename, and <new-file-path> with the new path and name for the file.
+
+For example, if you want to rename a file named oldfile.txt to newfile.txt, you can use the following command:
+
+bash
+
+git mv oldfile.txt newfile.txt
+
+After executing the git mv command, Git will stage the rename, and you can check the status using git status:
+
+vbnet
+
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        renamed:    oldfile.txt -> newfile.txt
+
+Now, you can commit the rename:
+
+sql
+
+git commit -m "Rename oldfile.txt to newfile.txt"
+
+The file will now be renamed in the repository, and its history will reflect the rename. It's important to note that git mv is not mandatory for renaming files; you can also use regular file renaming commands provided by your operating system, and then stage and commit the changes separately using git add and git commit. However, git mv is a convenient way to perform the rename in a single step and ensure that the rename is correctly staged for the commit.
+	

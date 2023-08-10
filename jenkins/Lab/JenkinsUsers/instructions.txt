@@ -82,7 +82,7 @@ How to create (and manage) new users?
 		(This option only comes after that the plugin is installed and Jenkins is restarted). 
 		Select that. 
 		Click Apply and Save.
-	
+		
 		Login as a User1 and see what happens.
 		Now, User1 cannot access to the Jenkins because we are now using Role-based Strategy. 
 		We need to define a role to this User.

@@ -1,0 +1,538 @@
+Understanding and Using Build Tools
+	• Overview of Various Build Tools
+-----------------------------------------------------------------------
+
+Build tools are essential software utilities used by developers to automate the process of compiling, testing, and packaging their source code into executable artifacts or distribution packages. These tools streamline the software development and deployment process, saving time and reducing the chances of human error. Here's an overview of some popular build tools:
+
+    Make:
+    Make is one of the oldest build automation tools and is primarily used on Unix-based systems. It uses Makefiles to define the rules for building applications and managing dependencies. Make is powerful and widely used, but it can become complex for larger projects.
+
+    Ant (Apache Ant):
+    Ant is a Java-based build tool primarily used for Java projects. It uses XML-based configuration files (build.xml) to define build tasks and dependencies. Ant is platform-independent and is known for its simplicity and flexibility, although it can be verbose in large projects.
+
+    Maven:
+    Maven is another popular build tool for Java projects. It uses Project Object Model (POM) files to define the project structure, dependencies, and build configurations. Maven emphasizes convention over configuration, making it easy to use and maintain.
+
+    Gradle:
+    Gradle is a build automation tool that has gained popularity for its flexibility and performance. It uses a Groovy-based DSL (Domain-Specific Language) or Kotlin to define the build scripts. Gradle is highly customizable and supports building projects in various languages, including Java, Kotlin, and more.
+
+    npm (Node Package Manager):
+    npm is the default package manager for Node.js, and it includes build functionalities as well. It is used for managing JavaScript packages and automating tasks like building, testing, and deploying JavaScript applications.
+
+    Webpack:
+    Webpack is primarily a module bundler for JavaScript applications, but it can also handle build tasks like compiling code, optimizing assets, and handling dependencies. Webpack is commonly used in modern web development workflows.
+
+    Gulp:
+    Gulp is a JavaScript-based build tool that emphasizes code over configuration. It allows developers to create tasks using JavaScript and stream data between these tasks to automate build processes. Gulp is known for its speed and simplicity.
+
+    Grunt:
+    Grunt is a JavaScript-based build tool that uses a configuration-driven approach. It has been around for a while but has been somewhat replaced by Gulp and Webpack for modern front-end development.
+
+    CMake:
+    CMake is a cross-platform build tool used to manage the build process of C++ projects. It generates platform-specific build files (e.g., Makefiles or Visual Studio project files) based on a CMakeLists.txt file, making it easier to build projects on different platforms.
+
+Each of these build tools has its strengths and is suited for different project types and development environments. The choice of a build tool often depends on factors such as project complexity, language, ecosystem, and the developer's preference.
+
+
+Artifacts 
+	what products deliver to customers.
+	java
+		jar
+		war
+		ear
+	windows
+		.zip
+		.msi
+	linux
+		tar
+		tar.gz
+	ruby
+		gem
+	C#
+		.iso
+	
+
+-----------------------------------------------------------------------
+	• What is Maven
+-----------------------------------------------------------------------
+1. Dependency resolution 
+2. Plugins
+	tomcat
+	jetty
+
+
+Maven is a powerful and widely used build automation tool primarily used for Java projects, although it can be used with other languages as well. It provides a structured and standardized way to manage the build process, project dependencies, and project documentation. Maven was developed by Apache Software Foundation and is an open-source project.
+
+Key Features of Maven:
+
+    Project Object Model (POM):
+    Maven uses an XML file called POM to define the project structure, dependencies, and build configurations. The POM acts as the blueprint for the project and contains essential information about the project, such as its name, version, dependencies, and plugins.
+
+    Dependency Management:
+    Maven simplifies the management of external libraries and dependencies required for a project. By specifying dependencies in the POM, Maven automatically downloads the required libraries from Maven Central Repository or other remote repositories.
+
+    Build Lifecycle and Phases:
+    Maven defines a standard build lifecycle, which consists of various build phases such as compile, test, package, install, and deploy. Each phase represents a specific step in the build process. Developers can execute specific build phases using Maven commands.
+
+    Plugins:
+    Maven supports a wide range of plugins that extend its functionality. Plugins can be used to perform various tasks such as compiling code, running tests, generating documentation, and packaging the application into a distributable format.
+
+    Consistent Project Structure:
+    Maven promotes a standardized project structure, making it easier for developers to understand and work with different Maven-based projects. This consistency simplifies collaboration and makes it easier for new team members to get started.
+
+    Dependency Management Transitivity:
+    Maven handles dependency transitivity, which means that if a project depends on another library that, in turn, depends on more libraries, Maven will automatically resolve and download the transitive dependencies.
+
+    Integration with Continuous Integration (CI) Tools:
+    Maven integrates well with popular CI tools like Jenkins, allowing seamless integration of the build process into the continuous integration and continuous deployment workflows.
+
+Using Maven, developers can build projects more efficiently and consistently. By relying on a standardized project structure and build process, Maven helps ensure that projects can be easily maintained and shared across teams. It simplifies the process of managing dependencies, which is particularly valuable in large projects with multiple dependencies.
+
+Maven has become a standard tool in the Java ecosystem, and many Java-based frameworks and libraries are available through Maven repositories. It has significantly contributed to the ease of development and maintenance of Java applications and is widely adopted in the Java development community.
+
+-----------------------------------------------------------------------	
+	• Maven Architecture
+-----------------------------------------------------------------------
+Maven follows a plugin-based architecture that allows developers to extend its functionality and customize the build process to suit the needs of different projects. The core of Maven is built around the Project Object Model (POM) and a set of default lifecycle phases. Let's take a closer look at the key components of Maven's architecture:
+
+    Project Object Model (POM):
+		At the heart of Maven is the POM, which is an XML file named pom.xml. The POM defines the project's metadata, configuration, dependencies, and build settings. It contains information such as the project's group ID, artifact ID, version, project dependencies, plugins, and repositories. The POM acts as a blueprint for the project and provides the necessary information for Maven to manage the project.
+
+    Build Lifecycle and Phases:
+		Maven defines a set of build lifecycle phases that represent specific stages in the build process. Each build lifecycle phase consists of a collection of goals. The default lifecycle consists of the following phases:
+        validate: 
+			Validates the project's structure and configuration.
+        compile: 
+			Compiles the source code of the project.
+        test: 
+			Runs unit tests using a testing framework like JUnit.
+        package: Assembles the compiled code into a distributable format (e.g., JAR, WAR).
+        verify: 
+			Performs additional checks on the package to ensure its validity.
+        install: 
+			Installs the package into the local Maven repository.
+        deploy: 
+			Deploys the package to a remote repository for sharing with other developers.
+
+    Plugins:
+		Maven's functionality is extended through plugins. Plugins are Java libraries packaged with a descriptor that defines the goals they can execute. Each build phase is associated with a default set of goals provided by core plugins. Additional plugins can be added to customize the build process. Plugins can perform various tasks, such as compiling code, generating documentation, running tests, and packaging the application.
+
+    Dependency Management:
+		Maven simplifies dependency management by allowing developers to specify dependencies in the POM. The dependencies are automatically downloaded from remote repositories like Maven Central Repository based on the information provided in the POM. Maven also handles transitive dependencies, resolving and downloading dependencies required by the project's direct dependencies.
+
+    Repositories:
+		Maven relies on repositories to store and manage dependencies and plugins. The central repository, Maven Central Repository, is the default repository from which Maven downloads dependencies. Additionally, Maven supports local repositories and allows custom repositories to be defined in the POM.
+
+    Profiles:
+		Maven supports the concept of profiles, which allow developers to define alternate build configurations for different environments or scenarios. Profiles can specify different sets of dependencies, plugins, and build settings that are activated based on specific criteria, such as the environment or system properties.
+
+Maven's architecture is designed to promote project consistency and reusability while simplifying the build and dependency management process. By leveraging a plugin-based architecture and using the standardized POM, Maven has become a widely adopted and powerful build automation tool in the Java ecosystem.
+
+-----------------------------------------------------------------------	
+	• Maven Plugins
+-----------------------------------------------------------------------
+Maven plugins are extensions that enhance the functionality of the Maven build tool. Plugins allow developers to perform various tasks and customizations during the build process. Maven provides a rich ecosystem of both built-in core plugins and third-party plugins that can be easily integrated into the build lifecycle. Here are some common types of Maven plugins:
+
+    Compiler Plugin (maven-compiler-plugin):
+		The compiler plugin is one of the core plugins and is automatically bound to the compile phase. It compiles Java source code files (.java) into bytecode (.class files) for the specified Java version. The plugin also allows configuration of compiler options, source and target compatibility, and more.
+
+    Surefire Plugin (maven-surefire-plugin):
+		The Surefire plugin is another core plugin bound to the test phase. It is used to execute unit tests written using testing frameworks like JUnit or TestNG. The plugin generates test reports and can be configured to include or exclude specific test classes or methods.
+
+    Jar Plugin (maven-jar-plugin):
+		The Jar plugin is used to create Java Archive (JAR) files from the compiled classes. It is automatically bound to the package phase. The plugin allows customizations such as including specific resources, manifest file settings, and more.
+
+    Assembly Plugin (maven-assembly-plugin):
+		The Assembly plugin is a popular plugin used to create custom distribution packages from the project output. It can create ZIP, TAR, and other archive formats, combining various project artifacts and resources into a single distribution package.
+
+    Install Plugin (maven-install-plugin) and Deploy Plugin (maven-deploy-plugin):
+		These core plugins handle the installation and deployment of project artifacts to local and remote repositories, respectively. The install phase installs the project artifact to the local Maven repository, while the deploy phase deploys the artifact to a remote repository for sharing with other developers.
+
+    Failsafe Plugin (maven-failsafe-plugin):
+		The Failsafe plugin is similar to the Surefire plugin but is designed for integration tests rather than unit tests. It is bound to the verify phase and allows for the execution of tests that require a running application.
+
+    Clean Plugin (maven-clean-plugin):
+		The Clean plugin is a core plugin that removes build output files and directories, ensuring a clean build environment. It is automatically bound to the clean phase.
+
+    Site Plugin (maven-site-plugin):
+		The Site plugin generates project documentation, including reports and web pages. It is commonly used to produce project reports and documentation in HTML format.
+
+These are just a few examples of the many Maven plugins available. Developers can also create their custom Maven plugins to cater to specific project needs. Maven's plugin-based architecture allows for flexibility and extensibility, making it a robust and popular choice for automating build processes in Java and other projects.
+
+-----------------------------------------------------------------------	
+	• Maven Archetypes
+-----------------------------------------------------------------------
+
+Maven archetypes are project templates that allow developers to quickly create new Maven projects with a predefined project structure, build configuration, and initial set of files. Archetypes help in setting up a project's basic foundation, saving time and effort, and ensuring consistency across projects within an organization. Maven provides a variety of archetypes for different types of projects. To use an archetype, developers can use the mvn archetype:generate command and select the desired archetype from the list.
+
+Here are some common types of Maven archetypes:
+
+    maven-archetype-quickstart:
+		This is one of the most commonly used archetypes. It sets up a basic project structure for a Java project. It includes the src/main/java directory for Java source files, the src/test/java directory for test files, and a simple pom.xml file with minimal configuration.
+
+    maven-archetype-webapp:
+		This archetype is used for creating web application projects. It sets up a standard web application directory structure with the WEB-INF folder and the necessary configuration files for web development. It is suitable for projects using technologies like JavaServer Pages (JSP) and Servlets.
+
+    maven-archetype-quickstart-jdk8:
+		Similar to the maven-archetype-quickstart, but specifically tailored for Java 8 projects. It configures the project's source and target compatibility to Java 8.
+
+    maven-archetype-j2ee-simple:
+		This archetype is used for creating Java 2 Platform, Enterprise Edition (J2EE) projects. It sets up a project structure with directories for Enterprise JavaBeans (EJB), JavaServer Pages (JSP), and other J2EE components.
+
+    maven-archetype-archetype:
+		The archetype archetype is a meta-archetype, allowing developers to create their custom archetypes. It is useful for creating archetypes tailored to specific project requirements.
+
+    maven-archetype-quickstart-jdk11:
+		Similar to the maven-archetype-quickstart, but specifically tailored for Java 11 projects.
+
+    maven-archetype-microprofile:
+		This archetype sets up a Maven project with the Eclipse MicroProfile framework, which is used for developing microservices-based applications.
+
+    maven-archetype-plugin:
+		This archetype is used for creating custom Maven plugin projects. It provides a starting point for developers who want to develop their Maven plugins to extend Maven's functionality.
+
+These are just a few examples of the many Maven archetypes available. Developers can also create their custom archetypes to suit their specific project requirements. Archetypes are a valuable tool for improving productivity and maintaining consistency in project structures and configurations across development teams.
+
+
+e.g. mvn archetype:generate -DgroupId=com.example -DartifactId=my-project -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+
+-----------------------------------------------------------------------	
+	• Maven Commands
+-----------------------------------------------------------------------
+Maven provides a wide range of commands that allow developers to perform various tasks related to project building, testing, packaging, and more. These commands are executed in the terminal or command prompt within the project's directory (where the pom.xml file is located). Here are some of the commonly used Maven commands:
+
+    mvn clean:
+		This command removes the target directory and all the build output files. It is often used to clean up the project before starting a new build.
+
+    mvn compile:
+		The compile command compiles the source code in the src/main/java directory and generates the bytecode in the target/classes directory.
+
+    mvn test:
+		The test command runs the tests in the src/test/java directory using a testing framework like JUnit or TestNG.
+
+    mvn package:
+		The package command packages the compiled code and resources into a distributable format, such as a JAR or WAR file, and places it in the target directory.
+
+    mvn install:
+		The install command compiles the code, packages it, and installs it in the local Maven repository. This allows other projects on the same machine to use it as a dependency.
+
+    mvn deploy:
+		The deploy command is used to deploy the project artifacts (JAR, WAR, etc.) to a remote repository, making them available for other developers or projects to use.
+
+    mvn site:
+		The site command generates project documentation, reports, and project website in the target/site directory.
+
+    mvn clean install:
+		This command performs both the clean and install phases in sequence. It is commonly used to ensure that the project is cleaned and built from scratch.
+
+    mvn dependency:tree:
+		This command shows the project's dependency tree, including all the transitive dependencies. It helps visualize the dependencies and their versions used in the project.
+
+    mvn help:
+		The help command displays a list of available Maven commands and their descriptions.
+
+These are just a few examples of the many Maven commands available. Maven provides a rich set of commands that enable developers to efficiently manage the build and dependency management process for their projects. By leveraging these commands, developers can streamline their development workflow and ensure consistent and reliable project builds.
+
+-----------------------------------------------------------------------	
+	• Integration of Jacoco plugin for Code Coverage
+-----------------------------------------------------------------------
+
+Jacoco (Java Code Coverage) is a popular code coverage tool for Java projects. It helps measure how much of your code is covered by tests, allowing you to identify areas that need additional testing. Integrating Jacoco into your Maven project involves adding the Jacoco plugin to your project's pom.xml file and configuring it to generate code coverage reports. Here's a step-by-step guide to integrating Jacoco for code coverage in a Maven project:
+
+Step 1: Open your project's pom.xml file.
+
+Step 2: Add the Jacoco plugin configuration inside the <build><plugins> section:
+
+xml
+
+<build>
+    <plugins>
+        <!-- Other plugins... -->
+
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.7</version> <!-- Use the latest version available -->
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>report</id>
+                    <phase>test</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+
+Step 3: Save the pom.xml file.
+
+Explanation of the Jacoco plugin configuration:
+
+    The jacoco-maven-plugin is the plugin responsible for integrating Jacoco with Maven.
+
+    The <execution> element with <goal>prepare-agent</goal> is used to set up the code coverage agent. It instruments the bytecode to gather coverage information during the test execution.
+
+    The second <execution> element is responsible for generating the code coverage report. It binds the report goal to the test phase, so the report is generated after running tests.
+
+Step 4: Now, run the following Maven command to execute your project's tests and generate the Jacoco code coverage report:
+
+mvn clean test
+
+Step 5: After running the tests, the code coverage report will be generated in the target/site/jacoco directory. Open the index.html file in a web browser to view the detailed code coverage report.
+
+The Jacoco code coverage report will show the percentage of code covered by tests for each class, package, and the overall project. It will also highlight the lines of code that are covered by tests and those that are not.
+
+By integrating Jacoco into your Maven project, you can regularly monitor code coverage and ensure that your tests adequately cover your codebase. This helps you identify areas for improvement and enhances the overall quality of your Java application.
+
+
+
+
+-----------------------------------------------------------------------	
+	• Setting up Maven Applications
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------	
+Practical Includes :
+	1. Creation of Simple Java Application using Maven
+	
+Simple conventions of maven 	
+1. There should be a base folder 
+2. All application code should be in 
+	src/main/java 
+		mvn package
+3. All test cases should be in 
+	src/test/java
+		mvn test 
+		
+	
+
+	
+-----------------------------------------------------------------------
+
+To create a simple Java application using Maven, follow these step-by-step instructions:
+
+Step 1: Install Maven (if not already installed)
+Ensure that you have Maven installed on your system. You can download Maven from the official Apache Maven website (https://maven.apache.org/download.cgi) and follow the installation instructions for your operating system.
+
+Step 2: Create a New Maven Project
+Open a terminal or command prompt and navigate to the directory where you want to create your Java project. Then, run the following Maven command to generate a new Maven project:
+
+
+
+mvn archetype:generate -DgroupId=com.example -DartifactId=my-java-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+Explanation of the command:
+
+    -DgroupId: 
+		group ID for the project. 
+		Replace com.example with your desired group ID.
+    -DartifactId: 
+		Specifies the artifact ID for the project. Replace my-java-app with your desired project name.
+    -DarchetypeArtifactId: 
+		Specifies the archetype artifact ID. Here, we use maven-archetype-quickstart, which sets up a basic Java project structure.
+    -DinteractiveMode=false: 
+		This flag disables the interactive mode to avoid any user prompts during project generation.
+
+Step 3: Navigate into the Project Directory
+Change the current directory to the newly created project directory:
+
+
+
+cd my-java-app
+
+Step 4: Open the Project in an IDE (Optional)
+	If you prefer working in an Integrated Development Environment (IDE) like Eclipse or IntelliJ IDEA, you can import the project into your IDE.
+
+Step 5: Write Java Code
+	Inside the src/main/java/com/example directory, you will find the App.java file, which contains a simple Java class with a main method. Open this file and replace the content with your Java code for the application.
+
+For example, you can modify the App.java file to print "Hello, Maven!" as follows:
+
+
+package com.example;
+
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Hello, Maven!");
+    }
+}
+
+Step 6: Build and Run the Application
+To build and run the Java application, use the following Maven command:
+
+
+mvn clean package
+
+	you will get an error. This is because compiler version 5 is no more supported.
+	
+	So copy paste below code 
+	
+  <properties> 
+	<maven.compiler.source>1.8</maven.compiler.source> 
+	<maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+re-execute mvn clean package
+
+
+This will compile the Java source code, run any tests (if any are present), and package the application into a JAR file.
+
+Step 7: Execute the Application
+Run the application using the following command:
+
+
+	java -cp target/my-java-app-1.0-SNAPSHOT.jar com.example.App
+
+
+This command will execute the main method in the App class, and you will see "Hello, Maven!" printed on the console.
+
+Congratulations! You have successfully created a simple Java application using Maven and executed it. You can continue to develop and expand your project using the Maven build system.
+
+
+-----------------------------------------------------------------------	
+	2. Creation of Java Web Application using Maven
+-----------------------------------------------------------------------
+mvn archetype:generate -DgroupId=com.vilas.bus -DartifactId=DemoWeb -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false  
+
+mvn compile
+
+Add the below to pom.xml
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+  </properties>
+
+Modify build section to 
+  <build>
+    <finalName>DemoWeb</finalName>
+	
+    <plugins>  
+        <plugin>  
+            <!-- Build an executable JAR -->  
+            <groupId>org.apache.maven.plugins</groupId>  
+            <artifactId>maven-jar-plugin</artifactId>  
+            <version>3.3.1</version>  
+        </plugin>  
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-war-plugin</artifactId>
+			<version>3.3.1</version>
+		</plugin>
+        
+    </plugins>
+  </build>
+
+
+#Standard maven command
+mvn package
+
+
+
+Modify the build section again
+  <build>
+    <finalName>DemoWeb</finalName>
+	<plugins>
+		<!-- http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html -->
+		<plugin>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-maven-plugin</artifactId>
+			<version>9.4.12.v20180830</version>
+		</plugin>
+	</plugins>
+
+  </build>
+
+
+mvn jetty:run
+http://localhost:8080
+-----------------------------------------------------------------------	
+	3. Creation of Java Spring Boot Microservice using Maven
+-----------------------------------------------------------------------
+
+
+Follow 
+https://spring.io/guides/gs/spring-boot/
+
+-----------------------------------------------------------------------	
+	4. Maven Commands demonstration to Build, Test and Package the projects
+-----------------------------------------------------------------------
+
+To demonstrate building, testing, and packaging a Maven project, let's assume you have already created a simple Maven project with the following structure:
+
+css
+
+my-maven-project/
+  ├── src/
+  │   └── main/
+  │       └── java/
+  │           └── com/
+  │               └── example/
+  │                   └── App.java
+  │   └── test/
+  │       └── java/
+  │           └── com/
+  │               └── example/
+  │                   └── AppTest.java
+  └── pom.xml
+
+Here, App.java contains the main application code, and AppTest.java contains the test code.
+
+Let's go through the Maven commands to build, test, and package the project:
+
+Step 1: Open a terminal or command prompt.
+
+Step 2: Navigate to the project directory:
+
+
+
+cd my-maven-project
+
+Step 3: Build the Project
+To build the project, use the following Maven command:
+
+
+
+mvn clean compile
+
+The clean goal cleans the target directory, and the compile goal compiles the source code in the src/main/java directory.
+
+Step 4: Run Tests
+To run the tests, use the following Maven command:
+
+
+
+mvn test
+
+The test goal executes the tests in the src/test/java directory. If the tests pass, you'll see a success message; otherwise, you'll see failure messages with the test results.
+
+Step 5: Package the Project
+To package the project into a JAR file, use the following Maven command:
+
+
+
+mvn package
+
+The package goal packages the compiled code and resources into a JAR file and places it in the target directory.
+
+After executing the above commands, you'll find the generated JAR file in the target directory of your project.
+
+Optional Step: Clean Up
+If you want to remove the compiled files and the JAR from the target directory, use the following command:
+
+
+
+mvn clean
+
+This will remove the target directory and any build artifacts.
+
+By using these Maven commands, you can efficiently build, test, and package your projects. Maven automates the build process, manages dependencies, and provides a standard way to execute various tasks in your project, making development and collaboration more efficient.
+
+-----------------------------------------------------------------------	
