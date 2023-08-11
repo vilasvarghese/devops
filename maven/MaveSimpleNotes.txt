@@ -462,12 +462,11 @@ Follow
 https://spring.io/guides/gs/spring-boot/
 
 -----------------------------------------------------------------------	
-	4. Maven Commands demonstration to Build, Test and Package the projects
+	4. Maven Commands demonstration to Build(compile), Test(test) and Package(package) the projects
 -----------------------------------------------------------------------
 
 To demonstrate building, testing, and packaging a Maven project, let's assume you have already created a simple Maven project with the following structure:
 
-css
 
 my-maven-project/
   ├── src/
