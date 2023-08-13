@@ -146,7 +146,7 @@ Maven plugins are extensions that enhance the functionality of the Maven build t
 		The Assembly plugin is a popular plugin used to create custom distribution packages from the project output. It can create ZIP, TAR, and other archive formats, combining various project artifacts and resources into a single distribution package.
 
     Install Plugin (maven-install-plugin) and Deploy Plugin (maven-deploy-plugin):
-		These core plugins handle the installation and deployment of project artifacts to local and remote repositories, respectively. The install phase installs the project artifact to the local Maven repository, while the deploy phase deploys the artifact to a remote repository for sharing with other developers.
+			These core plugins handle the installation and deployment of project artifacts to local and remote repositories, respectively. The install phase installs the project artifact to the local Maven repository, while the deploy phase deploys the artifact to a remote repository for sharing with other developers.
 
     Failsafe Plugin (maven-failsafe-plugin):
 		The Failsafe plugin is similar to the Surefire plugin but is designed for integration tests rather than unit tests. It is bound to the verify phase and allows for the execution of tests that require a running application.

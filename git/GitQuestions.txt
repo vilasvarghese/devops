@@ -1,0 +1,68 @@
+Basic Git Concepts:
+
+    What is Git and what problem does it solve?
+    Explain the difference between Git and GitHub.
+    What is a version control system?
+    What is a repository in Git?
+    What is a commit in Git?
+    Describe the purpose of the working directory, staging area, and repository in Git.
+    What is the Git index/staging area?
+    What are branches in Git?
+    How do you initialize a new Git repository?
+    How do you clone an existing Git repository?
+    What is a remote repository?
+    How do you check the status of files in your Git repository?
+    What is the purpose of the .gitignore file?
+    How do you create a new branch in Git?
+    How do you switch between branches?
+    What is the HEAD in Git?
+
+Basic Git Commands:
+
+    How do you stage changes for commit?
+    How do you commit changes to the repository?
+    How do you create a new Git branch and switch to it in a single command?
+    How do you merge two branches in Git?
+    How do you push changes to a remote repository?
+    How do you pull changes from a remote repository?
+    How do you remove a file from Git without deleting it from the filesystem?
+    How do you undo the last commit without losing changes?
+    How do you discard changes in a file and revert it to the last commit state?
+    How do you create and apply a Git patch?
+    How do you delete a branch in Git?
+
+Intermediate Git Concepts:
+
+    Explain what a merge conflict is and how to resolve it.
+    What is a fast-forward merge?
+    What is a rebase in Git?
+    What are the advantages of rebasing over merging?
+    What is cherry-picking in Git?
+    How do you stash changes in Git and retrieve them later?
+    Explain the difference between a soft reset, mixed reset, and hard reset.
+    What is Git bisect used for?
+    How do you set up an upstream remote for a forked repository?
+    What is a pull request in Git?
+    How do you squash multiple commits into a single commit?
+    Explain the concept of detached HEAD state.
+    How do you amend the most recent commit message?
+    How do you rename a branch in Git?
+    How do you configure and use Git aliases?
+    How do you sign commits using GPG in Git?
+
+Advanced Git Concepts:
+
+    Explain the difference between shallow cloning and deep cloning a repository.
+    How do you work with submodules in Git?
+    What is Git reflog and how is it useful?
+    Explain the concept of Git hooks and give examples of pre-commit and post-receive hooks.
+    What is a commit object in Git and how is it represented?
+    How do you interactively rebase commits using git rebase -i?
+    What is a Git blame and how can it be useful for identifying code authors?
+    Explain how to use Git bisect to find the commit that introduced a bug.
+    What is a Git subtree and how do you work with it?
+    How do you configure a merge strategy in Git?
+    Explain the difference between git pull --rebase and git pull --merge.
+    How do you use the git cherry and git cherry-pick commands?
+    What is the git worktree command used for?
+    How do you sign tags using GPG in Git?
