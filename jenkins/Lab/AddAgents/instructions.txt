@@ -23,7 +23,6 @@ chmod 700 authorized_keys
 
 
 sudo -i su -c 'sed -i -e "s/MACs /MACs hmac-sha1,/g" /etc/ssh/sshd_config; service sshd restart'
-systemctl restart sshd.ser vice
 systemctl restart sshd.service
 systemctl status sshd
 

@@ -1,0 +1,12 @@
+In the job
+----------
+Check 
+	GitHub hook trigger for GITScm polling
+	
+In github
+---------
+Go to repo 
+Click settings of repo.
+Click webhooks
+Click Add Webhook
+http://3.143.210.172:8080/github-webhook/	
