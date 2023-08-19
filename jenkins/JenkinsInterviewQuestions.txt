@@ -1,0 +1,136 @@
+Jenkins Basics:
+
+    What is Jenkins?
+    Explain the concept of Continuous Integration (CI).
+    How does Jenkins support Continuous Integration and Continuous Delivery (CI/CD)?
+    Describe the architecture of Jenkins.
+    What are the key features of Jenkins?
+    How do you install and configure Jenkins?
+    Explain the difference between Jenkins Pipeline and Freestyle Project.
+    What is a Jenkins agent (formerly known as a slave)?
+    What is a Jenkinsfile?
+
+Job and Build Configuration:
+
+    How do you create a new job in Jenkins?
+    Explain the steps to configure a job in Jenkins.
+    What are build triggers in Jenkins?
+    How can you parameterize a Jenkins job?
+    How do you define build parameters?
+    What are build artifacts in Jenkins?
+    Explain the concept of downstream and upstream projects.
+    How do you set up build environment variables?
+    What is the Build Now option in Jenkins?
+    What is the difference between a build and a pipeline in Jenkins?
+
+Plugins and Integrations:
+
+    How do you install plugins in Jenkins?
+    What is a Jenkins plugin?
+    Can you name a few commonly used Jenkins plugins?
+    How do you integrate Jenkins with version control systems like Git?
+    What is the Jenkins GitHub plugin?
+    How do you integrate Jenkins with Docker?
+    Explain the importance of Jenkins plugins in extending its functionality.
+
+Pipeline as Code:
+
+    What is a Jenkins Pipeline?
+    What are the different stages in a Jenkins Pipeline?
+    How do you define a Jenkins Pipeline using a Jenkinsfile?
+    What is Declarative Pipeline in Jenkins?
+    Explain the Scripted Pipeline in Jenkins.
+    What is the difference between Declarative and Scripted Pipeline?
+    How do you handle errors and exceptions in a Jenkins Pipeline?
+    What are agent directives in a Jenkinsfile?
+
+Distributed Builds:
+
+    What is the master-slave concept in Jenkins?
+    How do you configure a Jenkins slave node?
+    Explain the difference between a static and dynamic slave node in Jenkins.
+    How do you manage distributed builds using Jenkins?
+
+Security and Authentication:
+
+    How do you secure Jenkins?
+    What are Jenkins global security settings?
+    Explain Jenkins authentication and authorization.
+    How can you restrict access to Jenkins?
+
+Monitoring and Logging:
+
+    How do you monitor Jenkins jobs and builds?
+    What is the Jenkins Build Queue?
+    How do you monitor Jenkins server health?
+    Explain the Jenkins log files and their locations.
+
+Scaling and High Availability:
+
+    How can you scale Jenkins for large projects?
+    What is Jenkins High Availability (HA)?
+    How do you set up a Jenkins HA cluster?
+    Explain the concept of distributed builds in a Jenkins HA setup.
+
+Backup and Restore:
+
+    How do you back up Jenkins configuration?
+    Explain the process of restoring Jenkins from backup.
+    What are the best practices for Jenkins backup and restore?
+
+Jenkins Best Practices:
+
+    What are some best practices for writing efficient Jenkinsfile scripts?
+    How do you manage sensitive credentials in Jenkins?
+    Explain the concept of a "Clean Workspace" in Jenkins.
+    What is the use of the "Quiet Period" in Jenkins?
+
+Jenkins Troubleshooting:
+
+    How do you troubleshoot a failed Jenkins build?
+    What steps can you take if Jenkins fails to start?
+    How do you troubleshoot Jenkins agent connectivity issues?
+    What is the Jenkins plugin compatibility matrix?
+
+Jenkins Continuous Deployment:
+
+    Explain the concept of Continuous Deployment.
+    How do you configure Jenkins for Continuous Deployment?
+
+Jenkins in DevOps:
+
+    How does Jenkins fit into the DevOps lifecycle?
+    How do you use Jenkins in a DevOps environment?
+    What role does Jenkins play in Continuous Integration and Continuous Deployment (CI/CD) pipelines?
+
+Jenkins Integration with Testing:
+
+    How do you integrate Jenkins with automated testing frameworks?
+    How can Jenkins be used to trigger test automation suites?
+
+Jenkins Performance Optimization:
+
+    What strategies can you use to optimize Jenkins performance?
+    How do you optimize build times in Jenkins?
+    Explain the use of build caches to improve Jenkins performance.
+
+Jenkins Security:
+
+    How can you secure sensitive information in Jenkins jobs?
+    What is a Jenkins credential store?
+    How do you implement role-based access control (RBAC) in Jenkins?
+
+Jenkins API and CLI:
+
+    What is the Jenkins REST API?
+    How can you interact with Jenkins using its API?
+    How do you use the Jenkins CLI (Command Line Interface)?
+
+Jenkins and Infrastructure as Code (IaC):
+
+    How can Jenkins be used in Infrastructure as Code (IaC) processes?
+    How do you use Jenkins to manage infrastructure provisioning and deployment?
+
+Jenkins Integration with Cloud Platforms:
+
+    How can you use Jenkins in conjunction with cloud platforms like aws

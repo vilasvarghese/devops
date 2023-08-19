@@ -34,6 +34,7 @@ Configuration on Master
 Copy the slave node's public key[id_rsa.pub] to Master Node's known_hosts file
 mkdir -p /var/lib/jenkins/.ssh
 cd /var/lib/jenkins
+chown jenkins:jenkins .ssh
 chmod 700 .ssh
 
 cd /var/lib/jenkins/.ssh 	
@@ -44,6 +45,8 @@ copy id_rsa.pub content manually to /var/lib/jenkins/.ssh/known_hosts
 
 chown jenkins:jenkins known_hosts
 chmod 700 known_hosts
+cd ../
+
 
 
 Configure the Slave using Manage Jenkins

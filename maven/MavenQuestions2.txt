@@ -1,0 +1,144 @@
+Maven Basics:
+
+    What is Apache Maven?
+    What are the key benefits of using Maven?
+    How does Maven handle project dependencies?
+    Explain the concept of a Maven artifact.
+    What is a Maven repository?
+    How do you install Maven on your system?
+    What is the purpose of the Maven POM (Project Object Model)?
+    How do you create a new Maven project?
+
+Maven Lifecycle and Phases:
+
+    Describe the Maven build lifecycle.
+    What are Maven build phases?
+    Explain the difference between a Maven goal and a phase.
+    List some commonly used Maven build phases.
+    How do you run a specific Maven goal or phase?
+
+POM (Project Object Model):
+
+    What information is typically included in a POM?
+    How do you specify project dependencies in the POM?
+    Explain the difference between compile, test, and runtime dependencies.
+    How do you manage transitive dependencies in Maven?
+    What is the purpose of parent POMs?
+    How do you define properties in the POM?
+
+Dependency Management:
+
+    What is a Maven dependency?
+    How do you add a dependency to your Maven project?
+    What is a snapshot dependency?
+    Explain the concept of version ranges in dependencies.
+    How do you exclude specific transitive dependencies?
+    How do you update dependencies to their latest versions?
+    What is the Maven Central Repository?
+
+Build Profiles:
+
+    What is a Maven build profile?
+    How do you define and activate a build profile?
+    Explain how you can use build profiles for different environments.
+
+Plugins:
+
+    What are Maven plugins?
+    How do you use plugins in a Maven project?
+    Can you name some common Maven plugins?
+    What is the purpose of the Maven Compiler Plugin?
+    How do you configure a Maven plugin in the POM?
+
+Customizing the Build:
+
+    How do you create a custom Maven archetype?
+    What is the purpose of the Maven Assembly Plugin?
+    Explain the role of the Maven Resources Plugin.
+    How do you override default Maven settings using settings.xml?
+
+Maven Repositories:
+
+    What are the types of Maven repositories?
+    How do you configure a custom Maven repository?
+    Explain the concept of snapshots and releases in Maven repositories.
+
+Multi-Module Projects:
+
+    What is a multi-module Maven project?
+    How do you create and manage a multi-module project?
+    What is the parent POM in a multi-module project used for?
+
+Project Reporting:
+
+    How can you generate project reports using Maven?
+    What is the Maven Site Plugin used for?
+    Explain the purpose of the Surefire Plugin in generating test reports.
+
+Project Packaging:
+
+    What is the default packaging type in Maven?
+    How do you change the packaging type of your Maven project?
+    What is the purpose of the Maven WAR Plugin?
+    Explain the Maven JAR Plugin.
+
+Maven Goals and Commands:
+
+    What are Maven goals?
+    How do you execute a Maven goal using the command line?
+    What is the purpose of the "mvn clean" command?
+    How do you skip tests during a Maven build?
+    Explain the "mvn install" command.
+
+Maven Repository Managers:
+
+    What is a Maven repository manager?
+    Can you name some popular Maven repository managers?
+    How do Maven repository managers improve dependency management?
+
+Maven Release Process:
+
+    Explain the Maven release process.
+    What is the purpose of the Maven Release Plugin?
+    How do you perform a dry run of the Maven release process?
+
+Maven Continuous Integration:
+
+    How can Maven be integrated into a Continuous Integration (CI) pipeline?
+    What are the advantages of using Maven in CI/CD?
+
+Maven vs. Gradle:
+
+    Compare Maven and Gradle in terms of features and use cases.
+    What are the key differences between Maven and Gradle build scripts?
+
+Troubleshooting and Debugging:
+
+    How do you debug Maven build issues?
+    Explain the "Effective POM" and how it can help troubleshoot build problems.
+
+Maven Best Practices:
+
+    What are some best practices for managing dependencies in Maven?
+    How can you improve build performance in Maven?
+    What are some strategies to keep your Maven build clean and efficient?
+
+Maven Plugins Development:
+
+    How do you create a custom Maven plugin?
+    What is the purpose of the Mojo framework in Maven plugin development?
+
+Maven Archetypes:
+
+    What are Maven archetypes?
+    How can you use Maven archetypes to create project templates?
+
+Maven Central Repository Guidelines:
+
+    How can you contribute to the Maven Central Repository?
+    Explain the process of releasing artifacts to the Central Repository.
+
+Maven in DevOps:
+
+    How does Maven fit into the DevOps pipeline?
+    How can Maven help automate the build and deployment process?
