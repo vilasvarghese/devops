@@ -1,0 +1,65 @@
+
+
+Pipeline not tested
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the GitHub repository
+                script {
+                    git url: 'https://github.com/yourusername/yourrepository.git', credentialsId: 'your-credentials-id'
+                }
+            }
+        }
+        
+        stage('Build with Maven') {
+            steps {
+                // Build the project using Maven
+                sh 'mvn clean install'
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                // Build a Docker image using the Dockerfile in the project
+                script {
+                    def dockerImage = docker.build('your-docker-image-name:your-tag', '.')
+                }
+            }
+        }
+        
+        stage('Login to Docker Hub') {
+            steps {
+                // Log in to Docker Hub with your Docker Hub credentials
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'your-docker-hub-credentials') {
+                        // No need to do anything, just login
+                    }
+                }
+            }
+        }
+        
+        stage('Push to Docker Hub') {
+            steps {
+                // Push the Docker image to Docker Hub
+                script {
+                    dockerImage.push()
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            // If the pipeline succeeds, you can add further actions or notifications here
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            // If the pipeline fails, you can add further actions or notifications here
+            echo 'Pipeline failed!'
+        }
+    }
+}

@@ -1,3 +1,25 @@
+Install jenkins 
+	sudo apt install openjdk-11-jdk
+		java 17 installation resulted in IllegalStateException while running mvn clean install 
+			may be we should use latest maven
+		easier solution: install java 11 	
+	Rest can be done from 
+		https://www.jenkins.io/doc/book/installing/linux/#debianubuntu
+
+		To select a different java in ubuntu 
+			update-java-alternatives  -l
+			sudo update-java-alternatives --set java-11-openjdk-amd64
+
+Install maven 
+	apt update -y
+	apt install maven 
+	
+Install Docker 
+	Docker documentation - convenience script 
+	
+	
+
+
 Create couple of credentials
 	
 	In Manage Jenkins - Manage Credentials - 

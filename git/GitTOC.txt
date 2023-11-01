@@ -409,9 +409,84 @@ o Git Concepts and Architecture
 https://medium.com/free-code-camp/learn-the-basics-of-git-in-under-10-minutes-da548267cc91
 https://www.atlassian.com/git/tutorials/comparing-workflows
 
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Using hash values (SHA-1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+
+Git uses hash values, specifically SHA-1 (Secure Hash Algorithm 1), extensively to manage and track changes in your version-controlled files. Here's how Git uses SHA-1 hash values:
+
+    Content Addressing: 
+		In Git, every piece of data (such as a file or a commit) is identified by a unique SHA-1 hash value. This hash is calculated based on the content of the data. It means that if the content of a file changes, its SHA-1 hash will also change, making it a reliable way to verify the integrity of the data.
+
+    Git Objects: 
+		Git stores all of its data in a database of objects. There are four main types of Git objects: blobs (for file content), trees (for directory structure), commits (for snapshots of the project), and tags (for references to specific points in Git history). Each object is identified by its SHA-1 hash value.
+
+    Commit Objects: 
+		When you make a commit in Git, it creates a commit object. This object contains the SHA-1 hash values of the tree object (representing the directory structure at that point) and the parent commit object (if applicable). This chaining of commit objects creates a history of changes in the project.
+
+    File Integrity: Git calculates the SHA-1 hash of the content of each file and stores it in the blob object. When you commit changes, Git stores a reference to the new blob in the tree object. This reference is based on the hash value, and it ensures that each file's content is tracked and can be retrieved based on its unique hash.
+
+    Version Control: Git uses these hash values to detect changes in files efficiently. When you request a specific version of a file, Git looks up the corresponding SHA-1 hash and retrieves the content associated with it. This ensures that you always get the correct version of the file, even when multiple versions exist.
+
+    Data Integrity: Git's use of SHA-1 hashes ensures data integrity. If any piece of data (a file, a commit, or an object) is tampered with or corrupted, its hash value will change, and Git will detect the problem.
+
+    Object Storage: Git stores these objects in a .git directory within your repository. You can inspect the contents of these objects using Git commands like git cat-file, but it's more common to interact with Git using its high-level commands.
+
+In summary, Git relies on SHA-1 hash values to track changes, ensure data integrity, and efficiently manage the content of files and commits. This hashing mechanism is at the core of Git's ability to provide a reliable and distributed version control system.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Working with the HEAD pointer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In Git, the HEAD pointer is a crucial component that represents the latest commit in the currently checked-out branch. It's essentially a reference to the tip of the branch you are currently working on. You can use the HEAD pointer for various purposes in your Git workflow. Here's how you can work with the HEAD pointer:
+
+    Viewing the HEAD Commit:
+    To see the commit that HEAD is currently pointing to, you can use the git log command with the HEAD reference:
+
+
+git log -n 1 HEAD
+
+This command will display information about the latest commit on the currently checked-out branch.
+
+Checking Out a Specific Commit:
+You can also use the HEAD pointer to check out a specific commit, creating a detached HEAD state. This is often useful for reviewing historical commits or creating a new branch based on an older commit:
+
+
+git checkout <commit-SHA>
+
+Replace <commit-SHA> with the actual SHA-1 hash of the commit you want to check out. When you're done reviewing or working with that commit, you can switch back to your branch with git checkout <branch-name>.
+
+Moving the HEAD Pointer:
+The HEAD pointer can be moved manually to a different commit. This is generally not recommended unless you have a specific reason, such as fixing a mistake or temporarily detaching HEAD for a specific task. To move HEAD to a different commit, you can use the git reset command:
+
+bash
+
+git reset <commit-SHA>
+
+This will move HEAD and the branch pointer to the specified commit. Be cautious when using this command, as it can rewrite history.
+
+Creating a New Branch at HEAD:
+You can create a new branch at the current HEAD position using the git branch command:
+
+bash
+
+    git branch <new-branch-name>
+
+    This will create a new branch named <new-branch-name> that starts at the current HEAD commit.
+
+    Working with Stash:
+    The HEAD pointer is also used in conjunction with Git's stash functionality. When you want to temporarily save changes that you are not ready to commit, you can use git stash. It saves changes relative to the HEAD commit and then reverts your working directory to the state of HEAD. Later, you can apply or pop the stash to reapply those changes.
+
+    Referencing Parent Commits:
+    When creating commits, you can reference the parent commits using special notation, such as HEAD~1 (the parent of HEAD) or HEAD~2 (the grandparent of HEAD). This notation is useful for specifying commit ranges or for comparing different versions of your code.
+
+The HEAD pointer is a powerful tool in Git that allows you to navigate your project's history, work with different commits, and create and manage branches. However, it's essential to use it with care to avoid unintentional changes to your project's history.
+
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 
 o The basic flows
