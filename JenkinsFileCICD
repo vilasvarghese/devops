@@ -4,11 +4,11 @@ pipeline{
         maven 'M3'
     }
     stages{
-        /*stage('Maven Build'){
+        stage('Maven Build'){
             steps{
                 sh "mvn clean package"
             }
-        }*/
+        }
         stage('Docker Build'){
             steps{
                 sh "docker build . -t vilasvarghese/mywebapp:${dockerTag()}"
