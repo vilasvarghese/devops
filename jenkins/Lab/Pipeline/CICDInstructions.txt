@@ -33,6 +33,10 @@ Create couple of credentials
 	id: docker-hub
 	description: <your wish>
 	
+	
+	Give access to docker to execute docker commands 
+	
+	
 Create a pipeline
 	Repo URL: https://github.com/vilasvarghese/devops
 	ScriptPath: JenkinsFileCICD
