@@ -30,7 +30,7 @@ Create couple of credentials
 	Kind: secret text
 	Scope: Global
 	Secret: <your docker hub pwd>
-	id: docker-hub
+	id: docker-hub (The credential id used in the job)
 	description: <your wish>
 	
 	

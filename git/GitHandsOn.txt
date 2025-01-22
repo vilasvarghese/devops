@@ -246,6 +246,7 @@
 	git merge b1
 		Any impact
 		
+
 30. 
 ----------------------------------------------------	
 git diff
@@ -326,6 +327,9 @@ git show @author
 	
 	Delete unmerged branch
 	git branch -D feature1
+	
+	git push <remote-name> --delete <branch-name>
+	git push origin --delete feature/my-feature 
 	
 37. Move or rename
 
@@ -488,6 +492,10 @@ From f1
   225  git status
   226  ls
   227  git log
+  
+  D:\PraiseTheLord\HSBGInfotech\DevOps\git
+	git rebase Vs git merge 
+  
   228  git rebase master
   229  git log
   230  clear
@@ -543,6 +551,8 @@ Git Stashing
   vi file1.txt
   
   Get back and retain a stash
+  git stash show stash@{1}
+  git stash show -p stash@{1}
   161  git stash apply stash@{1}
   162  ls
   163  history
@@ -602,9 +612,22 @@ Commits
 	what to revert back to 4
 	
 	git reset <commit id of 4>
+	or 
+	git reset --soft HEAD~1
+		reset to 7 - so till 8 will be removed from local repo.
+	git reset --mixed HEAD~1
+		reset to 7 - so till 8 will be removed from local repo. and staging .
+		this is the default 
+	git reset --hard HEAD~1
+		reset to 7 - so till 8 will be removed from worktree, staging and local repo.
+	
+	
 
+
+git revert 
+	revert transaction by merging a new transaction 
 ----------------------------------------------------------------------------
-Git rebase vs revert vs reset
+Git rebase vs revert vs reset, restore vs merge
 -----------------------------
 	https://opensource.com/article/18/6/git-reset-revert-rebase-commands
 	https://davidzych.com/difference-between-git-reset-soft-mixed-and-hard/
@@ -624,24 +647,40 @@ Git rebase
 	Rebase	 
 		will rewrite the history of your repository, 
 		so it is important to use it carefully.
+	git rebase -i HEAD~2
+
 
 Git revert 
 	Purpose: Undoes a commit.	
-	What it does: Creates a new commit that reverses the changes made in the original commit.
+		git revert HEAD~1
+	What it does: 
+		Creates a new commit that 
+			reverses the changes made in the original commit.
 
-	This can be useful if you have made a mistake or if you need to go back to a previous version of your code. Revert will create a new commit that reverses the changes made in the original commit.
+	This can be useful 
+		if you have made a mistake or 
+			if you need to go back to a previous version of your code. 
+			Revert will create a new commit that reverses the changes made in the original commit.
 
 Git reset 
-	Purpose: Resets the state of your repository to a previous point in time.	
-	What it does: Removes all commits that were made after the specified point in time.
+	git reset --soft <commit>: Moves the branch pointer, but keeps the changes staged.
+	git reset --mixed <commit>: Moves the branch pointer and unstages the changes. (This is the default behavior if no option is specified.)
+	git reset --hard <commit>: Moves the branch pointer and discards all changes.
 
-	Used to reset the state of your repository to a previous point in time. This can be useful if you have made a mistake and you need to start over. Reset will remove all commits that were made after the specified point in time.
+	Purpose: 
+		Resets the state of your repository to a previous point in time.	
+	What it does: 
+		Removes all commits that were made after the specified point in time.
+
+	Used to reset the state of your repository to a previous point in time. 
+	This can be useful if you have made a mistake and you need to start over. Reset will remove all commits that were made after the specified point in time.
 
 
 Here are some additional things to keep in mind when using these commands:
 
     Git rebase can be disruptive to your team's workflow. If you are working on a shared repository, it is important to coordinate with your team before using rebase.
-    Git revert can be used to undo a merge commit. However, it is important to note that revert will not undo the changes that were made in the merged branch.
+    Git revert can be used to undo a merge commit. 
+	However, it is important to note that revert will not undo the changes that were made in the merged branch.
     Git reset can be used to discard changes that have not been committed yet. However, it is important to note that reset will remove the changes from your working directory and the index.
 
 
@@ -706,6 +745,7 @@ Branches and Tags
 		
 	Create a new tracking branch based on a remote branch.
 		git checkout --track <remote/branch>
+		git checkout --track origin/branch_name
 	
 	Delete a local branch
 		git branch -d <branch>
@@ -845,3 +885,38 @@ git commit -m "Rename oldfile.txt to newfile.txt"
 
 The file will now be renamed in the repository, and its history will reflect the rename. It's important to note that git mv is not mandatory for renaming files; you can also use regular file renaming commands provided by your operating system, and then stage and commit the changes separately using git add and git commit. However, git mv is a convenient way to perform the rename in a single step and ensure that the rename is correctly staged for the commit.
 	
+	
+	
+-------------------------------------------
+
+Genspark / UST 
+--------------
+
+Ignore specific file types while checking in	- done 
+Create tags										- done 
+Create branches									- done 
+Merge branches									- done 
+Rebase branches									- done
+Revert a commit									- done
+Find the difference between files				- done 
+Clone a local repository						- done 
+Clone a remote repository over HTTPS			- done 
+Fork a repository								- not required 
+Push to a remote repository						- done 
+Create pull requests							- done 
+Debug and manage conflicts						- done 
+Add users and groups							- done 
+Create projects									- missing 
+Change and merge changes						- done 
+issues etc. 									- missing 
+
+
+
+
+
+push a local branch to repo  
+----------------------------
+mkdir newrepo
+cd newrepo 
+git init 
+

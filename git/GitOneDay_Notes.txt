@@ -236,6 +236,7 @@ or
 					Get file corrupted without Git being able to detect it.
 
 			checksum
+			--------
 			Git uses SHA-1 hashing for this. 
 			This is a 40-character string composed of hexadecimal characters (0–9 and a–f) 
 			Calculated based on the contents of a file or directory structure in Git. 
@@ -879,7 +880,9 @@ You do this with the git branch command:
 		$ git branch testing																																																																																																													
 		This creates a new pointer to the same commit you’re currently on.
 	
-	How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch.
+	How does Git know what branch you’re currently on? 
+		It keeps a special pointer called HEAD. 
+		Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch—it didn’t switch to that branch.
 	
 	you can easily see this by running a simple git log command that shows you where the branch pointers are pointing. This option is called --decorate.
 	
@@ -1252,7 +1255,7 @@ Remotes
 	To see which remote servers you have configured
 		you can run the git remote command. 
 		It lists the shortnames of each remote handle you’ve specified. 
-		If you’ve cloned your repository, you should at least see origin — that is the default name Git gives to the server you cloned from:
+		If you’ve cloned your repository, you should at least see origin—that is the default name Git gives to the server you cloned from:
 	
 
 	Remote branches 
