@@ -12,7 +12,7 @@
 
 2.	Configuring Git
 	git config --global user.name "vilasvarghese"
-	git config --global user.email "vilas@vilas.com"
+	git config --global user.email "vilas_varghese@yahoo.com"
 
 
 
@@ -583,7 +583,7 @@ Git Revert
 	Undo the last change
 	But creates a new commit for reverting.
 	
-	git revert HEAD
+	git revert HEAD~1
 	
 	
 Git Reset
@@ -628,13 +628,31 @@ git revert
 	revert transaction by merging a new transaction 
 ----------------------------------------------------------------------------
 Git rebase vs revert vs reset, restore vs merge
------------------------------
+----------------------------------------------------------
 	https://opensource.com/article/18/6/git-reset-revert-rebase-commands
 	https://davidzych.com/difference-between-git-reset-soft-mixed-and-hard/
 
 Git rebase, revert, and reset 
-	commands that can be used to modify the history of your Git repository. 
-	Each have different purposes and should be used in different situations.
+	commands 
+		used to modify the history of your Git repository. 
+	Each have different purposes 
+	should be used in different situations.
+
+
+git-revert 
+	make a new commit that reverts the changes made by other commits.
+git-restore 
+	restoring files in the working tree from either the index or another commit.
+	This command does not update your branch.
+	The command can also be used to restore files in the index from another commit.
+git-reset 
+	update your branch, moving the tip in order to 
+		add or remove commits from the branch. 
+		This operation changes the commit history.
+git reset 
+	used to restore the index, overlapping with git restore.
+	
+
 
 Git rebase 
 	Purpose:
@@ -642,8 +660,13 @@ Git rebase
 			from one branch 
 			into another.	
 	What it does: 	
-		Rewrites the history of your repository.
-	This can be useful if you have been working on a feature branch and you want to merge those changes back into the main branch. 
+		Rewrites the history (modifies the base) of your repository.
+	use 
+		if you have been working on a feature branch 
+		you want to merge those changes back into the main branch. 
+		or 
+		there had been a change in the main branch 
+			which should have been present in the history of current branch.
 	Rebase	 
 		will rewrite the history of your repository, 
 		so it is important to use it carefully.
@@ -651,8 +674,12 @@ Git rebase
 
 
 Git revert 
-	Purpose: Undoes a commit.	
-		git revert HEAD~1
+	Purpose: 
+		Undoes a commit.
+			by removing a particular commit and 
+			adding a new commit to replace it.
+			
+			git revert HEAD~1
 	What it does: 
 		Creates a new commit that 
 			reverses the changes made in the original commit.
@@ -663,9 +690,9 @@ Git revert
 			Revert will create a new commit that reverses the changes made in the original commit.
 
 Git reset 
-	git reset --soft <commit>: Moves the branch pointer, but keeps the changes staged.
-	git reset --mixed <commit>: Moves the branch pointer and unstages the changes. (This is the default behavior if no option is specified.)
-	git reset --hard <commit>: Moves the branch pointer and discards all changes.
+	git reset --soft HEAD~1: Moves the branch pointer, but keeps the changes staged.
+	git reset --mixed HEAD~1: Moves the branch pointer and unstages the changes. (This is the default behavior if no option is specified.)
+	git reset --hard HEAD~1: Moves the branch pointer and discards all changes.
 
 	Purpose: 
 		Resets the state of your repository to a previous point in time.	
@@ -675,6 +702,24 @@ Git reset
 	Used to reset the state of your repository to a previous point in time. 
 	This can be useful if you have made a mistake and you need to start over. Reset will remove all commits that were made after the specified point in time.
 
+
+Git restore 
+	To restore worktree from stage 
+		git restore filename.txt
+	To restore a file in the index to match the version in HEAD 
+		(this is the same as using git-reset)
+
+		git restore --staged hello.c
+
+	or you can restore both the index and the working tree 
+		(this the same as using git-checkout)
+
+		git restore --source=HEAD --staged --worktree hello.c
+	
+	or the short form which is more practical but less readable:
+
+		git restore -s@ -SW hello.c
+	
 
 Here are some additional things to keep in mind when using these commands:
 
@@ -699,6 +744,10 @@ Click the Compare & pull request button.
 Click Create pull request to open a new pull request.
 -------------------------------------------	
 
+git mergetool 
+	
+
+
 References to Commands
 --------------------------------------------------------------------------------------
 	Changed files in working directory
@@ -706,6 +755,27 @@ References to Commands
 
 	Diff in tracked files
 		git diff
+			make a small change 
+			git diff 
+				can find change 
+			git add .
+			git diff 
+				no change 
+			git diff --cached 
+				there is a diff
+			git commit -m 'message' 
+			git diff --cached 
+				no change 
+		git diff between branches 		
+			git diff main feature2
+			git diff -w --stat main feature2
+		compare 2 files between 2 different branches 	
+			git diff main:./test.txt feature2:./test.txt
+	
+		git diff between two commits 
+			git log --oneline 
+			git diff <commit1> <commit2>
+			
 	
 	Stage all current change 
 		git add .

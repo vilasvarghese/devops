@@ -1,0 +1,3084 @@
+
+
+Git 
+---
+
+
+
+                                          Git for Developers
+           					Duration: 1 Day
+Training Plan
+Course Duration 
+● approx. 8 Hours (1 days) Approx. 
+Prerequisites  
+•	A foundational understanding of IT infrastructure 
+•	Basic knowledge about Software Development Life Cycle 
+•	Internet with basic infrastructure to work 
+•	Basic understanding of linux/unix system concepts (for learning from linux)
+•	Familiarity with Command Line Interface (CLI)
+•	Familiarity with a Text Editor
+
+
+Learning outcomes  
+● Learn Git 
+● Become ready to use Git in development projects 
+What is Git?
+
+Reference
+https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
+
+
+##############################################################################
+What is Git?
+•	Introduction to version control
+
+	System that records changes to a 
+		file or 
+		set of files 
+	Allows to control/monitor/manage/share/recover files and filesystems.
+
+	Example of Control
+		Who can see
+			Private repo/Public repo. 
+			Who can merge?
+			
+
+	Example of manage 
+		revert selected files back to a previous state
+		revert the entire project back to a previous state
+		compare changes over time
+		see who last modified something that might be causing a problem
+		who introduced an issue and when
+	
+	Example of monitor
+		What changes you made to your local filesystems
+		What change was made in the central repo.
+		
+	Example of share/recover
+		
+		
+	
+
+	Local Version Control Systems
+	-----------------------------
+	Priliminary method.
+		Copy files into another directory 
+			perhaps a time-stamped directory. 
+		Simple
+		Error prone
+		Lot of manual dependency
+
+	Local VCSs 
+		Had a simple database 
+		Recorded all changes to files under revision control.
+
+		RCS
+			Revision Control System
+			A popular Local VCS 
+			Still distributed with many computers today. 
+			Delta between files in a special format on disk
+			Can compute what any file looked like at any point in time by adding up all the patches.
+			https://www.gnu.org/software/rcs/
+			
+	Centralized Version Control Systems
+	-----------------------------------
+	VCS need to collaborate with developers on other systems. 
+	Centralized Version Control Systems (CVCSs)
+		deal with this problem
+		
+	E.g. 
+		CVS, 
+		Subversion, and 
+		Perforce
+	Have a single server that 
+	Contains all the versioned files
+	Multiple clients can check out files from that central place. 
+	Was the most popular until git.
+	
+	Adv.
+		Much better than local VCSs. 
+		For example, supports sharing code between engineers.
+		Very good support for access control
+		Easier to administer a CVCS compared local databases on every client.
+
+	Disadvantage
+		Single point of failure. 
+		Even short downtime affects collaboration.
+		History/Collaboration etc. all focused at a single unit.
+		
+	
+	
+	Distributed Version Control Systems
+	-----------------------------------
+	E.g. 
+		Git, 
+		Mercurial, 
+		Bazaar or 
+		Darcs)
+
+	More on this latter
+		
+		
+		
+##############################################################################
+•	The history of Git
+
+	In 2005
+		Linux kernel dev. team and the BitKeeper dev. company broke relationship
+		Bitkeeper free-of-charge status was revoked. 
+		Linux development community (and in particular Linus Torvalds, the creator of Linux) 
+			developed their own tool 
+	Some of the goals of the new system were as follows:
+		Speed
+		Simple design
+		Strong support for non-linear development (thousands of parallel branches)
+		Fully distributed
+		Able to handle large projects like the Linux kernel efficiently (speed and data size)
+
+##############################################################################
+•	About distributed version control
+
+		Clients don’t just check out the latest snapshot of the files;
+	Client fully mirror the repository, including its full history. 
+	If any server dies
+		clients were collaborating via that server
+		any of the client repositories can be copied back up to the server to restore it. 
+		Every clone is really a full backup of all the data.
+			Clone at the time of cloning.
+			
+	Generally these systems deal pretty well with having several remote repositories they can work with
+	So you can collaborate with different groups of people in different ways simultaneously within the same project. 
+
+
+
+	What is Git
+	-----------
+	Git is 1.6 times after than it's nearest rival.
+	
+	Snapshots, Not Differences
+	--------------------------
+	The major difference between Git and any other VCS (e.g. Subversion) 
+		the way Git thinks about its data. 
+	While most other systems store information as a list of file-based changes. 
+	These other systems (CVS, Subversion, Perforce, Bazaar, and so on) 
+		consider information they store as a set of files 
+		changes made to each file over time
+		described as delta-based version control.
+
+	Git doesn’t think of or store its data this way. 
+	Git thinks of its data more like a series of snapshots of a miniature filesystem. 
+	With Git, every time you commit, or save the state of your project
+	Git basically takes a picture of what all your files look like at that moment 
+		stores a reference to that snapshot. 
+	To be efficient, 
+		Git store only the changed files
+		Others it links to the previous identical file it has already stored. 
+		Git thinks about its data more like a stream of snapshots.
+
+	Refer image
+		https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F
+
+	So what?
+		
+		1. Almost all Operation are Local
+			Most operations in Git need only local files and resources to operate
+			Generally no information is needed from another computer on your network. 
+			Every operation is very fast.
+				Entire history of the project available on your local disk
+				Most operations seem almost instantaneous.
+
+			e.g., See history of the project, 
+				Git doesn’t need to go out to the server 
+				Reads it directly from your local database. 
+				See project history almost instantly. 
+				To find delta between current and a month old version of a file, 
+				Git can look up the file a month ago
+					do a local difference calculation, 
+		2. No network connectivity required
+
+				Except for very few everything you can do offline. 
+				This is not the case with most of it's competitors.
+				
+		3. Git Has Integrity				
+			Everything in Git is checksummed before it is stored 
+				Latter referred to by that checksum. 
+				So Git knows about any change you make to the filesystem.
+				Built into Git at the lowest levels 
+				Integral to its philosophy. 
+				Can’t lose information in transit 
+				Get file corrupted without Git being able to detect it.
+
+			checksum
+			Git uses 
+				SHA-1 hashing for this. 
+			This is a 40-character string 
+				composed of hexadecimal characters (0–9 and a–f) 
+			Calculated based on the contents of a file or directory structure in Git. 
+			A SHA-1 hash looks something like this:
+				24b9da6552252987aa493b52f8696cd6d3b00373
+			
+			Git stores everything in its database 
+				not by file name 
+				but by the hash value of its contents.
+			So this hash is represented everywhere in git.
+			
+		4. Git Generally Only Adds Data		
+			Almost all actions in Git, 
+				only add data to the Git database. 
+				is undoable 
+				But cannot erase traces in any way. 
+				Once committed, we should be able to get to it.
+				
+			We can lose or mess up changes you haven’t committed yet
+
+			So we can experiment without the danger screwing things up. 
+		
+	The Three States
+	----------------
+	Reference to the image in
+	https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F
+	Three states
+		modified
+			Updated a tracked file but have not committed it to your database yet.
+		staged
+			Like staging for production.
+			current version of modified file moving to next level.
+			Ready to go to commit.
+		committed
+			Data is safely stored in your local database.
+
+	Three main logical areas of a Git project: 
+		the working tree, 
+		the staging area
+		Git directory.
+		
+	Working Tree
+	------------
+	Single checkout of one version of the project. 
+	Files pulled out of the compressed database in the Git directory 
+		placed on disk for you to use or modify.
+	
+	The staging area 
+		It's a file
+		contained in your Git directory
+		stores information about what will go into your next commit. 
+		Technical name in Git parlance is “index”
+		“staging area” is equally accepted.
+
+	Git(.git) directory
+		Git stores the metadata and object database for your project. 
+		Most important part of Git
+		This is copied when you clone a repository from another computer.
+
+	The basic Git workflow 
+		Modify files in your working tree.
+		Selectively stage just those changes you want to be part of your next commit
+		Adds only those changes to the staging area.
+
+		Do a commit, 
+			takes the files as they are in the staging area 
+				stores that snapshot permanently to your Git directory.
+
+		If a particular version of a file is in the Git directory, it’s committed. 
+		If it has been modified and was added to the staging area, it is staged. 
+		Updated since it was checked out but has not been staged
+			it is modified. 
+		
+	
+##############################################################################
+
+Installing Git
+##############################################################################
+•	Installing Git on Windows
+	https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+	https://www.linode.com/docs/development/version-control/how-to-install-git-on-linux-mac-and-windows/
+
+##############################################################################
+•	Installing Git on Linux
+
+##############################################################################
+•	Installing Git on a Mac
+https://www.atlassian.com/git/tutorials/install-git#mac-os-x
+##############################################################################
+•	Configuring Git
+	git config --global user.name "vilasvarghese"
+	git config --global user.email "vilas@vilas.com"
+##############################################################################
+•	Exploring Git auto-completion
+	https://medium.com/@yannmjl/how-to-set-up-auto-complete-for-git-commands-on-windows-cmd-exe-687424d2f142
+	https://pagepro.co/blog/autocomplete-git-commands-and-branch-names-in-terminal/
+##############################################################################
+•	Using Git help	
+	
+	To get help there are three equivalent ways:
+
+		$ git help <verb>
+		$ git <verb> --help
+		$ man git-<verb>
+		For example, you can get the manpage help for the git config command by running this:
+		$ git help config
+	
+	
+	These commands works offline. 
+
+
+	For  concise “help” use -h option, as in:
+		git add -h
+	
+	
+
+
+
+
+##############################################################################
+
+Getting Started
+•	Initializing a repository
+
+
+	mkdir demo
+	cd demo
+	ls -a
+	git status
+	
+	#Convert the folder to a git repo.
+	git init
+	ls
+	ls -a
+		- .git folder would be present.
+		
+	cd .git
+		More on this folder latter.
+		
+		cd objects (.git/objects)
+		ls
+			objects
+			pack
+		
+				However these are empty.
+		
+	Create 
+		Abc.txt
+		Xyz.txt
+	ls -a
+			Go back and check .git/objects folder
+				No new folder
+			
+			
+	git status
+		Adding a file to staging area
+	git add Abc.txt
+			Go back and check .git/objects folder
+				New folder created with hash.
+				
+
+	
+	git status
+		Notice add files and untracked files.
+
+	Commit
+		git commit -m "Learn git commit"
+
+			Go back and check .git/objects folder
+			New folders created with hash.
+				
+##############################################################################
+•	Understanding where Git files are stored
+
+	https://www.toolsqa.com/git/dot-git-folder/
+	
+	.git folder is required to 
+		Log every commit history 
+		Every other information required for your 
+			remote repository, 
+			version control, 
+			commits etc. 
+	
+	ls -a .git
+		They will look probably like this:
+			
+			Folder
+				Hooks
+				Info
+				Objects
+				refs
+			Files
+				Config
+				Description
+				HEAD
+
+		Hooks folder in the Dot Git Folder (.git)
+		-----------------------------------------
+			Has few script files. 
+				known as Git Hook Scripts. 
+			Git hooks 
+				scripts that are executed before or after the events. 
+				events: any Git event including the common Git events like 
+					commit, 
+					push or 
+					receive. 
+			increase the productivity of the developer.
+
+			pre-commit script 
+				executed before executing the commit event. 
+				E.g. checking the spelling errors etc. 
+			post-commit script 
+				executed after the commit is done. 
+		
+		These scripts can be updated to customize validtiion.
+			This is very very rare.
+			When you have multiple repositories.
+
+		
+ 
+
+	
+		Info folder in the Dot Git Folder (.git)
+		----------------------------------------
+		Info folder contains the exclude file inside it. 
+		exclude file (Not .gitignore)
+			exclude certain pattern of files from Git to read or execute. 
+			This file is local and personal to you 
+			Not shared among the developers that clone your project. 
+			If all developers in the project needs to ignore, 
+				use .gitignore.
+
+		Objects folder in Dot Git Folder (.git)
+		----------------------------------------
+		Everything is saved in objects folder as a hash value. 
+			commit, 
+			every tree or 
+			every file that you create 
+				is saved in this directory. 
+		With every object, 
+			there is a hash value linked to it, 
+			through which Git knows where is what. 
+		The folders are created accordingly. 
+		
+--------------------------------------------------------------------------------------------------------
+	ls .git/objects 
+These contain the hash value of the events you just did. 
+Git tracks and recognizes everything by converting it to the hash value. 
+The folders are named according to the hash value saved inside. 
+Talking in layman’s terms, hashing is a popular method (data structure) of converting your data to hash value (random combinations of letters and digits) which is only decodable by trusted sources. Due to its nature, hashing is today used most popularly in security measures. But in Git it is not used mainly as a security feature. Hashing in Git is used to be able to trust and create stable data where collision does not occur which means two same files can be saved because they will have different hash values. Hash acts as a medium for having your data in a form which can be converted and used to any other technology in the future. Since hashing acts as a mediocre, we can anytime create technologies that take input as the hash value and not the source code files. This way, the code you save today can also be viewed years later due to this feature of Git. Go to the folders and see the hash value has been created.		
+			
+-------------------------------------------------------------------------------------------------------- 
+
+ 
+
+		Config Folder in Dot Git Folder (.git)
+		--------------------------------------
+		The config file contains your configuration. 
+		Configuration you set for e.g.
+			username, 
+			email, etc. 
+			for your project is saved permanently in this folder.
+		You can modify it once you set them but you don’t need to do it generally. 
+		Once you edit the configuration setting, they are saved permanently. 
+		You can view them by typing this command: 
+			vi ~/.gitconfig
+		
+		https://www.toolsqa.com/git/dot-git-folder/
+		https://www.toolsqa.com/git/set-up-default-credentials-for-git-config/
+			
+			More on this latter.
+
+		Description File in Dot Git Folder
+		----------------------------------
+		Description contains the data about the repositories which can be seen on GitWeb only. 
+		This file is none of a programmer’s use. 
+		It is just for seeing the repositories on GitWeb. 
+
+
+		HEAD File in Dot Git Folder (.git)
+		----------------------------------
+		Head file 
+			contains the reference to the branch we are currently working on. 
+		Symbolic reference to the branch 
+		Not the normal reference. 
+		Normal reference contains the Hash value as we saw in the above Objects folder.
+			But this is in plain text.
+		It refers to something directly like pointers in programming. 
+		A symbolic reference is a reference to another normal reference. 
+		It means that the symbolic reference will refer to a normal reference 
+		and as learned, that normal reference will be referring to the actual value. It is a type of two-step reference. So in this case, Head refers to somewhere else which contains the hash value of the branch we are working on. Note here that head always points out to the last checked out revision. If you have checked out a branch recently, then it will point to the branch. If that revision is a commit, then the head will point to the commit.
+
+
+	
+	MORE DETAILS ON Configuration
+	-----------------------------
+	Why to set up Configuration File in Git?
+	https://www.toolsqa.com/git/set-up-default-credentials-for-git-config/
+	As we install Git in our system, 
+		the configuration file takes default values for some of the fields. 
+	This means Git starts by setting same files to every user. 
+	Although many of these values are default and are kept that way, but the personal ones should not. 
+	This creates a conflict in the identity of the programmer among the team about which we will see through an example in this section. 
+	Start Git first time, 
+		the common default (across users) files are searched inside the 
+			/etc/gitconfig file. 
+		User specific files are found inside 
+			~/.gitconfig or 
+			~/.config/git/config 
+			file. 
+		The specific file include your username, your name etc.
+
+
+	
+		Setupp default cofig
+		-----------------------------
+		git config –global user.name “Your UserName”
+		git config –global user.email “Your UserName”
+		
+		List all config
+		git config --list
+		
+		View a particular config
+		git config --global <key>
+		git config user.name
+		
+		
+
+•	Configuring the command prompt to show the branch
+		Already covered - configure
+		user.name
+		user.email
+##############################################################################
+Merging Branches
+	“killer feature” 
+	Incredibly lightweight
+	branching operations nearly instantaneous
+	Switching back and forth between branches generally just as fast. 
+	Git encourages 
+		workflows that branch and merge often, 
+			even multiple times in a day. 
+
+	To really understand the way Git does branching, we need to take a step back and examine how Git stores its data.
+
+
+When you make a commit, 
+	Git stores a commit object 
+		contains a pointer to the snapshot of the content you staged. 
+	This object contains 
+		pointer to the snapshot
+		the author’s name and email address, 
+		the message 
+		pointers to the commit(s) that came before this commit 
+			zero parents for the initial commit, 
+			one parent for a normal commit, 
+			multiple parents for a commit that results from a merge of two or more branches.
+
+
+	Let’s assume we have a directory containing three files
+		stage them all and commit. 
+	Staging the files computes a checksum for each one 
+		stores that version of the file in the Git repository 
+		adds that checksum to the staging area:
+
+
+$ git add test.txt LICENSE
+$ git commit -m 'Initial commit'
+	When you commit
+		Git checksums each subdirectory 
+			in this case, just the root project directory
+		stores them as a tree object in the Git repository. 
+		Git then creates a 
+			commit object that has the metadata 
+			pointer to the root project tree 
+				so it can re-create that snapshot when needed.
+
+	If you make some changes and commit again, 
+		the next commit stores a pointer to the commit that came immediately before it.
+
+	A branch in Git is simply a lightweight movable pointer to one of these commits. 
+	The default branch name in Git is master. 
+	As you start making commits, 
+		you’re given a master branch that points to the last commit you made. 
+	Every time you commit, the master branch pointer moves forward automatically.
+
+	
+	Creating a New Branch
+	---------------------
+	What happens when you create a new branch? 
+	Well, doing so creates a new pointer for you to move around. 
+	Let’s say you want to create a new branch called testing. 
+	You do this with the git branch command:
+	
+		$ git branch testing																																																																																																																																																																																																	
+		This creates a new pointer to the same commit you’re currently on.
+	
+	How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch—it didn’t switch to that branch.
+	
+	you can easily see this by running a simple git log command that shows you where the branch pointers are pointing. This option is called --decorate.
+	
+		git log --oneline --decorate
+		
+	Switching Branches
+	To switch to an existing branch, you run the git checkout command. 
+		$ git checkout testing
+
+	This moves HEAD to point to the testing branch
+
+		$ vi test.txt
+		$ git commit -a -m 'made a change'
+
+	The HEAD branch moves forward when a commit is made
+	This is interesting, 
+	now our testing branch has moved forward, 
+		but your master branch still points to the commit you were on when you ran git checkout to switch branches. Let’s switch back to the master branch:
+
+		$ git checkout master
+	That command did two things. 
+	It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch so you can go in a different direction.
+
+
+	Now your project history has diverged 
+	You created and switched to a branch, 
+		did some work on it, and 
+		then switched back to your main branch and 
+		did other work. 
+		Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. 
+	And you did all that with simple branch, checkout, and commit commands.
+
+##############################################################################
+•	Merging code
+
+Let's follow a workflow
+	Do some work on a website.
+	Create a branch for a new user story you’re working on.
+	Do some work in that branch.
+
+At this stage, you’ll receive a call that another issue is critical and you need a hotfix. 
+You’ll do the following:
+
+	Switch to your production branch.
+	Create a branch to add the hotfix.
+	After it’s tested, merge the hotfix branch, and push to production.
+	Switch back to your original user story and continue working.
+
+You’ve are going to resolve the latest bug. 
+Create a new branch and switch to it at the same time, 
+	you can run the git checkout command with the -b switch:
+
+	$ git checkout -b newissue
+Switched to a new branch "newissue"
+This is shortform for:
+			$ git branch newissue
+			$ git checkout newissue
+
+	You work on your website and do some commits. 
+	Doing so moves the newissue branch forward, because you have it checked out (that is, your HEAD is pointing to it):
+
+		$ vi index.html
+
+	git add *
+	git commit -a -m 'Fix issue'
+
+	Now you get the call 
+		there is an issue with the website, 
+		you need to fix it immediately. 
+	With Git, 
+		We don't need to repeat
+		reverting those changes before you can work on applying your fix to what is in production. 
+		All you have to do is switch back to your master branch.
+
+	If your working directory or staging area has uncommitted changes 
+		that conflict with the branch you’re checking out, 
+		Git won’t let you switch branches. 
+	It’s best to have a clean working state when you switch branches. 
+		ways to get around this 
+			stashing 
+
+	$ git checkout master
+	Switched to branch 'master'
+
+	At this point, 
+		your project working directory is exactly the way it was before you started working on new issue, 
+		
+		when you switch branches, 
+			Git resets your working directory to look like it did the last time you committed on that branch. 
+			Git 
+				adds, 
+				removes, and 
+				modifies files 
+			automatically to ensure working copy is what the branch looked like on your last commit to it.
+
+	Next, you have a hotfix to make. 
+	Let’s create a hotfix branch on which to work until it’s completed:
+
+		$ git checkout -b hotfix
+		Switched to a new branch 'hotfix'
+
+		$ vi index.html
+		$ git commit -a -m 'Fix broken email address'
+
+		$ git checkout master
+		$ git merge hotfix
+
+	Notice the phrase “fast-forward” in that merge. 
+		Current commit pointed to by the branch hotfix you merged in was directly ahead of the commit
+		Git simply moves the pointer forward. 
+	
+	i.e. 
+		when you try to merge one commit with a 
+			commit that can be reached by following the first commit’s history 
+		Git simplifies things by moving the pointer forward 
+			because there is no divergent work to merge together
+		This is called a “fast-forward.”
+
+	Your change is now in the snapshot of the commit pointed to by the master branch, and you can deploy the fix.
+
+	`master` is fast-forwarded to `hotfix`
+
+		Hotfix branch can be deleted.
+		$ git branch -d hotfix
+
+	Switch to newissue branch
+		$ git checkout newissue
+			Switched to branch "newissue"
+			
+		Modify 	
+		$ vi index.html
+		$ git commit -a -m 'Fix the issue'
+
+		Modifications done in hotfix branch is 
+			not contained in the files in your newissue branch. 
+		
+		I need to pull it in, 
+			I can merge your master branch into your newissue branch by running 
+				git merge master
+
+
+	Basic Merging
+	-------------
+	you’ve completed fixing newissue 
+	Probably it has to be merged into your master branch. 
+	In order to do that, 
+		you’ll merge your newissue branch into master
+	
+	Steps
+	-----
+	Check out the branch you wish to merge into 
+	git merge <branch>:
+
+		$ git checkout master
+		Switched to branch 'master'
+
+		$ git merge newissue
+
+	Different than the hotfix merge you did earlier. 
+		development history has diverged from some older point.
+		i.e. Master has underwent changes after newissue was created.
+	Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, 
+	Git has to do some work. 
+	In this case, 
+		Git does a simple three-way merge
+			using the two snapshots pointed to by the branch tips and the common ancestor of the two.
+
+	Three snapshots used in a typical merge
+
+	Instead of just moving the branch pointer forward, 
+		Git creates a new snapshot that results from this three-way merge 
+		Automatically creates a new commit that points to it. 
+		This is referred to as a merge commit, 
+		special in that it has more than one parent.
+
+
+	Now that your work is merged in, 
+	newissue branch is not required. 
+	and delete the branch:
+
+	$ git branch -d newissue
+	
+	Basic Merge Conflicts
+	----------------------
+	Changed the same part of the same file differently in the two branches you’re merging, 
+		Git won’t be able to merge them cleanly. 
+		If your fix for newissue modified the same part of a file as the hotfix branch, 
+		
+			$ git merge newissue
+	
+	Auto-merging index.html
+	CONFLICT (content): Merge conflict in index.html
+	Automatic merge failed; fix conflicts and then commit the result.
+	Git hasn’t automatically created a new merge commit. It has paused the process while you resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can run git status:
+
+	$ git status
+	On branch master
+	You have unmerged paths.
+	  (fix conflicts and run "git commit")
+
+	Unmerged paths:
+	  (use "git add <file>..." to mark resolution)
+
+		both modified:      index.html
+
+	no changes added to commit (use "git add" and/or "git commit -a")
+	Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:
+
+	<<<<<<< HEAD:index.html
+	<div id="footer">contact : email.support@github.com</div>
+	=======
+	<div id="footer">
+	 please contact us at support@github.com
+	</div>
+	>>>>>>> newissue:index.html
+	This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the =======), while the version in your newissue branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
+
+	<div id="footer">
+	please contact us at email.support@github.com
+	</div>
+	This resolution has a little of each section, and the <<<<<<<, =======, and >>>>>>> lines have been completely removed. After you’ve resolved each of these sections in each conflicted file, run git add on each file to mark it as resolved. Staging the file marks it as resolved in Git.
+
+	If you want to use a graphical tool to resolve these issues, you can run git mergetool, which fires up an appropriate visual merge tool and walks you through the conflicts:
+
+	$ git mergetool
+
+	This message is displayed because 'merge.tool' is not configured.
+	See 'git mergetool --tool-help' or 'git help config' for more details.
+	
+	'git mergetool' will now attempt to use one of the following tools:
+		opendiff 
+		kdiff3 
+		tkdiff 
+		xxdiff 
+		meld 
+		tortoisemerge 
+		gvimdiff 
+		diffuse diffmerge 
+		ecmerge 
+		p4merge 
+		araxis 
+		bc3 
+		codecompare 
+		vimdiff 
+		emerge
+	Merging:
+		index.html
+
+	Normal merge conflict for 'index.html':
+	  {local}: modified file
+	
+	Hit return to start merge resolution tool (opendiff):
+	
+	If you want to use a merge tool other than the default 
+	(Git chose opendiff in this case because the command was run on a Mac), 
+		you can see all the supported tools listed at the top after “one of the followingtools.” Just type the name of the tool you’d rather use.
+
+
+	Based on the tool after you exit the merge tool, 
+		Git asks you if the merge was successful. 
+		If you tell the script that it was, 
+			it stages the file to mark it as resolved for you. 
+		Execute git status again to verify that all conflicts have been resolved:
+
+	$ git status
+
+	  (use "git commit" to conclude merge)
+
+	Changes to be committed:
+		
+		
+	Now you get the call that there is an issue with the website, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the newissue changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
+
+	However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later on, in Stashing and Cleaning. For now, let’s assume you’ve committed all your changes, so you can switch back to your master branch:
+
+	$ git checkout master
+	Switched to branch 'master'
+	At this point, your project working directory is exactly the way it was before you started working on issue #newissue, and you can concentrate on your hotfix. This is an important point to remember: when you switch branches, Git resets your working directory to look like it did the last time you committed on that branch. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+
+	
+##############################################################################
+•	Using fast-forward merge vs. true merge
+	Already covered.
+##############################################################################
+As you may remember from What is Git?, Git doesn’t store data as a series of changesets or differences, but instead as a series of snapshots.
+•	Merging conflicts
+	
+	Already discussed
+##############################################################################
+•	Resolving merge conflicts
+	Already discussed.
+##############################################################################
+•	Exploring strategies to reduce merge conflicts
+
+	Trick #1: Short-Living Branches
+				Frequent syncing
+	Trick #2: Small Modules
+				Single Responsibility Principle
+	Trick #3: Strong Communication
+	Trick #4: Mob Programming
+				All are working on the same computer.
+	Trick #5: Use A diff tool
+				git config –global diff.tool <diff-tool>
+	Trick #6: Use git fetch
+				git fetch
+				Do a comparison with that.
+	Trick #7: Use git rerere
+			Reuse recorded resolution. 
+			Rerere: records a merge conflict that has been resolved in the past. 
+			Reuses it again when that merge conflict happens again.
+			To use it git rerere needs to be enabled
+				$ git config rerere.enabled true 
+##############################################################################
+•	Fast Forward Merge
+	Already discussed.
+##############################################################################
+•	Three way Merge
+	Already discussed
+##############################################################################
+•	Rebasing
+##############################################################################
+
+already covered	D:\PraiseTheLord\HSBGInfotech\DevOps\git\GitHandsOn.txt
+
+
+git rebase 
+	gets all unique commits from both branches and 
+		applies them one by one
+	rewrites commit history but 
+		doesn’t create extra commit for merging
+
+Vs
+
+git merge 
+	apply all unique commits from branch A 
+		into branch B in one commit with final result
+	doesn’t rewrite commit history, 
+		just adds one new commit
+
+
+When to use:
+------------
+git merge 
+	default behavior 
+		when you use git pull (i.e. remote repo). 
+	Use it as default 
+		if you are not bothering about 
+			commit history and 
+			want to avoid problems
+git rebase 
+	use it to make your commit history more clear and consistent 
+		(use it only before pushing to remote servers to keep your name and karma clean)
+use git rebase for temporary local branches — 
+	they are not necessary for public commit history and won’t make problems
+use git rebase -i (interactive) for 
+	rewriting your local commit history into pretty one before pushing it on the remote server.
+
+
+
+Remotes
+##############################################################################
+•	Using local and remote repositories
+
+	To collaborate on Git project.
+		We need to know how to manage your remote repositories. 
+		Remote repositories 
+			versions of your project hosted somewhere. 
+		Collaborating with others 
+			Manage these remote repositories 
+			Push and pull data to and from them when you need to share work. 
+			Managing remote repositories includes knowing how to 
+				add remote repositories, 
+				remove remotes that are no longer valid, 
+				manage various remote branches 
+				define them as being tracked or not, and more. 
+
+	To see which remote servers you have configured
+		you can run the git remote command. 
+		It lists the shortnames of each remote handle you’ve specified. 
+		If you’ve cloned your repository, you should at least see origin—that is the default name Git gives to the server you cloned from:
+	
+
+	Remote branches 
+	----------------
+		references (pointers) to 
+			the state of branches in your remote repositories.
+		act as bookmarks to remind you 
+			where the branches on your remote repositories were the last time you connected to them.
+	
+	They take the form (remote)/(branch). 
+		Default remote is referred to as origin.	
+		For e.g., 
+			to check what the master branch on your origin remote looked like 
+				as of the last time you communicated with it, 
+				you would check the origin/master branch. 
+			If you were working on an issue with a partner and they pushed up an newissue branch, 
+				you might also have your own local newissue branch; 
+				but the branch on the server would point to the commit at origin/newissue.
+
+		Let's say we clone master repo. from github.
+		If you do some work on your local master branch
+		In the meantime, 
+			someone else pushes to github 
+				updates its master branch, 
+			then your histories move forward differently. 
+		As long as you stay out of contact with your origin server, 
+			your origin/master pointer doesn’t move.
+
+
+		To synchronize your work, you run a 
+			git fetch origin command. 
+		This command looks up which server “origin” is (here github.com), 
+			fetches any data from it that you don’t yet have, 
+			updates your local database, 
+			moving your origin/master pointer to its new, more up-to-date position.
+
+		Note:
+			git fetch origin master
+			git pull origin master 
+			
+		
+		
+		
+
+
+##############################################################################
+•	Adding a remote repository
+
+		git remote add origin https://github.com/abc/efg.git
+		git remote add origin git@github.com:User/UserRepo.git
+		git remote set-url origin git@github.com:User/UserRepo.git
+		git push -u origin master
+		
+		check existing remotes with
+			-v: shows URLs that Git has stored for the shortname to be used when reading and writing to that remote:
+			git remote -v			
+				If you have more than one remote
+					the command lists them all. 
+
+##############################################################################
+•	Creating a remote branch
+		Creating a local branch and switching to it
+		git checkout -b myremote
+		make change 
+		git add .
+		git commit -m "my remote test"
+		git push -u origin myremote 
+			
+		
+		
+		fyi: To create a new branch from a different branch, 
+			you should indicate your branch name as the last argument of the command.
+			git checkout -b <new-branch-name> <from-branch-name>
+			
+			
+		Pushing a local branch to remote
+			You can work locally on the branch and push it whenever you are ready to share. 
+			Push the branch to a remote repository by running the following command (name of remote : origin, which is by default):
+
+				git push -u origin myremote
+				
+			-u flag ( short for --set-upstream) in push command
+				will set the default remote branch for the current local branch. 
+				After this command, 
+					all the upcoming git pull commands will bring in commits from the remote branch to the current local branch.
+					
+			This can be followed with 
+				git fetch origin 
+				git pull origin 
+					commands
+			
+			Git 2.0 or above.
+				Default push can be modified as push.default configuration, 
+					by setting it to current in the following way:
+
+				git config --global push.default current
+
+				Afterwards, you can push a new branch with the command below:
+
+				git push -u
+
+
+		
+##############################################################################
+•	Cloning a remote repository
+	git clone https://github.com/abc/efg.git
+##############################################################################
+•	Tracking remote branches
+
+
+	push a branch from one folder as mentioned in the above section
+	git checkout --track origin/myremote 
+	
+	
+	Checking out a local branch from a remote branch 
+		creates “tracking branch” /“upstream branch”. 
+	
+	Tracking branches 
+		local branches that have a direct relationship to a remote branch. 
+	If you’re on a tracking branch and type 
+		git pull, 
+	Git automatically knows which server to fetch from and branch to merge into.
+
+	When you clone a repository, 
+		it generally creates a master branch that tracks origin/master. 
+	However, you can set up other tracking branches if you wish – 
+		ones that track branches on other remotes, 
+		or don’t track the master branch. 
+	
+		git checkout -b [branch] [remotename]/[branch]. 
+	git provides --track shortform:
+		git checkout --track origin/[branch]
+		git checkout --track origin/serverfix
+	
+	Setup a local branch with a different name than the remote branch, 
+		git checkout -b sf origin/serverfix #generally used if you have a local branch withe same name already.
+		
+	Already have a local branch 
+	want to set it to a remote branch you just pulled down, 
+	want to change the upstream branch you’re tracking, 
+		use the -u or --set-upstream-to option to git branch 
+		
+		 git branch -u origin/serverfix
+		 
+	To see what tracking branches you have set up, 
+		use the -vv option to git branch. 
+	list out your local branches with more information including what each branch is tracking and if your local branch is ahead, behind or both.
+
+		[git checkout newissue]
+		git branch -vv
+	
+	So here we can see that our newissue branch is tracking origin/newissue
+		Make some changes remotely and rerun 
+		git branch --vv
+	
+
+	
+##############################################################################
+•	Pushing changes to a remote repository
+
+	To share a branch with the world, 
+		you need to push it up to a remote that you have write access to. 
+	Your local branches aren’t automatically synchronized to the remotes you write to – 
+	you have to explicitly push the branches you want to share. 
+	
+	
+	You can use private branches for work you don’t want to share, 
+		and push up only the topic branches you want to collaborate on.
+
+	If you have a branch named serverfix that you want to work on with others, 
+	you can push it up the same way you pushed your first branch. 
+		git push (remote) (branch):
+		git push origin serverfix
+		
+	This is a bit of a shortcut. 
+	Git expands 
+		<branchName> -> refs/heads/<branchName>:refs/heads/<branchName>, 
+		It's like 
+			“Take my serverfix local branch and push it to update the remote’s serverfix branch.
+			
+	When we do a fetch that brings down new remote branches, 
+		you don’t automatically have local, editable copies of them. 
+	i.e. you don’t have a new serverfix branch – 
+		you only have an origin/serverfix pointer that you can’t modify.
+
+	To merge this work into your current working branch, you can run 
+		git merge origin/serverfix. 
+	If you want your own serverfix branch that you can work on, you can base it off your remote branch:
+		
+		git checkout -b serverfix origin/serverfix
+
+##############################################################################
+•	Fetching changes from a remote repository
+
+git remote 
+git fetch 
+git push 
+git pull
+
+
+
+
+Scenario: 
+	Imagine you're part of a team working on a web application project. 
+	You're currently working on a new feature branch called "myremote" while your colleague, 
+	Bob, is working on a separate branch called 
+		"bug-fixes."
+
+Steps:
+
+	Bob makes changes: Bob completes his bug fixes and pushes them to the remote repository's "bug-fixes" branch.
+
+
+		clone repo to a new folder 
+		git checkout -b bugfixes
+		echo "test" > bugfixes.txt
+		git add .
+		git commit -m "bugfixes"
+		git push -u origin bugfixes
+
+	You fetch changes: You want to incorporate Bob's bug fixes into your "user-profile-enhancements" branch, but you want to carefully review the changes first. To do this, you execute:
+
+		git fetch origin bugfixes
+	
+	This downloads the latest commits from the remote repository, including Bob's changes, but it doesn't modify your local branches or working directory.
+	
+	
+	Inspect changes with git diff: Before merging, you want to see exactly what changes Bob made. You use the following command:
+
+
+
+		git diff origin/bug-fixes
+			press q to exit 
+		
+	
+	This command compares your current branch (likely "user-profile-enhancements") with the remote "bug-fixes" branch. The output will show you the specific lines of code that were added, modified, or deleted in Bob's commits.
+	
+	Review and merge: After carefully reviewing the changes with git diff, you decide to merge them into your "user-profile-enhancements" branch. You execute:
+
+
+		git merge origin/bug-fixes
+
+	This integrates Bob's changes into your current branch. If there are no conflicts, Git will perform a fast-forward merge. If there are conflicts, you'll need to resolve them manually before completing the merge.
+
+	Why this workflow is beneficial:
+
+	Controlled integration: 
+		git fetch allows you to download changes without immediately merging them, giving you time to review them.
+	Conflict avoidance: 
+		git diff helps you identify potential conflicts before merging, allowing you to prepare for them or adjust your work accordingly.
+	Clean history: 
+		By merging after careful review, you maintain a cleaner and more organized project history.
+
+
+	git fetch command downloads 
+		commits, 
+		files, and 
+		refs from a 
+			remote repository into your local repo. 
+		But doesn't modify 
+			working area
+			staging area 
+			local repository 
+			
+		Fetching is what you do when you want to see what everybody else has been working on. 
+	Git 
+		isolates fetched content from existing local content; 
+		it has absolutely no effect on your local development work. 
+	Fetched content has to be explicitly checked out using the git checkout command. 
+	This makes fetching a safe way to review commits before integrating them with your local repository.
+
+	When downloading content from a remote repo, 
+		git pull and git fetch 
+	
+	git fetch: 
+		'safe' version 
+		will download the remote content but not update your local repo's working state
+			leaving your current work intact. 
+	git pull 
+		more aggressive alternative; 
+		it will download the remote content for the active local branch 
+		immediately execute git merge to create a merge commit for the new remote content. 
+		If you have pending changes in progress 
+			this will cause conflicts and 
+			kick-off the merge conflict resolution flow.
+
+
+
+	How git fetch works with remote branches
+	----------------------------------------
+	Behind the scenes, in the repository's 
+		./.git/objects directory, 
+	Git stores all local and remote commits, 
+	Git keeps remote and local branch commits distinctly separate through the use of branch refs. 
+	The refs for local branches are stored in the ./.git/refs/heads/. 
+	Executing the git branch command will output a list of the local branch refs. 
+
+		git branch
+		ls ./.git/refs/heads/
+
+	Remote branches are just like local branches
+	except they map to commits from somebody else’s repository. 
+	Remote branches are prefixed by the remote they belong to 
+		so that you don’t mix them up with local branches. 
+	Like local branches, Git also has refs for remote branches. 
+	Remote branch refs live in the 
+		./.git/refs/remotes/ directory. 
+	
+	git branch -r
+	
+This output displays the local branches we had previously examined but now displays them prefixed with origin/. Additionally, we now see the remote branches prefixed with remote-repo. You can check out a remote branch just like a local one, but this puts you in a detached HEAD state (just like checking out an old commit). You can think of them as read-only branches. To view your remote branches, simply pass the -r flag to the git branch command.
+
+You can inspect remote branches with the usual git checkout and git log commands. If you approve the changes a remote branch contains, you can merge it into a local branch with a normal git merge. So, unlike SVN, synchronizing your local repository with a remote repository is actually a two-step process: fetch, then merge. The git pull command is a convenient shortcut for this process.
+	
+	
+	
+
+##############################################################################
+•	Merging in fetched changes
+https://www.atlassian.com/git/tutorials/using-branches/git-merge
+	git merge origin/[branch]
+	
+	already covered above 
+	
+	The git merge command lets you take the independent lines of development created by git branch 
+	Integrate them into a single branch.
+
+
+
+##############################################################################
+•	Checking out remote branches
+
+	git checkout origin/test results in detached HEAD / unnamed branch
+	
+	git checkout test or 
+	git checkout -b test origin/test results in local branch test 
+	(with remote-tracking branch origin/test as upstream) 
+##############################################################################
+•	Pushing to an updated remote branch
+
+already covered
+
+	The git push command takes two arguments:
+		A remote name - origin
+		A branch name, for example, featureBranch1
+		
+	git push origin master
+	git push origin featureBranch1
+	git push also may work for a tracking branch.
+	
+	
+	Renaming branches
+	-----------------
+	To rename a branch, 
+		git push  <REMOTENAME> <LOCALBRANCHNAME>:<REMOTEBRANCHNAME> 
+
+		git push origin mylocalname:myremotename
+		
+	Dealing with "non-fast-forward" errors
+	--------------------------------------
+	If your local copy of a repository is "behind," the upstream repository you're pushing to
+		we'll get a message saying non-fast-forward updates were rejected. 
+	
+	We must retrieve, or "fetch," the upstream changes, before we are able to push your local changes.
+
+	git pull origin [branch]
+	
+	or 
+	
+	git merge origin [branch]
+	git fetch origin [branch]
+
+##############################################################################
+•	Deleting a remote branch
+##############################################################################
+	
+	https://www.geeksforgeeks.org/how-to-remove-a-remote-branch-in-git/
+	
+	git fetch bugfix or git fetch origin bugfix 
+	git branch -r
+	git push origin --delete bugfix 
+	
+	git branch -r
+	git fetch --prune
+	
+----------------------------------------------------------------------------------------------------------------	
+
+1. Introduction to Git
+1.1 Introduction
+	Overview of Git and Version Control Systems:
+		Git is a distributed version control system that tracks changes in code or files over time. It enables multiple people to collaborate on a project, keeps a history of changes, and allows recovery of previous versions.
+	Key Git Features and Benefits:
+		Git’s primary features include 
+			distributed repositories, 
+			fast branching, 
+			efficient merging, and 
+			staging areas. 
+		Benefits include 
+			collaboration, 
+			version tracking, 
+			data integrity, and the 
+			ability to roll back to earlier file states.
+
+
+2. Installation of Git
+2.1 Installation on RHEL Linux
+Lab: Installing Git on a RHEL Linux machine:
+	Install Git using the command:
+
+
+	sudo yum install git
+After installation, configure Git with your name and email using:
+
+
+	git config --global user.name "Your Name"
+	git config --global user.email "your.email@example.com"
+
+3. Basics of Git
+3.1 Git File System Overview Git stores files in a directory called a "repository." 
+	It organizes data into a workspace (working directory), staging area, and Git directory.
+
+3.2 Creating a Local Repository
+
+Lab: Setting up a new repository:
+Initialize a new repository with:
+
+
+git init
+3.3 Basic Git Configurations
+
+Lab: Configure basic Git settings:
+
+	git config --global user.name "Your Name"
+	git config --global user.email "your.email@example.com"
+
+3.4 Adding Files to a Project
+
+Lab: Add files with:
+
+	git add filename
+
+3.5 Checking Project Status View the project’s status with:
+
+	git status
+
+3.6 Adding, Checking in Files Use git add to stage files and git commit to commit them.
+
+3.7 Committing Changes to Git
+
+Lab: Commit files with:
+
+	git commit -m "Commit message"
+
+3.8 Ignoring Specific File Types
+
+	Lab: Use .gitignore to exclude files from version control.
+	D:\PraiseTheLord\HSBGInfotech\DevOps\git\GitHandsOn.txt 
+
+4. Tags, Branching, Merging, and Reverting
+4.1 Using Tags
+
+Lab: Create tags to mark versions with:
+
+	git tag -a v1.0 -m "Version 1.0"
+	D:\PraiseTheLord\HSBGInfotech\DevOps\git\GitHandsOn.txt 
+
+
+4.2 Using Branches
+
+Lab: Create and switch branches:
+
+	git branch new-branch
+	git checkout new-branch
+
+4.3 Merging Branches
+
+	Lab: Merge branches and resolve conflicts.
+	already covered
+
+
+4.4 Rebasing
+
+	Lab: Use git rebase to apply changes in a linear fashion.
+	already covered
+
+4.5 Reverting a Commit
+
+	Lab: Undo changes with:
+
+		git revert commit-id
+		
+	already covered
+	
+	
+	The git revert <commit-id> command 
+		used to undo the changes introduced by a specific commit. 
+		It creates a new commit 
+			reverses the effects of the original commit. 
+		
+		This is different from git reset
+			modifies the history directly.
+
+	Key Points:
+
+		Preserves History: 
+			git revert 
+				creates a new commit to undo changes, 
+				preserving the original commit history 
+					for auditing and tracking.
+		Safe for Shared Repositories: 
+			Since it doesn't 
+				rewrite history, 
+				git revert 
+					safer to use in shared repositories 
+						where others might have already pulled the changes.
+		Handles Complex Changes: 
+			git revert 
+				can handle complex changes, 
+				including merges and conflicting modifications, 
+				more effectively than git reset.
+	Example:
+
+		Identify the Commit: Find the commit ID of the commit you want to revert using git log.
+		Revert the Commit: Execute the following command, replacing <commit-id> with the actual ID:
+
+
+	git revert <commit-id>
+	Review and Commit: Git will display the changes that will be reverted. Review them carefully and then commit the revert with an appropriate message.
+
+
+4.6 Using the diff Command Compare changes with:
+
+	git diff
+
+4.7 Garbage Collection
+
+Lab: Clean up unnecessary data using:
+
+	git gc
+
+
+	Git GC: Cleaning Up Unnecessary Data
+
+	What is git gc?
+
+		git gc 
+			command-line tool 
+			used to reclaim disk space in your Git repository by 
+				removing 
+					unnecessary files and 
+					objects.
+	Over time, 
+		Git accumulates 
+			loose objects, 
+			pack files, and 
+			reflogs
+				can consume significant disk space. 
+	git gc helps to optimize the repository by:
+		Repacking objects: 
+			Combining loose objects into more efficient pack files.
+		Pruning unreachable objects: 
+			Removing objects that are no longer referenced by any branch or tag.
+		Removing old reflogs: 
+			Deleting old reflog entries, which record the history of branches and HEAD.
+Why Use git gc?
+
+	Reclaim Disk Space: Reduce the size of your Git repository, especially for large projects.
+	Improve Performance: Optimize Git's performance by reducing the number of loose objects and improving pack file efficiency.
+	Regular Maintenance: As a good practice, periodically run git gc to keep your repository clean and efficient.
+How to Use git gc:
+
+	git gc
+
+	This executes the default 
+		git gc operation, 
+			which may take some time 
+				depending on the size of your repository.
+
+Aggressive Garbage Collection:
+
+	git gc --aggressive
+
+	This performs a more 
+		thorough garbage collection, 
+			potentially taking longer 
+			but reclaiming more space.
+
+Pruning Only:
+
+	git gc --prune=now
+
+		This only prunes 
+			unreachable objects 
+			without repacking, which is 
+				faster but may not reclaim as much space.
+
+Important Notes:
+
+	git gc 
+		can take some time to complete, 
+		especially for large repositories.
+	It's generally recommended to run 
+		git gc periodically, 
+			such as 
+				once a week or 
+				after major changes.
+	Avoid running git gc 
+		while other users are actively working on the repository, 
+			as it can temporarily lock the repository.
+
+
+
+
+5. Git Logging and Auditing
+5.1 Git Logging and Auditing
+Lab: View logs with:
+
+	git log
+
+
+
+		git log is the primary command in Git for viewing the commit history of a repository.
+
+		Basic Usage:
+
+		git log: This displays the complete commit history, including:
+		Commit Hash: A unique identifier for each commit.
+		Author: The name and email address of the person who made the commit.
+		Date: The date and time the commit was made.  
+		Commit Message: A brief description of the changes made in the commit.
+		Common Options:
+
+		--oneline: Displays the commit history in a concise one-line format.
+		--author=<author_name>: Shows only commits made by a specific author.
+		--since=<date>: Shows commits made after a specific date (e.g., --since="2 weeks ago").
+		--until=<date>: Shows commits made before a specific date.
+		--stat: Displays the number of files changed and lines added/deleted in each commit.
+		--patch: Shows the actual diff of changes made in each commit.
+		--graph: Displays the commit history in a graph format, visually representing the branching structure.
+		Example:
+
+		
+
+		git log --oneline --author="John Doe" --since="2024-01-01"
+		This command will display the commit history in one-line format for commits made by "John Doe" after January 1, 2024.
+
+		Using git log Effectively:
+
+		Filtering: Use options like --author, --since, and --until to filter the log output and focus on the relevant commits.
+		Combining Options: Combine multiple options to get the desired output (e.g., --oneline --stat --graph).
+		Navigating the Log: Use the q key to exit the log output.
+
+
+6. Cloning Repositories
+6.1 Cloning a Local Repository
+Clone a local repo with:
+
+	git clone /path/to/repository
+
+6.2 Cloning a Remote Repository Over HTTPS
+
+Lab: Clone a repo over HTTPS with:
+
+	git clone https://github.com/user/repo.git
+
+6.3 Forking Repositories
+	Forking creates a copy of a repository in your GitHub account.
+
+		Forking a repository on GitHub creates a complete copy of that repository within your own GitHub account.
+
+	Here's a breakdown of what happens when you fork a repository:
+
+	A new repository is created: This new repository is owned by you and resides within your GitHub account.
+	All files and folders are copied: The fork includes all the files, folders, and branches from the original repository.
+	Independent development: You can now make changes to your forked copy without affecting the original repository. This allows you to experiment, learn, and contribute to the project without worrying about impacting others.
+	Why fork a repository?
+
+	Experimentation: Try out new features, make modifications, or learn from the code without affecting the original project.
+	Contributing to open-source projects: Fork a project, make improvements, and submit a pull request to the original repository to contribute your changes back to the community.
+	Creating a personal version: Customize a project for your own needs or preferences.
+
+
+6.4 Securing GitHub Account with SSH Keys
+
+	Lab: Set up SSH keys for GitHub access.
+
+
+	Securing Your GitHub Account with SSH Keys
+
+	Why Use SSH Keys?
+
+	Enhanced Security: SSH keys provide a more secure alternative to using your GitHub password for every interaction.
+	Passwordless Authentication: Once set up, you can interact with GitHub repositories without repeatedly entering your password.
+	Increased Convenience: Streamlines the process of cloning, pushing, and pulling from repositories.
+	Generating an SSH Key Pair
+
+	Open your terminal.
+	Generate an SSH key:
+	
+
+	ssh-keygen -t ed25519 -C "your_email@example.com" 
+	Replace your_email@example.com with your actual email address.
+	You can choose a different key type (e.g., rsa) if desired.
+	Follow the prompts:
+	Press Enter to accept the default file location (~/.ssh/id_ed25519).
+	Enter a passphrase for added security (optional).
+	Adding the Public Key to GitHub
+
+	Copy the public key:
+	
+
+	cat ~/.ssh/id_ed25519.pub 
+	This will display the contents of your public key. Copy the entire string.
+	Go to your GitHub account settings:
+	Click on your profile picture in the top right corner.
+	Select "Settings."
+	In the left sidebar, click on "SSH and GPG keys."
+	Add a new SSH key:
+	Click the "New SSH key" button.
+	Enter a descriptive title for the key (e.g., "Your Laptop").
+	Paste the copied public key into the "Key" field.
+	Click "Add SSH key."
+	Testing the SSH Connection
+
+	Test the connection:
+
+
+	ssh -T git@github.com
+	If successful, you should see a message like:
+
+	Hi username! You've successfully authenticated, but GitHub does not provide shell access.
+	Using SSH with Git
+
+	Clone a repository:
+	
+		git clone git@github.com:username/repository_name.git
+	Push changes:
+	
+		git push origin <branch_name>
+	Key Points:
+
+	Securely store your private key.
+	Never share your private key with anyone.
+	If you lose your private key, you'll need to generate a new one and add it to your GitHub account.
+
+
+6.5 WebHooks
+
+Lab: Configure WebHooks to receive notifications when a repository changes.
+
+	
+
+
+7. Push, Pull, and Tracking Remote Repositories
+
+
+7.1 Tracking Remote Repositories
+
+	Lab: Track a remote repo with:
+	git remote add origin https://github.com/user/repo.git
+
+
+
+	The command you provided, git remote add origin https://github.com/user/repo.git, is absolutely correct! It's used to track a remote repository on GitHub.
+
+	Explanation:
+
+	git remote add: This command is used to add a remote repository URL to your local Git repository.
+	origin: This is a common name given to the remote repository being added. You can choose any name you prefer, but "origin" is the widely used convention.
+	https://github.com/user/repo.git: This is the URL of the remote repository you want to track. In this case, it's a GitHub repository hosted under the user "user" with the name "repo".
+	What Does This Do?
+
+	By running this command, you're essentially telling your local Git repository where the "origin" (remote) repository is located. This allows you to perform operations like:
+
+	Fetching changes from the remote repository using git fetch origin.
+	Pushing your local changes to the remote repository using git push origin <branch_name>.
+	In essence, this command establishes a connection between your local repository and the remote repository on GitHub, enabling you to collaborate and keep them synchronized.
+
+	Additional Notes:
+
+	You can verify that the remote repository was added successfully using git remote -v. This will list all configured remote repositories and their URLs.
+	You can add multiple remote repositories to your local project, each with a different name.
+
+7.2 Pushing to a Remote Repository
+
+	Lab: Push changes to a remote repository with:
+
+	git push origin branch-name
+	
+	
+	git push origin <branch-name>
+
+	This command is used to push your local branch's changes to the remote repository.
+
+	Breakdown:
+
+		git push: This initiates the process of pushing commits from your local repository to a remote repository.
+		origin: This typically refers to the default remote repository that was set when you cloned the project (usually the main repository on platforms like GitHub, GitLab, or Bitbucket).
+		<branch-name>: This specifies the name of the local branch whose changes you want to push to the remote repository.
+	Example:
+
+	If you're working on a feature branch called "feature-x" and want to push your changes to the remote repository, you would use:
+
+	
+
+	git push origin feature-x 
+	Key Points:
+
+	Ensure your local branch is up-to-date: Before pushing, it's generally recommended to fetch and merge any recent changes from the remote repository to avoid conflicts:
+	
+
+	git fetch origin 
+	git merge origin/<branch-name> 
+
+	Resolve conflicts: If any conflicts arise during the merge, resolve them before pushing.
+
+	Set up upstream tracking: For easier pushes in the future, you can set up upstream tracking for your branch when you create it:
+	
+
+	git checkout -b <branch-name> origin/<branch-name> 
+
+
+.3 Pull Requests
+Lab: Create pull requests on GitHub for collaboration.
+
+lab: 
+
+git checkout -b prtest
+git branch
+ls
+echo "test pr" >> test1.txt
+git status
+git add .
+git commit -m "test pr"
+git branch
+git push origin prtest
+
+
+Login to github 
+goto main/master 
+	Create PR 
+	
+	
+	
+	
+	or click on Pull request
+	
+	Creating Pull Requests on GitHub for Collaboration
+
+
+	 Create a Pull Request
+
+	Navigate to your forked repository on GitHub.
+	Click on the "Pull requests" tab.
+	Click on the "New pull request" button.
+	Select your branch as the "head repository" and the base branch you want to merge into (usually "main" or "master").
+	Provide a descriptive title and a detailed description for your pull request.
+	Clearly explain the purpose of your changes and how they address the issue or feature.
+	Optionally, assign reviewers or request a review from specific team members.
+	Click "Create pull request."
+	
+	6. Review and Iterate
+
+	Collaborate with reviewers: 
+		Address any comments or suggestions from reviewers.
+	Make necessary changes and push updates to your branch.
+	Once the changes are approved, the maintainers of the original repository can merge your pull request.
+	Key Tips for Effective Pull Requests:
+
+	Keep your changes focused and concise.
+	Write clear and informative commit messages.
+	Provide a detailed description of your changes in the pull request.
+	Address reviewer feedback promptly and professionally.
+	Test your changes thoroughly before creating a pull request.
+	Benefits of Using Pull Requests:
+
+	Collaboration: Facilitates code reviews and collaboration among team members.
+	Code Quality: Improves code quality through peer review and feedback.
+	Maintainability: Makes it easier to track and manage changes to the codebase.
+	Reduced Risk: Minimizes the risk of introducing bugs or regressions into the main codebase.
+
+
+
+
+
+1. Fork the Repository
+
+	If you're working on someone else's repository, start by forking it. This creates a copy of the repository in your own GitHub account.
+	
+	
+	
+	Forking a Repository on GitHub
+
+	Forking a repository on GitHub creates a personal copy of that repository within your own GitHub account. This allows you to experiment, make changes, and contribute to the project without directly modifying the original repository.
+
+	Here's how to fork a repository:
+
+	Navigate to the repository: Go to the GitHub page of the repository you want to fork.
+	Click the "Fork" button: This is usually located in the top right corner of the repository page.
+	Select your destination: Choose the GitHub account where you want to create the forked copy.
+	Key Points:
+
+	Independent Development: Forking provides a safe space for you to work on the project without affecting the original repository. You can make any changes you like to your fork.
+	Contributing Back: If you make improvements or fixes in your fork, you can create a "pull request" to propose your changes to the original repository's maintainers.
+	Learning and Experimentation: Forks are excellent for learning from existing projects, experimenting with new ideas, and trying out different approaches.
+		
+
+2. Create a New Branch
+
+	In your forked repository, create a new branch for your specific feature or bug fix. This isolates your changes and makes it easier to manage and review:
+
+	
+
+	git checkout -b <branch_name> 
+	(Replace <branch_name> with a descriptive name for your branch, e.g., "feature-x" or "bugfix-123")
+
+
+
+
+
+3. Make Changes and Commit
+
+	Make the necessary changes to the code within your new branch.
+
+	Stage and commit your changes with clear and concise commit messages:
+
+	
+
+	git add <files> 
+	git commit -m "Your descriptive commit message" 
+4. Push Changes to Your Fork
+
+Push your changes to your forked repository:
+
+
+
+git push origin <branch_name> 
+
+5. Create a Pull Request
+
+	Navigate to your forked repository on GitHub.
+	Click on the "Pull requests" tab.
+	Click on the "New pull request" button.
+	Select your branch as the "head repository" and the base branch you want to merge into (usually "main" or "master").
+	Provide a descriptive title and a detailed description for your pull request.
+	Clearly explain the purpose of your changes and how they address the issue or feature.
+	Optionally, assign reviewers or request a review from specific team members.
+	Click "Create pull request."
+
+
+6. Review and Iterate
+
+	Collaborate with reviewers: Address any comments or suggestions from reviewers.
+	Make necessary changes and push updates to your branch.
+	Once the changes are approved, the maintainers of the original repository can merge your pull request.
+	Key Tips for Effective Pull Requests:
+
+	Keep your changes focused and concise.
+	Write clear and informative commit messages.
+	Provide a detailed description of your changes in the pull request.
+	Address reviewer feedback promptly and professionally.
+	Test your changes thoroughly before creating a pull request.
+	Benefits of Using Pull Requests:
+
+	Collaboration: Facilitates code reviews and collaboration among team members.
+	Code Quality: Improves code quality through peer review and feedback.
+	Maintainability: Makes it easier to track and manage changes to the codebase.
+	Reduced Risk: Minimizes the risk of introducing bugs or regressions into the main codebase.
+	
+
+7.4 Managing Conflicts
+
+	Lab: Resolve conflicts in pull requests and merges.
+
+	make a change 
+	git diff --no-ext-diff 
+	https://www.youtube.com/watch?v=kFVjoIish0E
+	https://www.youtube.com/watch?v=hb5RVnOda2o
+
+
+	make changes in master and branch same file same line 
+	git merge branch 
+		conflict 
+	git mergetool 
+	
+
+	turn off color 
+		:diffo 
+	continue from here 
+
+
+8. GitHub Training
+8.1 GitHub Basics
+	
+	GitHub is a platform for managing Git repositories and facilitating collaboration.
+
+
+What is GitHub?
+
+A platform for developers: GitHub is a web-based platform that provides hosting for software development and version control using Git.
+Version Control: Git is a powerful tool that tracks changes to files over time. This allows you to:
+Revert to previous versions: If you make a mistake, you can easily go back to an earlier working state.
+Collaborate effectively: Multiple people can work on the same project simultaneously without overwriting each other's changes.
+Experiment safely: Create branches to try out new ideas without affecting the main project.
+Key Concepts
+
+Repository: A central location for your project's files and their history.
+Branch: A parallel version of your repository. You can create branches to work on new features without affecting the main codebase.
+Commit: A snapshot of your project at a specific point in time. Each commit includes changes made to the files and a message describing those changes.
+Pull Request: A request to merge changes from a branch into another branch, usually the main branch.
+Getting Started
+
+Create a GitHub Account: Sign up for a free account at github.com.
+Install Git: Download and install Git on your computer.
+Create a Repository:
+On GitHub, click the "+" button and select "New repository."
+Give your repository a name and description.
+Initialize the repository with a README file (optional).
+Clone the Repository:
+Open your terminal or command prompt.
+Use the git clone command to download the repository to your local machine.
+Basic Workflow
+
+Create a Branch:
+git checkout -b <branch_name> (e.g., git checkout -b feature/new-feature)
+Make Changes:
+Edit files in your project.
+Stage Changes:
+git add <file_name> or git add . (to stage all changes)
+Commit Changes:
+git commit -m "Your commit message"
+Push Changes to GitHub:
+git push origin <branch_name>
+Create a Pull Request:
+On GitHub, navigate to your repository and click "New pull request."
+Review and Merge:
+Collaborators can review your changes and provide feedback.
+Once approved, merge your branch into the main branch.
+Additional Tips
+
+Read the README: The README file provides important information about the project.
+Use meaningful commit messages: This helps you and others understand the changes made in each commit.
+Keep your branches up-to-date: Regularly merge changes from the main branch into your feature branches to avoid conflicts.
+Explore GitHub's features: GitHub offers many features beyond basic version control, such as issue tracking, project management, and team collaboration tools.
+By following these basics, you can effectively use GitHub for your projects and collaborate with others.
+
+
+8.2 Adding Users and Groups to GitHub
+
+
+	GitHub Organizations
+
+		GitHub Organizations are a powerful tool for teams and businesses to collaborate on software development projects. Here's a breakdown:
+
+		What are GitHub Organizations?
+
+		Shared Accounts: 
+		
+			Organizations are shared accounts that allow multiple users to collaborate on a group of repositories.
+		Centralized Hub: 
+			They provide a central hub for teams to manage their projects, track issues, and communicate effectively.
+		Enhanced Collaboration: 
+			Organizations offer features like team management, access control, and billing that facilitate seamless teamwork.
+		Key Benefits
+
+		Team Management:
+			Create teams within an organization and assign members to specific teams.
+			Grant different levels of access (read, write, admin) to repositories based on team roles.
+		Access Control:
+			Fine-grained control over who can access and contribute to specific repositories.
+			Enforce strict security measures to protect sensitive code.
+		Billing and Management:
+			Manage billing for GitHub subscriptions centrally.
+			Streamline administrative tasks related to team management and repository administration.
+		Enhanced Collaboration:
+			Facilitate communication and collaboration within teams through features like team discussions and shared repositories.
+		Improve code quality through code reviews and pull requests.
+		How to Use GitHub Organizations
+
+		Create an Organization:
+		----------------------
+		Sign in to your GitHub account.
+		Click on your profile picture and select "New organization."
+		Provide a name and description for your organization.
+		
+		
+		Check People tab
+			Check members 
+				Invite members 
+				
+			Login as other user 
+				Go to organization "Accept" -> "Join"
+		
+				Can crete repo.
+				
+		Back to owner 
+			Create a repo. in project 
+				Other users can see that
+				
+				
+----------------------
+mannequins
+In the context of GitHub, "mannequins" are placeholder identities that are created during the migration of repositories using the GitHub Enterprise Importer.
+
+Purpose: When you migrate a repository from another source to GitHub, the importer creates these mannequin accounts to represent users or systems that interacted with the original repository.
+
+---------------------				
+			
+		
+		Organization permissions and roles 
+			Members 
+				can create/manage repo.
+				can create teams 
+					default 
+			outside collaborators 
+				cannot create/manage repo. 
+		
+			Settings of repo. 
+		
+		Create teams 
+			WebDev 
+			Add members 
+				Modify their roles 
+					Maintainer 
+						can 
+							add/remove members 
+							create child teams
+							
+			Create discussion in teams 
+			
+			as other user go to teams 
+				check the discussion 
+					Member 
+						no admin. roles 
+		
+		
+		give different roles to
+			members 
+			outside collaborators 
+				from settings 
+			
+			
+		Manage Security and settings org. 
+			Create a private repo.
+			go to repo. settings (not org settings)
+			
+			add members to repo. 
+				define role 
+				
+				
+				
+		Github supports 3 levels of repo.
+			account level 
+			organization level 
+			team level 
+			
+		Invite Team Members:
+		--------------------
+		
+		Add members to your organization by inviting them to join.
+		Assign roles to members (e.g., owner, member, collaborator) based on their responsibilities.
+		Create Repositories:
+
+			Create new repositories within your organization.
+			
+			Organize repositories into teams or folders for better management.
+		Collaborate on Projects:
+
+			Work together on projects within the organization's repositories.
+		
+			Utilize features like pull requests, issues, and discussions for effective collaboration.
+		Manage Organization Settings:
+
+
+
+		Configure organization settings, such as 
+			security settings, 
+			billing information, and 
+			team settings.
+			
+			
+				
+
+
+
+
+
+
+	Teams in GitHub Organizations
+
+		In GitHub Organizations, teams are groups of members that reflect your organization's structure. They play a crucial role in managing access control and collaboration within the organization.
+
+		Key Features:
+
+		Granular Access Control:
+		You can assign teams different levels of access to repositories (read, write, admin).
+		This allows you to precisely control who can view, edit, and manage code within each repository.
+		Team Hierarchies:
+		Create nested teams to represent your organization's structure (e.g., "Engineering" with child teams "Frontend" and "Backend").
+		Child teams inherit the access permissions of their parent team.
+		Streamlined Collaboration:
+		Teams facilitate communication and collaboration within specific areas of your organization.
+		Members can easily find and work on projects relevant to their team.
+		Improved Code Reviews:
+		Teams can be assigned as reviewers on pull requests, ensuring that the right people are involved in the code review process.
+		How to Use Teams in GitHub
+
+		Create Teams:
+
+		In your organization, navigate to the "Teams" section.
+		Click "New team" to create a new team.
+		Give the team a name and an optional description.
+		Add Members to Teams:
+
+		Select the team and click "Members."
+		Add organization members to the team.
+		Grant Repository Access:
+
+		Go to the repository settings.
+		Under "Manage access," select the team you want to grant access to.
+		Choose the desired access level (read, write, admin).
+		Create Nested Teams:
+
+		To create a child team, select an existing team and click "New child team."
+		Benefits of Using Teams
+
+		Improved Security: Granular access control helps prevent unauthorized access to sensitive code.
+		Enhanced Productivity: Streamlined workflows and better collaboration lead to increased productivity.
+		Better Code Quality: Code reviews are more efficient and effective with targeted team assignments.
+		Scalability: Easily manage access as your organization grows by adding or removing members from teams.
+	https://www.youtube.com/watch?v=3zSj_Q02yLU&pp=ygUzZ2l0aHViIG9yZ2FuaXphdGlvbnMsIHRlYW1zLCByZXBvc2l0b3JpZXMgYW5kIHJvbGVz
+
+
+
+	Add users to a project to allow collaboration.
+
+
+	GitHub is a platform that provides hosting for Git repositories.
+
+	Git itself is a powerful version control system that tracks changes in computer files. It allows developers to:
+	Track changes: Record every modification made to the code over time.
+	Collaborate: Work together on projects by sharing code and merging changes.
+	Experiment: Create branches to try out new features without affecting the main codebase.
+	Revert changes: Easily undo mistakes or revert to previous versions of the code.
+	GitHub takes Git to the next level by:
+
+	Hosting repositories: Providing a central location to store and access Git repositories.
+	Facilitating collaboration: Offering features like pull requests, code reviews, and issue tracking to streamline teamwork.
+	Providing a social coding platform: Enabling developers to connect, share their work, and contribute to open-source projects.
+
+
+
+
+
+
+
+8.3 Creating and Managing Projects
+Organize GitHub projects with repositories, issues, and milestones.
+	https://www.youtube.com/watch?v=oPQgFxHcjAw
+	
+	
+lab: 
+	Create project 
+		kanban / Board 
+			name 
+		
+		Create an issue 
+		
+		
+		Setting (3 dots in top right)
+		
+	
+	
+	Creating and Managing Projects: A Detailed Tutorial
+
+
+
+	Project management 
+		process of 
+			planning, 
+			organizing, and 
+			managing 
+				resources to achieve specific goals within a defined timeframe. Here's a comprehensive guide to creating and managing effective projects:
+
+	1. Project Initiation
+
+		Define Project Scope:
+		Clearly articulate the project's objectives, deliverables, and expected outcomes.
+		Determine project boundaries and limitations.
+		Identify stakeholders and their interests.
+		Develop Project Charter:
+		A formal document that outlines the project's purpose, goals, and high-level requirements.
+		It serves as a roadmap for the project and helps align stakeholders.
+	2. Project Planning
+
+		Work Breakdown Structure (WBS):
+		Decompose the project into smaller, manageable tasks.
+		Use a hierarchical structure to visualize the breakdown.
+		Schedule Development:
+		Estimate task durations and dependencies.
+		Create a project schedule using tools like Gantt charts or PERT charts.
+		Identify critical path activities that impact the overall project timeline.
+		Resource Allocation:
+		Determine the resources required for each task (e.g., personnel, budget, equipment).
+		Assign resources to tasks and monitor their availability.
+		Risk Management:
+		Identify potential risks and their impact on the project.
+		Develop mitigation strategies for identified risks.
+	3. Project Execution
+
+		Team Leadership:
+		Provide clear direction and guidance to the project team.
+		Motivate and inspire team members.
+		Facilitate communication and collaboration.
+		Task Monitoring and Control:
+		Track progress against the project schedule.
+		Identify and address any deviations from the plan.
+		Monitor resource utilization and budget.
+		Quality Control:
+		Implement quality assurance measures to ensure that deliverables meet the required standards.
+		Conduct regular reviews and inspections.
+	4. Project Monitoring and Control
+
+		Progress Reporting:
+		Regularly report on project progress to stakeholders.
+		Use appropriate metrics to track key performance indicators (KPIs).
+		Issue Resolution:
+		Identify and address any issues or problems that arise during the project.
+		Implement corrective actions as needed.
+		Change Management:
+		Manage and control any changes to the project scope, schedule, or budget.
+	5. Project Closure
+
+		Deliverables Completion:
+		Ensure all project deliverables have been completed and accepted by stakeholders.
+		Project Documentation:
+		Finalize project documentation, including lessons learned and best practices.
+		Project Evaluation:
+		Conduct a post-project review to evaluate the project's success and identify areas for improvement.
+		Team Debriefing:
+		Conduct a team debriefing to gather feedback and celebrate accomplishments.
+		Tools and Techniques
+
+		Project Management Software: Tools like Microsoft Project, Jira, Asana, Trello, and Monday.com can help with scheduling, task management, resource allocation, and communication.
+		Agile Methodologies: Approaches like Scrum and Kanban emphasize iterative development, flexibility, and continuous improvement.
+		Communication and Collaboration Tools: Tools like Slack, Microsoft Teams, and Zoom facilitate communication and collaboration among team members.
+		By following these steps and utilizing appropriate tools and techniques, you can effectively create and manage projects to achieve successful outcomes.
+
+	8.4 Pushing Changes and Merging with GitHub
+
+		Lab: Push changes to GitHub and collaborate on project management.
+
+	8.6 GitHub Signed Commits
+	detailed tutorial on GitHub Signed Commits
+		Lab: Create signed commits for security.
+
+		https://www.youtube.com/watch?v=4166ExAnxmo
+		
+		
+		
+		
+		What are Signed Commits?
+
+	Signed commits add an extra layer of security to your Git workflow. By digitally signing your commits, you:
+
+	Prove your identity: Confirm that you are the author of the code changes.
+	Increase trust: Build trust within your team and the open-source community.
+	Enhance security: Help prevent code tampering and unauthorized modifications.
+	Prerequisites
+
+	Problem statement 
+		git commit -m "Your commit message" --author="John Doe <john.doe@example.com>"
+			it works 
+
+	GPG (GNU Privacy Guard): A free and open-source software for encryption and digital signatures. You'll need to install it on your system.
+	GitHub Account: A GitHub account is required to push and view signed commits.
+	1. Generate a GPG Key Pair
+
+	Open your terminal and run the following command:
+	Bash
+	
+
+		gpg --full-generate-key 
+		Follow the on-screen prompts:
+		Select a key type (e.g., RSA and RSA).
+		Choose a key size (e.g., 4096 bits).
+		Enter your real name and email address.
+		Create a passphrase to protect your private key.
+	2. Configure Git to Use GPG
+
+	Find your GPG key ID:
+
+	Bash
+
+	gpg --list-secret-keys --keyid-format long
+	Note down the long key ID (e.g., B4210B9453BB0B1E).
+		output of sec is the long key id 
+			e.g. rsa4096/5EC459AE034B006C
+					key id is 5EC459AE034B006C
+
+	Configure Git to use your GPG key:
+
+	Bash
+
+	git config --global user.signingkey B4210B9453BB0B1E 
+	git config --global commit.gpgsign true 
+	3. Sign Your Commits
+
+	Create a commit:
+	Bash
+
+	git commit -S -m "Your commit message" 
+	The -S flag tells Git to sign the commit using your GPG key. You'll be prompted for your GPG passphrase.
+	4. Push Signed Commits to GitHub
+
+	Push your commits to your GitHub repository as usual:
+	Bash
+
+	git push origin <branch_name>
+	5. Verify Signed Commits on GitHub
+
+	On GitHub:
+	Navigate to the "Commits" tab of your repository.
+		Search for commit 
+	Look for the "Verified" badge next to signed commits.
+		it will be Unverified if the mail id is not associated.
+	
+	git log --show-signature
+	
+	
+	gpg --armor --export <mail id>
+	gpg --armor --exp
+	
+	ort vilas.varghese@gmail.com
+	
+	
+	Additional Tips
+
+	Import your GPG key to GitHub: For added convenience, you can import your GPG public key to your GitHub account. This allows GitHub to verify signatures directly.
+	
+	
+	Check for GPG key updates: Regularly check for and update your GPG key if necessary.
+	Consider using a GPG agent: A GPG agent can store your passphrase in memory, so you don't have to enter it for each commit.
+	Security Considerations
+
+	Protect your GPG key: Keep your GPG private key secure. Never share it with anyone.
+	Use strong passphrases: Choose a strong and unique passphrase for your GPG key.
+	Regularly review your GPG key: Periodically review and update your GPG key to ensure its security.
+	By following these steps, you can start signing your Git commits and enhance the security and trust of your code.
+
+
+	9. GitHub LFS (Large File Storage)
+	9.1 What is Git Large File Storage (LFS)?
+	Git LFS manages large files by storing references rather than full data.
+
+	9.2 Installing Git LFS
+
+	Lab: Install Git LFS.
+
+		git lfs install 
+		git lfs track "*.jpeg"
+		.gitattributes 
+			*.jpeg filer=lfs diff=lfs merge=lfs -text 
+			
+		git lfs push --all origin main 
+		git add .
+		git commit -m "test"
+		git push -u origin main 
+		git lfs untrack "*.jpeg"
+			
+		 Installation (below is not required as git lfs install will take care. it's an alternative)
+
+		Using a Package Manager: (Recommended)
+		Homebrew (macOS):
+		Bash
+
+			brew install git-lfs
+		Chocolatey (Windows):
+		PowerShell
+
+			choco install git-lfs
+		APT (Debian/Ubuntu):
+		Bash
+
+			sudo apt install git-lfs
+		DNF (Fedora):
+		Bash
+
+			sudo dnf install git-lfs
+		
+		Manual Installation:
+		Download the appropriate Git LFS installer from the official website (https://git-lfs.github.com/).
+		Extract the downloaded archive.
+		Open a terminal and navigate to the extracted directory.
+		Run the installer script: ./install.sh (may require sudo depending on your system)
+		2. Initialize Git LFS in Your Repository
+
+		Navigate to your Git repository's root directory in the terminal.
+		Run: git lfs install
+		3. Track Large Files with Git LFS
+
+		Specify File Patterns in .gitattributes:
+
+		Create a file named .gitattributes in the root of your repository.
+		Add lines to this file to specify which files or file types should be tracked by Git LFS.
+		Example:
+		*.psd filter=lfs 
+		*.zip filter=lfs 
+		*.mp4 filter=lfs 
+		Track Existing Files:
+
+		Run: git lfs track "*.psd" "*.zip" "*.mp4"
+		This command will add the specified files and their associated pointers to Git.
+		4. Commit and Push Changes
+
+		Stage the changes: git add .gitattributes
+		Commit the changes: git commit -m "Add Git LFS tracking for large files"
+		Push the changes to your remote repository: git push origin main (or your branch name)
+		5. Exclude Files from Git LFS
+
+		In .gitattributes:
+
+	Add filter=none to exclude specific files or patterns:
+	*.txt filter=none 
+	docs/* filter=none
+	Using git lfs untrack:
+
+	To untrack a specific file: git lfs untrack "path/to/file"
+	To untrack all files of a certain type: git lfs untrack "*.txt"
+	Important Notes:
+
+	Git LFS requires a compatible Git server (e.g., GitHub, GitLab, Bitbucket). Most popular hosting platforms support Git LFS.
+	After pushing changes, you may need to install Git LFS on other machines that will be working with the repository.
+	Git LFS can significantly improve the performance of working with large files in Git.	
+	
+	
+	
+	https://www.youtube.com/watch?v=cf4sg7C-pUE
+	https://www.youtube.com/watch?v=9HCsSD5PMSk&pp=ygUQZ2l0aHViICsgZ2l0IGxmcw%3D%3D
+
+9.3 Selecting the File Types to Manage
+Choose file types to be managed by Git LFS.
+
+9.4 Including/Excluding Git LFS Files
+
+	Lab: Manage large files with Git LFS.	
+
+
+9.5 Locking Git LFS Files
+	Lock files to prevent simultaneous editing.
+		normal transactions 
+
+10. GitHub Administration
+10.1 Introduction to GitHub Administration
+	GitHub admins manage settings, permissions, and security.
+	
+
+10.2 Best Practices for Team-Level Administration
+	Follow best practices for assigning roles and permissions.
+
+
+
+		Best Practices for Team-Level Administration in Git and GitHub
+
+		1. Team Structure and Roles
+
+		Clear Roles and Responsibilities: Define roles like Team Lead, Maintainers, Contributors, and Guests. Clearly outline their permissions and responsibilities.
+		Team Organization: Structure teams based on projects, departments, or skills to improve collaboration and maintainability.
+		Regular Reviews: Periodically review team membership and adjust roles as needed.
+		2. Repository Management
+
+		Centralized Repository: Establish a clear hierarchy of repositories, with a central repository for core components and separate repositories for features or sub-projects.
+		Branching Strategy: Implement a consistent branching strategy (e.g., Gitflow, GitHub Flow) to manage releases, features, and bug fixes.
+		Repository Templates: Create templates for new repositories to ensure consistency in structure, files, and configuration.
+		3. Workflow and Processes
+
+		Code Reviews: Enforce code reviews for all pull requests to ensure quality and knowledge sharing.
+		Pull Request Guidelines: Establish clear guidelines for creating and reviewing pull requests, including commit message standards and review criteria.
+		Issue Tracking: Use GitHub Issues or a similar tool to track bugs, tasks, and feature requests.
+		Release Management: Define a clear release process, including versioning, testing, and deployment.
+		4. Security and Access Control
+
+		Strong Passwords and 2FA: Enforce strong passwords and enable two-factor authentication for all team members.
+		Least Privilege Principle: Grant only the necessary permissions to each team member.
+		Regular Security Audits: Conduct regular security audits to identify and address potential vulnerabilities.
+		Monitor for Suspicious Activity: Monitor for suspicious activity, such as unauthorized access attempts or unusual code changes.
+		5. Collaboration and Communication
+
+		Team Communication Channels: Establish clear communication channels (e.g., Slack, Microsoft Teams) for team discussions, updates, and announcements.
+		Knowledge Sharing: Encourage knowledge sharing within the team through documentation, code reviews, and pair programming.
+		Regular Team Meetings: Conduct regular team meetings to discuss progress, address roadblocks, and improve collaboration.
+		6. Continuous Improvement
+
+		Regularly Review and Adjust: Regularly review and adjust team processes and workflows based on feedback and experience.
+		Gather Feedback: Actively gather feedback from team members on their experiences with Git and GitHub.
+		Stay Updated: Keep up-to-date with the latest features and best practices for Git and GitHub.
+		7. GitHub Specifics
+
+		Team Management: Leverage GitHub's team management features to control access to repositories, manage membership, and define permissions.
+		Project Boards: Utilize GitHub Projects to visualize and manage work, track progress, and prioritize tasks.
+		GitHub Actions: Automate tasks like testing, deployment, and code analysis using GitHub Actions.
+
+
+10.3 Administration at the Organization Level
+Organization admins manage repositories, projects, and access at a broader level.
+
+10.4 GitHub Authentication Options
+	GitHub supports SSH keys and personal access tokens for secure access.
+	
+	
+	
+	
+	
+	
+	
+	1. Generating a Personal Access Token (PAT)
+
+		Go to your GitHub account settings:
+		Click on your profile picture in the top right corner.
+		Select "Settings".
+		Navigate to Developer settings:
+		In the left sidebar, click on "Developer settings".
+		Create a new token:
+		Click on "Personal access tokens" and then "Generate new token".
+		Provide a token description:
+		Give your token a descriptive name (e.g., "CI/CD Token for MyProject").
+		Select necessary scopes:
+		Carefully select the permissions you want to grant to this token.
+		For example, if you only need to read repository data, select "repo" scope.
+		Important: Only grant the minimum necessary permissions.
+		Click "Generate token":
+		Immediately copy the generated token. You will not be able to see it again.
+		Store the token securely:
+		Never hardcode tokens directly in scripts or configurations. Use secure methods like environment variables or secrets management tools.
+		2. Using a PAT with Git
+
+		Configure Git to use the PAT:
+
+		Using git config:
+		Bash
+
+		git config --global credential.helper store
+		git config --global user.name "Your Name"
+		git config --global user.email "your_email@example.com" 
+		Enter the token when prompted:
+		When you interact with GitHub (e.g., git push, git pull), Git will prompt you for your username and password.
+		Enter your GitHub username and paste your PAT as the password.
+		Example with curl:
+
+		To get a list of repositories:
+		Bash
+
+		curl -H "Authorization: token <YOUR_TOKEN>" https://api.github.com/user/repos
+		3. Security Best Practices
+
+		Use fine-grained permissions: Grant only the necessary permissions to each token.
+		Rotate tokens regularly: Change your PATs periodically (e.g., every 90 days) to minimize the impact of potential compromises.
+		Use a dedicated token for each application or service: Avoid using the same token for multiple purposes.
+		Store tokens securely: Never hardcode tokens in your code. Use environment variables, secrets management tools (like HashiCorp Vault), or secure configuration files.
+		Revoke tokens when no longer needed: If a token is compromised or no longer required, revoke it immediately in your GitHub settings.
+		Example Scenario:
+
+		You're creating a CI/CD pipeline that automatically deploys code to a testing environment.
+		You generate a PAT with the "repo" and "workflow" scopes.
+		You store this token securely as an environment variable in your CI/CD pipeline configuration.
+		The pipeline uses the token to interact with the GitHub API, trigger workflows, and deploy code.
+	
+	
+	
+
+10.5 Repository, Team, and Organization Permission Levels
+
+Lab: Set permissions to control access.
+10.6 Repository Security and Management
+
+
+
+	Lab: Implement best practices for security in GitHub.
+
+
+	
+	
+
+		1. Account Security
+
+		Strong Passwords: Use strong, unique passwords for your GitHub account. Consider a password manager to generate and securely store them.
+		Two-Factor Authentication (2FA): Enable 2FA for your GitHub account. This adds an extra layer of security by requiring a second form of verification (e.g., authenticator app, SMS) in addition to your password.
+		Regular Password Rotations: Change your GitHub password periodically to minimize the risk of compromise.
+		2. Repository Security
+
+		Private Repositories: For sensitive projects, use private repositories to restrict access to authorized users only.
+		Branch Protection Rules:
+		Require pull request reviews: Mandate that all changes must be reviewed and approved by other team members before merging.
+		Enforce status checks: Require successful completion of security checks (e.g., code scanning, dependency checks) before merging.
+		Restrict direct pushes to protected branches: Prevent direct pushes to critical branches (like main or master) to enforce the review process.
+		Secret Scanning: Enable GitHub's secret scanning feature to automatically detect and alert you about potential secrets (like API keys, passwords) that may have been accidentally committed.
+		Dependency Reviews: Regularly review and update dependencies to address known vulnerabilities. Utilize tools like Dependabot to automate this process.
+		3. Code Security
+
+		Code Reviews: Conduct thorough code reviews to identify and address potential security vulnerabilities.
+		Security Testing: Implement automated security testing tools (e.g., static and dynamic analysis tools) to identify vulnerabilities early in the development process.
+		Secure Coding Practices: Encourage and enforce secure coding practices within your team, such as input validation, proper error handling, and avoiding insecure libraries.
+		4. Access Control
+
+		Least Privilege Principle: Grant only the necessary permissions to each team member or collaborator. Avoid granting excessive access.
+		Team-Based Access Control: Utilize GitHub Teams to manage access to repositories and resources effectively.
+		5. Monitoring and Auditing
+
+		Audit Logs: Regularly review GitHub's audit logs to monitor activity, detect suspicious behavior, and identify potential security incidents.
+		Security Alerts: Monitor GitHub's security alerts for any notifications related to vulnerabilities or suspicious activity.
+		6. Education and Training
+
+		Security Awareness Training: Educate your team members about common security threats and best practices for secure development.
+		Stay Informed: Stay updated on the latest security advisories and best practices from GitHub and other security resources.
+		7. Incident Response
+
+		Develop an Incident Response Plan: Create a plan for how to respond to security incidents, including procedures for identifying, containing, and remediating issues.
+		Regularly Test and Update: Regularly test and update your incident response plan to ensure its effectiveness.
+	
+
+
+11. GitHooks
+11.1 What are Git Hooks?
+Git Hooks automate actions triggered by events.
+
+
+
+	What are Git Hooks?
+
+
+	Git Hooks: Customizing Git's Behavior
+
+	Git Hooks are scripts that run automatically every time a particular event occurs in a Git repository. They allow you to customize Git's internal behavior and trigger actions at key points in the development lifecycle.  
+
+	Types of Git Hooks
+
+	Client-side Hooks:
+
+	Run on your local machine.  
+	Examples:
+	pre-commit: Runs before a commit is made. Useful for checking code style, running tests, or enforcing commit message standards.  
+	pre-push: Runs before pushing changes to a remote repository. Allows for additional checks or verifications before pushing.  
+	post-commit: Runs after a commit is made locally. Can be used to trigger notifications or update local documentation.  
+	Server-side Hooks:
+
+	Run on the Git server when specific events occur.  
+	Examples:
+	pre-receive: Runs on the server before a push is accepted. Can be used to enforce access control, check for forbidden ref names, or reject pushes based on certain criteria.  
+	post-receive: Runs on the server after a push is accepted. Can be used to trigger deployments, send notifications, or update external services.  
+	Common Use Cases
+
+	Enforcing code style and quality: Check for code formatting issues, run linters, and ensure code adheres to coding standards.  
+	Automating tasks: Trigger automated builds, tests, and deployments.  
+	Enforcing policies: Reject commits or pushes that don't meet certain criteria, such as missing commit messages or invalid file names.  
+	Customizing workflows: Integrate with other tools or services, such as continuous integration systems or issue tracking systems.  
+	Example: pre-commit Hook for Checking Code Style
+
+	Create a pre-commit script:
+
+	Bash
+
+	#!/bin/sh
+	# Check for code style issues using a linter
+	eslint . --fix --quiet || exit 1
+	Save the script as pre-commit in the .git/hooks directory:
+
+	Bash
+
+	mkdir -p .git/hooks
+	vim .git/hooks/pre-commit
+	Make the script executable:
+
+	Bash
+
+	chmod +x .git/hooks/pre-commit
+	Now, whenever you try to commit changes, the pre-commit hook will run, and the linter will check for code style issues. If any issues are found, the commit will be prevented.
+
+	Key Points
+
+	Git Hooks provide a powerful way to customize your Git workflow and enforce best practices.  
+	They can be used to automate tasks, improve code quality, and enhance team collaboration.  
+	It's important to write and test Git Hooks carefully to avoid disrupting your workflow.  
+	By effectively using Git Hooks, you can streamline your development process, improve c
+
+
+
+
+
+
+11.2 Pre-commit: Check Commit Messages for Spelling Errors
+Run checks before a commit.
+
+
+
+
+
+
+	Bash
+
+	#!/bin/sh
+
+	# Check for spelling errors in the commit message
+
+	# Install the `aspell` command if not already installed
+	# (Replace with your preferred spelling checker)
+	# apt-get install aspell 
+
+	# Get the commit message
+	message=$(git log -1 --pretty=format:"%s")
+
+	# Check for spelling errors
+	if ! aspell check -l en_US <<< "$message" > /dev/null; then
+	  echo "Spelling errors found in commit message."
+	  exit 1
+	fi
+
+	exit 0
+	Explanation:
+
+	Get Commit Message:
+
+	git log -1 --pretty=format:"%s" retrieves the latest commit message.
+	Check for Spelling Errors:
+
+	aspell check -l en_US uses the aspell command to check the commit message for spelling errors in American English.
+	<<< "$message" provides the commit message as input to the aspell command.
+	> /dev/null redirects the output of aspell to /dev/null, suppressing any correct words.
+	Exit Codes:
+
+	If aspell finds any spelling errors, the if condition will be true, and the script will exit with a non-zero exit code (1), preventing the commit.
+	If no errors are found, the script exits with an exit code of 0, allowing the commit to proceed.
+	To Use:
+
+	Save the script: Save the code above as a file named pre-commit in the .git/hooks/ directory of your repository.
+
+	Make the script executable:
+
+	Bash
+
+	chmod +x .git/hooks/pre-commit
+	Now, whenever you try to commit changes, the pre-commit hook will run, and the commit message will be checked for spelling errors. If any errors are found, the commit will be blocked.
+
+	Note:
+
+	This is a basic example. You can customize it further by:
+
+	Adding support for other languages.
+	Ignoring specific words or phrases.
+	Providing more informative error messages.
+	Using a different spelling checker (e.g., hunspell).
+	Consider using a more advanced tool like pre-commit framework for managing and running various pre-commit hooks.
+
+	This script helps enforce better commit message quality and improves the overall readability and maintainability of your project's history.
+
+
+11.3 Pre-receive: Enforce Coding Standards
+
+Lab: Set up and test hooks to enforce standards.
+11.4 Post-commit: Email/SMS Notifications for New Commits
+Automate notifications upon commits.
+
+11.5 Post-receive: Push Code to Production
+
+	Lab: Set up post-receive hooks to deploy code.
+
+
+
+
+
+12. Git Configurations
+12.1 Git Command Introduction
+	Overview of Git command structure.
+
+12.2 Git Config Levels and Files
+
+Lab: Explore configuration levels.
+
+
+
+	Git Config Levels
+
+	Git provides three levels of configuration:
+
+	System Level:
+
+	Applies to all users on the system.
+	Stored in /etc/gitconfig (or similar location depending on your OS).
+	Typically used for system-wide settings.
+	Global Level:
+
+	Applies to all repositories for the current user.
+	Stored in ~/.gitconfig (in the user's home directory).
+	Commonly used for user-specific settings like username and email.
+	Local Level:
+
+	Applies only to the specific repository.
+	Stored in .git/config within the repository's directory.
+	Used for repository-specific settings.
+	Precedence
+
+	Git checks for configuration settings in the following order:
+
+	Local Level: If a setting is found in .git/config, it takes precedence.
+	Global Level: If not found locally, Git checks ~/.gitconfig.
+	System Level: If not found in either of the above, it checks /etc/gitconfig.
+	Example
+
+	Let's say you want to set the default editor for Git.
+
+	System Level (for all users on the system):
+
+	Bash
+
+	git config --system core.editor nano 
+	Global Level (for your user account):
+
+	Bash
+
+	git config --global core.editor vim
+	Local Level (for a specific repository):
+
+	Bash
+
+	git config core.editor emacs 
+	In this case, within the repository, emacs will be used as the editor, overriding the global setting of vim.
+
+	Viewing Configuration
+
+	To view the current configuration settings, use:
+
+	Bash
+
+	git config --list
+	This will display all settings from all levels.
+
+	Key Points
+
+	Understanding Git's configuration levels helps you customize your Git experience effectively.
+	By using the appropriate level, you can maintain flexibility and avoid conflicts.
+	Always test your configurations to ensure they work as expected.
+
+
+12.3 Writing Configuration Values Set custom configuration values.
+
+
+
+
+
+
+
+12.4 Git Config Editor - core.editor
+
+Lab: Choose a preferred text editor for Git.
+
+
+
+12.5 Merge Tools Configuration
+Configure external tools for resolving merge conflicts.
+
+
+
+
+12.6 Colored Outputs
+	Enable color for easier readability.
+
+
+	Enabling Colored Output in Git
+
+	Git provides colorized output for various commands, making it easier to read and understand information. Here's how to enable and customize it:
+
+	1. Enable Colored Output
+
+	Globally:
+
+	Bash
+
+	git config --global color.ui auto 
+	This is the recommended setting. Git will automatically enable color output if the terminal supports it.
+
+	For a Specific Repository:
+
+	Bash
+
+	git config color.ui auto 
+	2. Customize Color Schemes
+
+	Git allows you to customize the colors for different elements. For example, to change the color of the current branch name:
+
+	Bash
+
+	git config --global color.branch.current yellow 
+	You can customize colors for various elements, such as:
+
+	branch: Current branch, local branches, remote branches
+	diff: Changes in diffs (added, deleted, modified)
+	status: File status (added, modified, deleted, untracked)
+	interactive: Interactive commands (like rebase, merge)
+	Available Colors:
+
+	normal: Default color
+	black, red, green, yellow, blue, magenta, cyan, white
+	You can also use attributes like bold, dim, ul (underline), blink, reverse
+	3. View Current Color Configuration
+
+	Bash
+
+	git config --list --show-origin | grep color 
+	Example
+
+	To set the current branch name to yellow and diffs to green:
+
+	Bash
+
+	git config --global color.branch.current yellow
+	git config --global color.diff.new green
+	Benefits of Colored Output
+
+	Improved Readability: Colorized output makes it easier to quickly identify different parts of the output, such as branch names, file status, and diff changes.
+	Enhanced User Experience: Color can make working with Git more visually appealing and enjoyable.
+
+12.7 Formatting & Whitespace
+
+	Lab 32: Configure formatting and whitespace settings.
+
+
+
+	Git Configuration for Formatting & Whitespace
+
+	1. Whitespace Control
+
+	core.whitespace: This configuration option controls how Git handles whitespace during checkouts and commits.
+
+	Common Settings:
+		trailing-space: Treats trailing spaces as significant.
+		space-before-tab: Treats spaces before tabs as significant.
+		indent-with-non-tab: Treats indentation with non-tab characters (like spaces) as significant.
+		tab-in-indent: Treats tabs within indentation as significant.
+		cr-at-eol: Treats carriage returns at the end of lines as significant.
+	Example:
+
+	Bash
+
+	git config --global core.whitespace "trailing-space,space-before-tab,indent-with-non-tab,tab-in-indent,cr-at-eol" 
+	Note: Be cautious with this setting. Overly restrictive rules can lead to unnecessary conflicts and annoyances.
+
+	2. Line Endings (EOL)
+
+	core.autocrlf: Controls how Git handles line endings (CRLF vs. LF).
+
+	true: 
+		Converts CRLF to LF on checkout and LF to CRLF on commit.
+	input: 
+		Converts CRLF to LF on commit only.
+	false: 
+		No conversion is performed.
+	Example:
+
+	For Windows users working on projects with Linux/macOS developers:
+
+	Bash
+
+	git config --global core.autocrlf true 
+	For Linux/macOS users:
+
+	Bash
+
+	git config --global core.autocrlf input 
+	3. Diff Whitespace Options
+
+	diff.whitespace: Controls how whitespace changes are highlighted in git diff.
+
+	Common Settings:
+	blank-at-eol: Highlight blank lines at the end of files.
+	show-space-change: Highlight changes in the amount of whitespace.
+	show-tab-stops: Highlight tab stops.
+	Example:
+
+	Bash
+
+	git config --global diff.whitespace "blank-at-eol,show-space-change" 
+	4. Checking for Whitespace Issues
+
+	git diff --check: This command checks for whitespace errors in the staged changes.
+	5. Tips
+
+	Project-Specific Configuration: Consider setting these options at the repository level (in .git/config) for project-specific needs.
+	Testing: Thoroughly test your whitespace configurations to ensure they meet your project's requirements and avoid unexpected behavior.
+	Team Agreement: Establish clear guidelines within your team regarding whitespace conventions and coding style.
+	By carefully configuring these settings, you can maintain consistent code formatting, prevent unexpected behavior due to whitespace issues, and improve the overall quality of your Git repository.
+
+
+Check if there is a delta with D:\PraiseTheLord\HSBGInfotech\Others\vilas\devops\git
+	
+
