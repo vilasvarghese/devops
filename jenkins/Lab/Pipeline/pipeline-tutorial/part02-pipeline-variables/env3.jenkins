@@ -1,0 +1,81 @@
+pipeline {
+    agent any
+    environment {
+        MYUSERPASS = credentials("test-user-pass")
+    }
+    stages {
+        stage("Test") {
+            steps {
+                // Do not use " for command methods like sh, bat, powershell, pwsh, etc.
+                // Use ' to avoid groovy interpolation and command injection vulnerabilities.
+                sh 'echo $MYUSERPASS'
+                sh 'logintest --username $MYUSERPASS_USR --password $MYUSERPASS_PSW'
+            }
+        }
+    }
+}
+
+
+/*
+. Creating the test-user-pass Credential:
+
+In Jenkins:
+Go to the Jenkins dashboard.
+Click on "Credentials" in the left sidebar.
+Click on "System" -> "Global credentials (unrestricted)".
+Click on "Add credentials".
+Credential Type: Choose "Username with password".
+ID: Enter test-user-pass (this must match the ID in your pipeline).
+Description (Optional): Give a descriptive name (e.g., "Test User Credentials").
+Username: Enter the username.
+Password: Enter the password.
+Click "OK".
+2. Creating the MYUSERPASS_USR and MYUSERPASS_PSW Parameters (if needed):
+
+It appears you are trying to split the username and password stored in the single credential test-user-pass.  This is not the standard or recommended approach, but possible.  A better way is described below.  If you must do it this way, you would need to create string parameters.
+
+In Jenkins (for a specific job):
+Go to the job configuration page.
+Check the "This project is parameterized" box.
+Click "Add Parameter" and choose "String Parameter".
+Name: Enter MYUSERPASS_USR.
+Description (Optional): A brief description.
+Default Value (Optional): If you have a common username.
+Repeat these steps to create MYUSERPASS_PSW.
+3.  Recommended Approach: Using withCredentials (Best Practice):
+
+The standard and much more secure way to use credentials is with the withCredentials block. This avoids the need for splitting the credentials and prevents them from being exposed in the build log.
+
+
+pipeline {
+    agent any
+    stages {
+        stage("Test") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'test-user-pass', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh 'echo "Username: $USERNAME"'  // Use $USERNAME and $PASSWORD
+                    sh 'logintest --username "$USERNAME" --password "$PASSWORD"' // Quoting is crucial!
+                }
+            }
+        }
+    }
+}
+Explanation of the recommended approach:
+
+withCredentials([usernamePassword(...)]): This block securely injects the username and password from the specified credential.
+credentialsId: 'test-user-pass': The ID of the credential you created.
+usernameVariable: 'USERNAME': The name of the environment variable that will hold the username.
+passwordVariable: 'PASSWORD': The name of the environment variable that will hold the password.
+Inside the withCredentials block, you can then use $USERNAME and $PASSWORD to access the credentials. Crucially, you should quote these variables when using them in shell commands to prevent word splitting and command injection vulnerabilities.
+Why the recommended approach is better:
+
+Security: The credentials are not directly exposed in the script or build logs.
+Simplicity: You don't need to manually split the credentials.
+Best practice: This is the standard way to handle credentials in Jenkins pipelines.
+Important Security Notes:
+
+Never directly echo or print credentials in your build logs.
+Always use the withCredentials block for secure credential handling.
+Quote your variables inside sh steps to prevent command injection. This is absolutely essential for security.
+Consider using mask passwords plugin to mask the passwords in the console output.
+*/

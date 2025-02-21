@@ -1,0 +1,13 @@
+#need to install docker and docker pipeline plugin 
+pipeline {
+    agent {
+        docker "alpine"
+    }
+    stages {
+        stage("Build") {
+            steps {
+                sh "hostname"
+            }
+        }
+    }
+}

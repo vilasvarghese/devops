@@ -1,0 +1,245 @@
+Introduction to CI & CD, 
+Introduction to Jenkins,  
+Advantages of CI/CD, 
+Use cases of CI/CD,
+Jenkins Installation, 
+Jenkins Installation on VM, 
+Jenkins Installation as a container, 
+Jenkins Setup Options, 
+Jenkins Architecture, 
+Jenkins UI description, 
+Configuring Jenkins Jobs, 
+Plugins, 
+Introduction to Plugins, 
+Installing Plugins to Jenkins, 
+Commonly used plugins, 
+Features and Functionality, 
+Configuring Jenkins to work with Java, 
+Git, and Maven, 
+Jenkins Build and Jenkins workspace, 
+Jenkins Directory Structure, 
+Webhooks and auto-detecting changes in the code, 
+Maven Build Jobs with options, 
+Build Jobs, 
+Creating freestyle Build Jobs, 
+Build Triggers and Build Steps, 
+Pre and Post build actions, 
+Properties and Properties file description, 
+Executing Build Jobs and identification of success and failures, 
+Parameterized Builds, 
+Distributed Builds, 
+Failure and success email notifications through Jenkins, 
+Security in Jenkins, 
+Authentication and user levels, 
+Access Types and administration of the access, 
+Jenkins Maintenance, 
+Maintenance and Troubleshooting, 
+Filesystem, 
+Troubleshooting, 
+Jenkins setup Backup and recovery, 
+Jobs backup and recovery, 
+Migrating Jenkins from one server to another.
+
+
+
+
+
+
+
+
+
+
+---------------------
+https://www.jenkins.io/doc/developer/architecture/model/
+  ┌─────────────────────────────────────────┐   ┌─────────────────────┐   ┌─────────────┐
+  │    Automation, machine to machine       │   │ End users/Browsers  │   │    Agents   │
+  │    command line prompt (curl, wget..)   │   │                     │   │             │
+  └─────────▲─────────────────────▲─────────┘   └───────────▲─────────┘   └───────▲─────┘
+            │                     │                         │                     │
+            │                     │                         │                     │
+            │                     │                         │                     │
+┌───────────▼───────────┬─────────▼───────────┬─────────────▼───────────┬─────────▼──────┐
+│   Command line CLI    │   HTTP Endpoints    │  Web user interface     │    Remoting    │
+├───────┬───────────────│                     │                         │                │
+│  SSH  │   websocket   │                     │  (Jelly /Groovy views)  │                │
+│       │   or HTTP     │                     │                         │                │
+│       ├───────────────┴─────────────────────┴─────────────────────────┤                │
+│       │                                                               │                │
+│       │       Stapler: security, routing, requests processing         │                │
+│       │                                                               │                │
+├───────┴───────────────────────────────────────────────────────────────┴────────────────┤
+│                                                                                        │
+│                       Business layer: models, processing, scheduling                   │
+│                                                                                        │
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                        │
+│                      Storage layer: XML files on JENKINS_HOME                          │
+│                                                                                        │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+
+1. Top Tier (External Interactions):
+
+	Automation, machine to machine (command line prompt): 
+		automated scripts or programs that interact with Jenkins. 
+		Examples include:
+			CI/CD pipelines triggering Jenkins builds using curl or wget.
+			Scripts automating Jenkins configuration or job creation.
+			Tools retrieving build artifacts or reports.
+			End users/Browsers: This is how developers and other users access the Jenkins web UI to manage jobs, view build results, configure plugins, etc.
+			Agents: These are the build executors, the machines where Jenkins jobs actually run. They can be physical machines, virtual machines, or containers.
+2. Communication Methods:
+
+	Arrows: 
+		direction of communication. 
+		The top tier elements interact with Jenkins using the methods listed below them.
+	Command Line CLI (SSH, websocket or HTTP): 
+		This describes how command-line interactions happen:
+			SSH: 
+				The Jenkins CLI can be accessed over SSH, 
+				providing secure remote command execution. 
+				This is a common way to automate Jenkins tasks.
+			Websocket or HTTP: 
+				The Jenkins CLI can also use WebSockets or HTTP for communication, especially when integrating with other tools or services.
+			HTTP Endpoints: 
+				Jenkins exposes various HTTP endpoints (REST APIs) that allow external systems to programmatically interact with it. These APIs are used for triggering builds, retrieving job information, managing plugins, etc.
+			Web User Interface (Jelly/Groovy views): 
+				Users interact with Jenkins through a web browser. The UI is built using Jelly for basic structure and Groovy for dynamic content generation.
+			Remoting: 
+				This refers to the communication between the Jenkins master and its agents.
+3. Core Jenkins Components:
+
+	Stapler (security, routing, requests processing): 
+		Stapler is the web framework that powers the Jenkins web UI. In this context:
+	Security: 
+		Stapler handles 
+			authentication (who can access Jenkins) and 
+			authorization (what they can do).
+	Routing: 
+		Stapler maps 
+			incoming web requests to 
+				the appropriate Jenkins components (e.g., a request to view a job's page).
+	Request Processing: 
+		Stapler 
+			processes form submissions, 
+			API calls, and 
+			other web requests.
+	Business layer (models, processing, scheduling): 
+		This is the core logic of Jenkins:
+			Models: 
+				Java objects representing Jenkins entities 
+				(jobs, builds, users, plugins).
+			Processing: 
+				The logic for 
+					executing builds, 
+					managing jobs, 
+					handling plugins, etc.
+			Scheduling: 
+				Jenkins' build scheduler, 
+					determines when and where jobs should run.
+	Storage layer (XML files on JENKINS_HOME): 
+		Jenkins stores its configuration, job definitions, build history, and other data in XML files within the JENKINS_HOME directory.
+4. How it all fits together:
+
+	A user accesses the Jenkins web UI through their browser. 
+	Stapler 
+		receives the request, 
+		handles security, and 
+		routes the request to the appropriate Jelly/Groovy view.
+	An automated script 
+		triggers a Jenkins build 
+			by sending an HTTP request to a specific endpoint. 
+	Stapler receives the request, verifies authorization, and triggers the build.
+	The Jenkins master schedules the build on an available agent. 
+	Communication between the master and agent happens via the Jenkins remoting protocol.
+	The agent executes the build steps.
+	Jenkins stores the build results and other data in XML files within JENKINS_HOME.
+
+-----------------
+1. Remoting:
+
+	What it is in Jenkins: 
+		Jenkins 
+			powerful remoting mechanism that allows 
+				distributed builds. 
+		Actual build execution can happen on a separate machine (a "slave" or "agent") 
+			rather than the Jenkins master server.
+	How it works in Jenkins: 
+		Jenkins uses a custom protocol over TCP to 
+			communicate between the master and agents. 
+		This protocol allows for:
+			Launching agents: 
+				The master can start and stop agents as needed.
+			Executing build jobs on agents: 
+				The master can delegate build tasks to agents.
+			Transferring files: 
+				Build artifacts and other files can be transferred between the master and agents.
+			Real-time communication: 
+				The master can receive updates from agents about the progress of builds.
+	Why it's important: 
+		Remoting is crucial for Jenkins because it allows for:
+			Scalability: 
+				Builds can be distributed across multiple machines, increasing the capacity of the Jenkins system.
+			Resource utilization: 
+				Builds can be run on machines with specific hardware or software requirements.
+			Fault tolerance: 
+				If an agent goes down, builds can be rescheduled on other agents.
+2. Stapler, Request Handling, and Routing:
+
+	What it is in Jenkins: 
+		Stapler 
+			web framework 
+			underlies the Jenkins web UI. 
+			It's responsible for handling all incoming HTTP requests.
+	How it works in Jenkins:
+		Request Handling: 
+			Stapler 
+				receives requests from users 
+					interacting with the Jenkins web UI or 
+					from other systems making API calls.
+		Routing: 
+			Stapler maps URLs to specific Java classes (called "views" or "actions") 
+				responsible for handling the request. 
+				For example, 
+				a request to /job/my-project/build 
+					would be routed to the appropriate code to 
+						trigger a build of the "my-project" job.
+		Security: 
+			Stapler integrates with Jenkins' security system 
+				to enforce 
+					authentication and authorization. 
+				It ensures that only authorized users can access certain functionalities.
+		Why it's important: 
+			Stapler 
+				provides the foundation for the Jenkins web UI and API. 
+				It allows users to interact with Jenkins and 
+				allows other systems to integrate with Jenkins programmatically.
+3. Jelly and Groovy Views:
+
+	What they are in Jenkins: 
+		Jelly and Groovy are used to generate the HTML pages that make up the Jenkins web UI.
+	How they work in Jenkins:
+		Jelly: 
+			Used for simpler UI elements and structure.
+		Groovy: 
+			Used for more complex logic and dynamic content generation within the UI. Groovy scripts can access Jenkins objects and data to display information about builds, jobs, plugins, etc.
+		Why they're important: 
+			Jelly and Groovy make it possible to create a dynamic and interactive web UI for Jenkins. They allow the UI to display information about the state of the Jenkins system and provide controls for managing builds, jobs, and other aspects of Jenkins.
+4. Persistence:
+
+	What it is in Jenkins: 
+		Jenkins needs to store its 
+			configuration, 
+			build history, 
+			plugin information, and 
+			other data persistently so that it's not lost when Jenkins is restarted.
+	How it works in Jenkins: 
+		Jenkins stores its data in XML files located in the JENKINS_HOME directory. This directory is the central location for all Jenkins data.
+	Why it's important: 
+		Persistence ensures that Jenkins can be restarted without losing any important data. It allows Jenkins to maintain its state and continue operating after a shutdown or restart.
+5. Writing CLI Commands:
+
+	What it is in Jenkins: 
+		Jenkins provides a command-line interface (CLI) that allows users and scripts to interact with Jenkins from the command line.
+	How it works in Jenkins: 
+		Jenkins provides a jenkins-cli.jar file that can be used to execute commands. These commands can be used to perform various actions, such as triggering builds, creating jobs, installing plugins, and managing agents. Communication is typically done over SSH or HTTP.
+	Why it's important: The Jenkins CLI is useful for automation, scripting, and integrating Jenkins with other tools. It allows users to manage Jenkins without having to use the web UI. It's essential for CI/CD pipelines.

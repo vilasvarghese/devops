@@ -706,7 +706,7 @@ Git reset
 Git restore 
 	To restore worktree from stage 
 		git restore filename.txt
-	To restore a file in the index to match the version in HEAD 
+	To restore a file in the index to match the version in HEAD (local repo.) 
 		(this is the same as using git-reset)
 
 		git restore --staged hello.c

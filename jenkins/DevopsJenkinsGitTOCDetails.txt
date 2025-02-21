@@ -752,3 +752,19 @@ https://www.srcmake.com/home/bitbucket-pr
 
 Rest can be found in 
 D:\PraiseTheLord\HSBGInfotech\Others\vilas\aws\cloudformation
+
+More ref. 
+	https://medium.com/@venkatsatyanreddy_92646/beginners-guide-to-jenkins-pipelines-16a6181def97
+	https://www.lambdatest.com/blog/jenkins-pipeline-tutorial/
+	https://www.tpointtech.com/jenkins-setup-build-jobs
+	https://spacelift.io/blog/what-is-jenkins
+	https://github.com/allcloud-io/jenkins-pipeline-tutorial/blob/master/README.md
+	https://www.jenkins.io/doc/tutorials/using-jenkinsfile-runner-github-action-to-build-jenkins-pipeline/
+
+Excellent 	
+	https://github.com/ssbostan/jenkins-tutorial
+	
+	https://github.com/jenkinsci/pipeline-examples
+	
+webhook 	
+https://www.cprime.com/resources/blog/how-to-integrate-jenkins-github/	
