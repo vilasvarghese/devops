@@ -1,0 +1,412 @@
+1. Project Setup and Prerequisites 
+Before you begin, ensure you have the necessary tools and access configured.
+
+1.1 AWS Account and Permissions
+AWS Account: You'll need an active AWS account.
+
+IAM Permissions: Create or use an IAM user/role with permissions for:
+
+AWS Bedrock: bedrock:InvokeModel, bedrock:ListFoundationModels.
+
+AWS EKS: eks:DescribeCluster, eks:ListNodegroups, eks:ListFargateProfiles, and eks:AccessKubernetesApi.
+
+AWS STS: sts:GetCallerIdentity (often included by default but good to verify for authentication).
+
+Kubeconfig Access: The IAM principal you use must be configured in the EKS cluster's aws-auth ConfigMap to allow access to the Kubernetes API.
+
+1.2 Python Environment
+Python: Install Python 3.9+ (recommended).
+
+Virtual Environment: Always use a virtual environment to manage dependencies.
+
+
+
+python3 -m venv eks_llm_env
+source eks_llm_env/bin/activate
+1.3 Install Required Libraries
+
+
+pip install boto3 kubernetes langchain_community langchain_aws
+boto3: AWS SDK for Python, used for Bedrock.
+
+kubernetes: Python client library for Kubernetes API.
+
+langchain-community: Contains common LangChain components, including Bedrock integration.
+
+langchain-aws: Specifically for AWS integrations with LangChain.
+
+1.4 Configure AWS CLI
+Ensure your AWS CLI is configured with credentials and a default region that supports AWS Bedrock (e.g., us-east-1, us-west-2, ap-southeast-1).
+
+
+
+aws configure
+1.5 Configure Kubernetes Context
+Ensure your kubectl is configured to connect to your target EKS cluster.
+
+
+
+aws eks update-kubeconfig --name <your-eks-cluster-name> --region <your-aws-region>
+kubectl get nodes # Verify connectivity
+2. Kubernetes Data Access Layer 
+This layer will contain Python functions that interact with your EKS cluster using the Kubernetes Python client library. These functions will retrieve the basic information the LLM agent can query.
+
+Create a file named kubernetes_tools.py:
+
+Python
+
+from kubernetes import client, config
+import os
+import sys
+
+# Load Kubernetes configuration
+# This will try in-cluster config first, then kubeconfig file
+try:
+    config.load_kube_config()
+except config.ConfigException:
+    print("Could not load kube config, attempting in-cluster config...", file=sys.stderr)
+    try:
+        config.load_incluster_config()
+    except config.ConfigException:
+        print("Could not load in-cluster config either. Ensure kubeconfig is set or running inside a cluster.", file=sys.stderr)
+        sys.exit(1)
+
+v1 = client.CoreV1Api()
+apps_v1 = client.AppsV1Api()
+
+def list_namespaces():
+    """Lists all namespaces in the Kubernetes cluster."""
+    try:
+        namespaces = v1.list_namespace()
+        if not namespaces.items:
+            return "No namespaces found."
+        return "\n".join([ns.metadata.name for ns in namespaces.items])
+    except client.ApiException as e:
+        return f"Error listing namespaces: {e}"
+    except Exception as e:
+        return f"An unexpected error occurred: {e}"
+
+def list_pods(namespace: str = None):
+    """Lists all pods in a specified namespace or all namespaces if none is provided.
+    Args:
+        namespace (str, optional): The namespace to list pods from. Defaults to None (all namespaces).
+    """
+    try:
+        if namespace:
+            pods = v1.list_namespaced_pod(namespace=namespace)
+            if not pods.items:
+                return f"No pods found in namespace '{namespace}'."
+            return "\n".join([f"{p.metadata.name} (Status: {p.status.phase})" for p in pods.items])
+        else:
+            pods = v1.list_pod_for_all_namespaces()
+            if not pods.items:
+                return "No pods found across all namespaces."
+            return "\n".join([f"{p.metadata.namespace}/{p.metadata.name} (Status: {p.status.phase})" for p in pods.items])
+    except client.ApiException as e:
+        return f"Error listing pods: {e}"
+    except Exception as e:
+        return f"An unexpected error occurred: {e}"
+
+def count_nodes():
+    """Counts the number of nodes in the Kubernetes cluster."""
+    try:
+        nodes = v1.list_node()
+        return f"There are {len(nodes.items)} nodes in the cluster."
+    except client.ApiException as e:
+        return f"Error counting nodes: {e}"
+    except Exception as e:
+        return f"An unexpected error occurred: {e}"
+
+def list_deployments(namespace: str = None):
+    """Lists all deployments in a specified namespace or all namespaces if none is provided.
+    Args:
+        namespace (str, optional): The namespace to list deployments from. Defaults to None (all namespaces).
+    """
+    try:
+        if namespace:
+            deployments = apps_v1.list_namespaced_deployment(namespace=namespace)
+            if not deployments.items:
+                return f"No deployments found in namespace '{namespace}'."
+            return "\n".join([d.metadata.name for d in deployments.items])
+        else:
+            deployments = apps_v1.list_deployment_for_all_namespaces()
+            if not deployments.items:
+                return "No deployments found across all namespaces."
+            return "\n".join([f"{d.metadata.namespace}/{d.metadata.name}" for d in deployments.items])
+    except client.ApiException as e:
+        return f"Error listing deployments: {e}"
+    except Exception as e:
+        return f"An unexpected error occurred: {e}"
+
+def get_pod_status(pod_name: str, namespace: str):
+    """Retrieves the status of a specific pod in a given namespace.
+    Args:
+        pod_name (str): The name of the pod.
+        namespace (str): The namespace the pod belongs to.
+    """
+    try:
+        pod = v1.read_namespaced_pod(name=pod_name, namespace=namespace)
+        return f"Pod '{pod_name}' in namespace '{namespace}' has status: {pod.status.phase}. Reason: {pod.status.reason if pod.status.reason else 'N/A'}"
+    except client.ApiException as e:
+        if e.status == 404:
+            return f"Pod '{pod_name}' not found in namespace '{namespace}'."
+        return f"Error getting pod status: {e}"
+    except Exception as e:
+        return f"An unexpected error occurred: {e}"
+
+# You can add more functions as needed, e.g., get_service_info, list_ingresses, etc.
+3. LangChain Tool Integration 
+Now, we'll wrap our Kubernetes data retrieval functions as LangChain Tools. This makes them callable by our LLM agent.
+
+Create a file named agent.py:
+
+Python
+
+from langchain_community.tools import tool
+from langchain_community.llms import Bedrock
+from langchain_community.chat_models import BedrockChat
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain_core.prompts import PromptTemplate
+import os
+import kubernetes_tools # Our custom Kubernetes functions
+
+# ----------------------------------------------------------------------
+# 3.1 LangChain Tool Definition
+# Wrap our Kubernetes functions as LangChain Tools
+# ----------------------------------------------------------------------
+
+# Using @tool decorator for simplicity
+# Each function needs a clear docstring to help the LLM understand its purpose
+
+@tool
+def get_kubernetes_namespaces() -> str:
+    """Useful for listing all Kubernetes namespaces in the cluster.
+    Returns a newline-separated string of namespace names.
+    Example query: 'list all namespaces', 'what namespaces are there'"""
+    return kubernetes_tools.list_namespaces()
+
+@tool
+def get_kubernetes_pods(namespace: str = None) -> str:
+    """Useful for listing all Kubernetes pods in a specified namespace or all namespaces.
+    Args:
+        namespace (str, optional): The name of the Kubernetes namespace. If not provided,
+                                   it lists pods from all namespaces.
+    Returns a newline-separated string of pod names and their statuses.
+    Example query: 'list pods in my-app-ns', 'show all pods', 'what pods are running'"""
+    return kubernetes_tools.list_pods(namespace)
+
+@tool
+def get_kubernetes_node_count() -> str:
+    """Useful for counting the total number of Kubernetes nodes in the cluster.
+    Returns a string indicating the number of nodes.
+    Example query: 'how many nodes are there', 'count nodes'"""
+    return kubernetes_tools.count_nodes()
+
+@tool
+def get_kubernetes_deployments(namespace: str = None) -> str:
+    """Useful for listing all Kubernetes deployments in a specified namespace or all namespaces.
+    Args:
+        namespace (str, optional): The name of the Kubernetes namespace. If not provided,
+                                   it lists deployments from all namespaces.
+    Returns a newline-separated string of deployment names.
+    Example query: 'list deployments in default namespace', 'show all deployments'"""
+    return kubernetes_tools.list_deployments(namespace)
+
+@tool
+def get_kubernetes_pod_status(pod_name: str, namespace: str) -> str:
+    """Useful for retrieving the current status of a specific Kubernetes pod in a given namespace.
+    Args:
+        pod_name (str): The exact name of the pod.
+        namespace (str): The exact name of the namespace the pod belongs to.
+    Returns a string describing the pod's status.
+    Example query: 'what is the status of pod my-nginx-123 in default namespace', 'check status of pod foo in bar-ns'"""
+    return kubernetes_tools.get_pod_status(pod_name, namespace)
+
+
+# List of all tools available to the agent
+tools = [
+    get_kubernetes_namespaces,
+    get_kubernetes_pods,
+    get_kubernetes_node_count,
+    get_kubernetes_deployments,
+    get_kubernetes_pod_status,
+]
+4. AWS Bedrock LLM Integration ☁️
+Now, let's configure the LLM from AWS Bedrock. We'll use a chat model like anthropic.claude-3-sonnet-20240229-v1:0 for better conversational abilities and tool use.
+
+Add the following to agent.py (after the tools definition):
+
+Python
+
+# ----------------------------------------------------------------------
+# 4.1 AWS Bedrock LLM Integration
+# ----------------------------------------------------------------------
+
+# Ensure your AWS region supports Bedrock and the chosen model
+# Models like Claude 3 Sonnet (anthropic.claude-3-sonnet-20240229-v1:0) are excellent for this.
+# Check AWS Bedrock documentation for available models and regions.
+llm = BedrockChat(
+    model_id="anthropic.claude-3-sonnet-20240229-v1:0", # Or "anthropic.claude-v2:1", "anthropic.claude-instant-v1"
+    region_name=os.environ.get("AWS_REGION", "us-east-1"), # Set your desired region or use env var
+    model_kwargs={
+        "temperature": 0,  # Keep temperature low for factual queries
+        "max_tokens_to_sample": 1000
+    }
+)
+model_id: Choose a suitable model. Claude 3 Sonnet is recommended for its reasoning and tool-use capabilities.
+
+region_name: Ensure this matches your AWS CLI configuration and where Bedrock is enabled for your account.
+
+temperature: Set to 0 or a very low value for factual data retrieval to ensure deterministic and accurate responses.
+
+5. Natural Language Agent Development 
+This is where we bring everything together: the LLM, the tools, and the logic to interpret user queries and provide human-readable responses.
+
+Continue adding to agent.py:
+
+Python
+
+# ----------------------------------------------------------------------
+# 5.1 Natural Language Agent Development
+# ----------------------------------------------------------------------
+
+# Define the Prompt Template for the agent
+# This prompt guides the LLM on how to act, what tools it has, and how to respond.
+# The 'chat_history' and 'agent_scratchpad' are crucial for conversational agents.
+# Ensure the prompt is detailed and gives clear instructions on output formatting.
+prompt_template = PromptTemplate.from_template(
+    """You are an intelligent Kubernetes cluster assistant. Your goal is to help users
+    understand basic information about their EKS cluster.
+    You have access to the following tools:
+
+    {tools}
+
+    Use the following format to answer the user's question:
+
+    Question: the input question you must answer
+    Thought: you should always think about what to do
+    Action: the action to take, should be one of [{tool_names}]
+    Action Input: the input to the action (if any)
+    Observation: the result of the action
+    ... (this Thought/Action/Action Input/Observation can repeat N times)
+    Thought: I now know the final answer
+    Final Answer: the final answer to the original input question.
+
+    If the user asks for information not directly available through your tools (e.g., "what's the cluster health?"),
+    kindly state that you cannot provide that information and suggest alternative tools or methods if appropriate.
+    If a tool requires a specific input (like 'namespace' or 'pod_name') and the user doesn't provide it,
+    ask clarifying questions to get the necessary information.
+    Provide concise and clear answers.
+
+    Begin!
+
+    Question: {input}
+    Thought:{agent_scratchpad}
+    """
+)
+
+# Create the ReAct agent
+# ReAct (Reasoning and Acting) agents use a loop of Thought -> Action -> Observation
+agent = create_react_agent(llm, tools, prompt_template)
+
+# Create the AgentExecutor
+# This is the runnable entry point for the agent
+agent_executor = AgentExecutor(
+    agent=agent,
+    tools=tools,
+    verbose=True, # Set to True to see the agent's thought process and tool execution
+    handle_parsing_errors=True # Important for robust agent behavior
+)
+
+# ----------------------------------------------------------------------
+# 5.2 Interactive CLI for the Agent
+# ----------------------------------------------------------------------
+
+def main():
+    print("Welcome to the EKS Cluster Query Interface!")
+    print("Ask me questions like 'list namespaces', 'how many nodes', 'list pods in default', 'get status of pod my-app in kube-system'.")
+    print("Type 'exit' to quit.")
+
+    while True:
+        user_query = input("\nYour query: ")
+        if user_query.lower() == 'exit':
+            print("Exiting. Goodbye!")
+            break
+        if not user_query.strip():
+            print("Please enter a query.")
+            continue
+
+        try:
+            response = agent_executor.invoke({"input": user_query})
+            print(f"\nAssistant: {response['output']}")
+        except Exception as e:
+            print(f"An error occurred during agent execution: {e}")
+            print("Please try again or refine your query.")
+
+if __name__ == "__main__":
+    main()
+6. Execution Instructions 
+Follow these steps to run your natural language interface.
+
+6.1 Set Environment Variables (Optional but Recommended)
+Set your AWS region (if not already configured globally or if you want to override).
+
+
+
+export AWS_REGION="us-east-1" # Replace with your desired region
+6.2 Run the Application
+Navigate to the directory where you saved kubernetes_tools.py and agent.py.
+
+
+
+python agent.py
+6.3 Interact with the Agent
+The application will start, and you'll see a prompt. Type your questions there.
+
+Example Queries:
+
+List all namespaces
+
+How many nodes are in the cluster?
+
+Show me all pods
+
+List pods in the kube-system namespace
+
+What deployments are there?
+
+Get the status of pod coredns-5c6c9784b-m4856 in kube-system (Replace with an actual pod name from your cluster)
+
+Count the deployments in default
+
+6.4 Observe the Output
+When verbose=True is set in agent_executor, you'll see the LLM's Thought, Action, Action Input, and Observation steps, which is incredibly useful for understanding how the agent is reasoning and using the tools.
+
+7. Advanced Considerations and Next Steps 
+Error Handling and Robustness: Improve error handling in kubernetes_tools.py to provide more user-friendly messages for API errors (e.g., permissions, resource not found).
+
+More Tools:
+
+Get Service Info: get_kubernetes_service(name, namespace)
+
+Get Deployment Replicas: get_deployment_replicas(name, namespace)
+
+Describe Resource: A more generic tool that can return detailed YAML/JSON output for a given resource type, name, and namespace.
+
+Custom Resources: Tools to query Custom Resource Definitions (CRDs).
+
+Stateful Agent: For multi-turn conversations, you'd integrate chat_history into the AgentExecutor's invoke method.
+
+Security (Production):
+
+Principle of Least Privilege: Ensure the IAM role used by your application only has the minimum necessary permissions for EKS API access.
+
+Secure Kubernetes Access: For production, avoid relying solely on ~/.kube/config. Consider using AWS IAM Authenticator for Kubernetes or EKS Pod Identity/IAM Roles for Service Accounts (IRSA) if running the agent within the EKS cluster.
+
+Bedrock Endpoint: Ensure your Bedrock invocation is secure and potentially restricted by VPC endpoints.
+
+User Interface: For a better user experience, consider building a simple web interface (e.g., with Flask or Streamlit) or integrating with a chatbot framework.
+
+Complex Queries: The current setup handles relatively simple queries. For more complex, chained questions (e.g., "List pods in namespace X, then tell me the status of the first one"), you might need more advanced agent types or prompt engineering.
+
+Cost Management: Be mindful of Bedrock API call costs, especially during development with verbose logging.

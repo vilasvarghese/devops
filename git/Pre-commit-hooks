@@ -1,0 +1,19 @@
+#!/bin/sh
+#rename commit-msg.sample to commit-msg
+# add this in .git/hooks folder in the commit-msg file. 
+#This code checks if the message length should be at least 60 characters
+
+# Read the commit message
+msg=$(cat "$1")
+
+# Get the first line (subject)
+subject=$(echo "$msg" | head -n1)
+
+echo "${#subject}"
+
+# Check length
+if [ ${#subject} -lt 60 ]; then
+  echo "❌ Commit message too short! (Must be at least 60 characters)"
+  echo "Your message was: \"$subject\""
+  exit 1
+fi

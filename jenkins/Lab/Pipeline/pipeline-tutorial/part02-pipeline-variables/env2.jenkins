@@ -1,6 +1,7 @@
 pipeline {
     agent any
     environment {
+		//Create a secret text credential with this id
         SAMPLE_ENV = credentials("simple-secret-text")
     }
     stages {
@@ -8,7 +9,8 @@ pipeline {
             steps {
                 // Do not use " for command methods like sh, bat, powershell, pwsh, etc.
                 // Use ' to avoid groovy interpolation and command injection vulnerabilities.
-                sh 'example --secret $SAMPLE_ENV'
+                //sh 'example --secret $SAMPLE_ENV'
+				sh 'echo $SAMPLE_ENV'
             }
         }
     }

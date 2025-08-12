@@ -1,9 +1,13 @@
 pipeline {
-    agent none
+    agent {
+		label: 'masternode' //this should be the label 
+	}
     stages {
         stage("Build") {
-            agent any
-            steps {
+			agent {
+				label: 'windowsnode' //this should be the label of windowsnode
+			}            
+			steps {
                 echo "Build stage."
             }
         }

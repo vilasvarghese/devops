@@ -1,0 +1,7 @@
+Install anaconda 
+	free version 
+	In anaconda navigator 
+		Jupiter Notebook 
+		
+https://www.youtube.com/watch?v=_FpT1cwcSLg&list=PLZoTAELRMXVORE4VF7WQ_fAl0L1Gljtar&index=2
+env setup 		

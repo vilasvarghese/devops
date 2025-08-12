@@ -955,8 +955,88 @@ git commit -m "Rename oldfile.txt to newfile.txt"
 
 The file will now be renamed in the repository, and its history will reflect the rename. It's important to note that git mv is not mandatory for renaming files; you can also use regular file renaming commands provided by your operating system, and then stage and commit the changes separately using git add and git commit. However, git mv is a convenient way to perform the rename in a single step and ensure that the rename is correctly staged for the commit.
 	
+----------------------------------------------
+
+What is a SHA-1 Hash in Git?
+At its core, Git is a content-addressable filesystem. This means that every piece of data Git stores (files, directories, commits, tags) is addressed, or identified, by the cryptographic hash of its content. Git uses the SHA-1 (Secure Hash Algorithm 1) function to generate these hashes.
+
+Uniqueness: Each unique piece of content gets a unique 40-character SHA-1 hash. If even a single bit of the content changes, its SHA-1 hash will be completely different.
+
+Integrity: Because the hash is derived from the content, Git can detect any accidental or malicious alteration to your data. If the hash doesn't match the content, Git knows something is wrong.
+
+Referencing: These hashes serve as unique identifiers for commits, files, and directory structures, allowing you to refer to any specific point in your project's history.
+
+Git Objects and their Hashes
+Git primarily deals with four types of "objects," each identified by a SHA-1 hash:
+
+Blob: Stores the content of a file.
+
+Tree: Represents a directory, containing pointers to blobs (files) and other trees (subdirectories) with their names and permissions.
+
+Commit: Points to a specific tree (the snapshot of your project at that time), its parent commit(s), author, committer, and commit message.
+
+Initialize a Git Repository
+
+	mkdir git_sha_tutorial
+	cd git_sha_tutorial
+	git init	
+
+Create and Commit a File (Blob and Commit Hashes)
+	echo "This is the first line of my file." > file1.txt
+
+	git add file1.txt
+		
+	git hash-object -w file1.txt # -w writes the object to the database
+	# Output will be a 40-character SHA-1 hash, e.g., 815e123...
+
+	git commit -m "Initial commit: Add file1.txt"
+
+Viewing Commit Hashes
+	git log
+
+Using Short Hashes
+
+	echo "Adding a second line." >> file1.txt
+	git add file1.txt
+	git commit -m "Add second line to file1"
+	git log --oneline
 	
 	
+Checking Out a Specific Commit
+	git checkout a1b2c3d
+	cat file1.txt
+	git checkout master # Or 'git checkout main' depending on your default branch name
+	
+	cat file1.txt
+# Output:
+# This is the first line of my file.
+# Adding a second line.
+
+	git diff a1b2c3d f789abc # Replace with your actual short hashes
+	
+Find the hash of your latest commit:	
+	git rev-parse HEAD	
+See the commit object's content:	
+	git cat-file -p f789abcdeff789abcdeff789abcdeff789abcde # Use the full hash or a unique short one
+See the tree object's content:
+	git cat-file -p <tree_hash_from_above>
+See the blob object's content:
+	git cat-file -p <blob_hash_from_above>
+	
+	
+Referencing Hashes in Other Commands
+
+Many Git commands accept SHA-1 hashes as arguments:
+	Revert a specific commit: 
+		git revert <commit_hash>
+	Reset to a specific commit: 
+		git reset --hard <commit_hash> (use with caution, this rewrites history!)
+	Merge a specific commit: 
+		git merge <commit_hash> (merges a single commit)
+	Cherry-pick a specific commit: 
+		git cherry-pick <commit_hash>
+	Show details of a commit: 
+		git show <commit_hash>	
 -------------------------------------------
 
 Genspark / UST 

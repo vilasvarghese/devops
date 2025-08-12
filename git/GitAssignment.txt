@@ -1,0 +1,241 @@
+1. Project Goal
+	The primary objective is to develop a collaborative text-based project while mastering a defined Git workflow. The team will work on a simple, multi-file documentation project, with each developer contributing to different sections. This project will serve as the sandbox for the following lab exercises.
+
+2. Lab Exercises
+	Phase 1: Git Basics & Initial Setup 
+		Objective: Understand the fundamental Git commands and set up a new project repository.
+
+	Exercise 1.1: Project Initialization
+
+		Clone the Project: As the project lead, you'll create a new, empty repository on GitHub. All developers will then clone this repository to their local machines.
+
+		
+
+		git clone <repository-url>
+		cd <repository-name>
+		Make the First Commit:
+
+		Create a README.md file and add a project description.
+
+		Use git status to see the new file.
+
+		Stage the file: git add README.md
+
+		Commit the change with a clear message: git commit -m "feat: Add initial project README"
+
+		Push the changes to the remote repository: git push origin main
+
+	Exercise 1.2: Committing Changes
+
+		Create Your Section: Each developer will create a new file named developer-name.md and add a short introduction.
+
+		Add and Commit: Stage and commit your new file using git add and git commit. Use a descriptive commit message like "docs: Add introduction for [Your Name]".
+
+		Inspect the History: Use git log --oneline --graph to visualize the commit history.
+
+Phase 2: Branching Strategies & Merging 
+	Objective: Practice a branching strategy (GitFlow) and understand the process of merging branches.
+
+Exercise 2.1: Implementing GitFlow
+
+	Create a Feature Branch: From the main branch, each developer will create a new feature branch for their next task.
+
+
+
+	git checkout -b feature/add-project-overview
+	Develop the Feature:
+
+	Create a new file called project_overview.md.
+
+	Write a summary of the project's purpose and goals.
+
+	Make two separate, small commits on this branch. For example:
+
+	git commit -m "docs: Add project overview section"
+
+	git commit -m "fix: Correct grammar in project overview"
+
+	Merge into main:
+
+	Switch back to the main branch: git checkout main
+
+	Integrate your feature branch using git merge: git merge feature/add-project-overview
+
+	Push the updated main branch to the remote: git push origin main
+
+
+
+
+---------------------
+Gitflow Branching Strategy
+1Gitflow branching strategy - AWS Prescriptive Guidance
+https://docs.aws.amazon.com/prescriptive-guidance/latest/choosing-git-branch-approach/gitflow-branching-strategy.html
+	The Gitflow branching strategy is a robust model designed to manage the movement of code from development to production through multiple branches. This strategy is particularly effective for teams that have scheduled release cycles and need to define a collection of features as a release.
+
+Key Principles
+
+	Feature Branches: Development is carried out in individual feature branches. Each feature branch is dedicated to a specific feature or task and is merged into the develop branch upon completion and approval.
+
+	Develop Branch: This branch serves as an integration branch for features. The features in this branch are considered ready for production.
+
+	Release Branch: When all planned features have accumulated in the develop branch, a release branch is created. This branch is used for deployments to upper environments, ensuring that only the intended changes are moved to production.
+
+Workflow Example
+
+	Here is a typical workflow using the Gitflow strategy:
+
+	Create a Feature Branch:
+
+	git checkout -b feature/my-feature
+	Merge Feature Branch into Develop Branch:
+
+	git checkout develop
+	git merge feature/my-feature
+	Create a Release Branch:
+
+	git checkout -b release/1.0.0
+	Merge Release Branch into Main Branch:
+
+	git checkout main
+	git merge release/1.0.0
+	Tag the Release:
+
+	git tag -a 1.0.0 -m "Release 1.0.0"
+	Merge Release Branch back into Develop Branch:
+
+	git checkout develop
+	git merge release/1.0.0
+Advantages and Disadvantages
+
+Advantages
+
+	Clear Workflow: The separation of branches provides a clear workflow for development, integration, and release.
+
+	Controlled Releases: The release branch allows for controlled and scheduled releases, ensuring stability in production
+	1.
+Disadvantages
+
+	Complexity: The multiple branches and merges can introduce complexity, especially for smaller teams or projects with rapid release cycles.
+
+	Overhead: Managing multiple branches can create overhead in terms of merging and resolving conflicts
+
+
+https://www.youtube.com/watch?v=ZJuUz5jWb44
+
+https://www.youtube.com/watch?v=U_IFGpJDbeU
+---------------------
+
+
+
+
+
+
+
+
+
+
+Phase 3: Advanced Merging & Conflict Resolution 
+	Objective: Learn to handle merge conflicts using both git merge and git rebase.
+
+Exercise 3.1: Causing and Resolving a Conflict
+
+	Simulate Collaboration: Developer A and Developer B will both work on the same file (shared_resources.md) simultaneously.
+
+	Create Branches: Both developers create a new feature branch from main.
+
+
+
+	git checkout -b feature/update-shared-resources
+	Developer A's Change:
+
+	Developer A adds a line to the file and commits the change.
+
+	Developer A pushes their branch: git push origin feature/update-shared-resources
+
+	Developer B's Change (The Conflict):
+
+	Developer B adds a different line to the same part of the file.
+
+	Developer B tries to push their branch. It will be rejected because the remote branch has new commits.
+
+	Conflict Resolution with git pull (Merge Strategy):
+
+	Developer B must first get the latest changes: git pull origin feature/update-shared-resources
+
+	This will trigger a merge conflict. Git will insert markers (<<<<<<<, =======, >>>>>>>) into the file.
+
+	Developer B must manually edit the file to resolve the conflict, choosing which changes to keep.
+
+	After editing, stage and commit the merged file: git add shared_resources.md and git commit -m "Merge branch 'feature/update-shared-resources' and resolve conflict"
+
+	Push the final, resolved branch.
+
+Exercise 3.2: Rebase vs. Merge 
+
+	Objective: Understand the difference between rebase and merge and when to use each.
+
+	Create a New Scenario: Repeat the conflict scenario from Exercise 3.1.
+
+	Developer B's Change (Rebase Strategy):
+
+	This time, instead of git pull, Developer B will use git fetch and then git rebase.
+
+	git fetch origin
+
+	git rebase origin/feature/update-shared-resources
+
+	This command rewrites Developer B's local history to be on top of Developer A's changes. It will present the same conflict, but the history remains linear.
+
+	After resolving the conflict, stage the file and continue the rebase: git add shared_resources.md and git rebase --continue.
+
+	Force push the branch to the remote (since history has been rewritten): git push --force origin feature/update-update-resources.
+
+Phase 4: Remote Workflows & Code Review 
+	Objective: Practice the standard remote workflow, including pull requests and code review.
+
+Exercise 4.1: The Pull Request Lifecycle
+
+	Create a Feature: Developer C creates a new branch, adds a feature, and commits it.
+
+	Push and Open a PR: Developer C pushes the branch to the remote and, on the GitHub web interface, opens a Pull Request (PR) targeting the main branch.
+
+	Code Review: Developer A and Developer B review the PR. They will use the built-in git diff functionality on GitHub to see exactly what changes were made.
+
+	Reviewers will check for code quality, adherence to style guides, and potential bugs.
+
+	They can leave comments on specific lines.
+
+	Merge the PR: Once the reviewers approve the PR, the creator or a designated maintainer merges it into the main branch.
+
+Exercise 4.2: Pre-commit Hooks
+
+	Objective: Learn about pre-commit hooks to enforce code quality before a commit is even made.
+
+	Setup: As a team, install a simple pre-commit hook manager like husky (for JavaScript projects) or pre-commit (for Python).
+
+	Define a Rule: Configure the hook to run a simple linter or formatter (e.g., prettier or black) before every commit.
+
+	Test the Hook: Have a developer intentionally commit code that violates the linter's rules. The pre-commit hook should block the commit and explain the error, forcing the developer to fix it before they can proceed.
+
+3. Best Practices & Workflow Guidelines
+	By completing these exercises, your team will internalize the following best practices:
+
+	Atomic Commits: Each commit should be a small, self-contained unit of work.
+
+	Descriptive Commit Messages: Use a standardized format (e.g., type: message) to clearly explain what each commit does.
+
+	Branching Strategy: Stick to a consistent branching model like GitFlow or Trunk-Based Development to manage features and releases.
+
+	Frequent Pull/Fetch: Always git pull or git fetch before starting work to stay up-to-date with the remote repository.
+
+	Pull Requests (PRs): Use PRs for all feature integrations to ensure every change is reviewed by at least one other team member.
+
+	Effective Code Reviews: Provide specific, constructive feedback in PRs to maintain high code quality.
+
+	Pre-commit Hooks: Use these to automate quality checks and catch simple errors early in the development cycle.
+
+
+	Rebase vs. Merge: 
+	
+	
+	-

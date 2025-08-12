@@ -779,6 +779,15 @@ For more undoing changes:
 	https://www.javatpoint.com/git-cherry-pick
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 	 Unstaging files
+	
+	git checkout master
+	git log <other branch> --online 
+		identify the commit id of the transaction you are trying to merge
+	git cherry-pick <commit hash code>
+		git cherry-pick <commit1> <commit2> is also supported 
+	git log --oneline 
+		verify if the changes are merged 
+	
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	git reset
 		Already covered
